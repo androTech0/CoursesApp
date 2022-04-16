@@ -2,9 +2,11 @@ package com.helmy.coursesapp
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
+import android.widget.RadioButton
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -29,6 +31,10 @@ class SignUp : AppCompatActivity() , DatePickerDialog.OnDateSetListener{
     override fun onStart() {
         super.onStart()
 
+        loginGo.setOnClickListener {
+            startActivity(Intent(this,Login::class.java))
+        }
+
         BirthdayNameLabel.setOnClickListener {
             val datePikerDialog = DatePickerDialog(this,this,
                 Calendar.getInstance().get(Calendar.YEAR),
@@ -52,6 +58,8 @@ class SignUp : AppCompatActivity() , DatePickerDialog.OnDateSetListener{
                 if(confirmPasswordEdit.text.toString() == PasswordEdit.text.toString()){
                     if(emailEdit.text.toString().contains("@")){
                         if(PhoneNumberEdit.text.toString().length >= 7){
+                            val choice = radioGroup.checkedRadioButtonId
+                            val radioButton = findViewById<RadioButton>(choice)
                             sendData(FirstNameEdit.text.toString(),
                                 MiddleNameEdit.text.toString(),
                                 LastNameEdit.text.toString(),
@@ -59,7 +67,9 @@ class SignUp : AppCompatActivity() , DatePickerDialog.OnDateSetListener{
                                 LocationNameEdit.text.toString(),
                                 emailEdit.text.toString(),
                                 PhoneNumberEdit.text.toString(),
-                                PasswordEdit.text.toString())
+                                PasswordEdit.text.toString(),
+                                radioButton.text.toString()
+                            )
                         }
                     }else{
                         Toast.makeText(this, "email not contain @ character !!", Toast.LENGTH_SHORT).show()
@@ -74,7 +84,7 @@ class SignUp : AppCompatActivity() , DatePickerDialog.OnDateSetListener{
     }
 
     fun sendData(first_name:String,middle_name:String,last_name:String,Birthday:String,
-                 location:String,email:String,Phone_number:String,password:String){
+                 location:String,email:String,Phone_number:String,password:String,kind:String){
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -89,7 +99,8 @@ class SignUp : AppCompatActivity() , DatePickerDialog.OnDateSetListener{
                         "location" to location,
                         "email" to email,
                         "Phone number" to Phone_number,
-                        "password" to password
+                        "password" to password,
+                        "kind of account" to kind
                     )
 
                     db.collection("users")
