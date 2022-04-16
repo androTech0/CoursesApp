@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "766643919120",
+    "project_id": "courses-app-5c3b2",
+    "storage_bucket": "courses-app-5c3b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766643919120:android:4022d9ee19ee7d6806ad95",
+        "android_client_info": {
+          "package_name": "com.helmy.coursesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766643919120-2hjapujp97r9iool64od6r9q2u0cdsop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5_rMox_4ktU9XB8jaq4ehB4CNcdI908Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766643919120-2hjapujp97r9iool64od6r9q2u0cdsop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
