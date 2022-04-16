@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".SignUp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/first_name"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/FirstNameLabel"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/FirstNameLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/FirstNameEdit"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/middle_name"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/MiddleNameLabel"
+                app:layout_constraintTop_toBottomOf="@id/FirstNameEdit"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/MiddleNameLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/MiddleNameEdit"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/last_name"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/LastNameLabel"
+                app:layout_constraintTop_toBottomOf="@id/MiddleNameEdit"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/LastNameLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/LastNameEdit"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/birthday"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/BirthdayNameLabel"
+                app:layout_constraintTop_toBottomOf="@id/LastNameEdit"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/BirthdayNameLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:inputType="date"
+                android:background="#ff5566"
+                android:id="@+id/BirthdayEdit"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/location"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/LocationNameLabel"
+                app:layout_constraintTop_toBottomOf="@id/BirthdayEdit"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/LocationNameLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/LocationNameEdit"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/email"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/emailLabel"
+                app:layout_constraintTop_toBottomOf="@id/LocationNameEdit"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/emailLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/emailEdit"
+                android:inputType="textEmailAddress"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/phone_number"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/PhoneNumberLabel"
+                app:layout_constraintTop_toBottomOf="@id/emailEdit"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/PhoneNumberLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/PhoneNumberEdit"
+                android:inputType="number"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/password"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/PasswordLabel"
+                app:layout_constraintTop_toBottomOf="@id/PhoneNumberEdit"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/PasswordLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/PasswordEdit"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="20dp"
+                android:text="@string/confirmpassword"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/confirmLabel"
+                app:layout_constraintTop_toBottomOf="@id/PasswordEdit"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintTop_toBottomOf="@id/confirmLabel"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:id="@+id/confirmPasswordEdit"
+                />
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="Sign Up"
+                android:id="@+id/SignupButton"
+                app:layout_constraintTop_toBottomOf="@id/confirmPasswordEdit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
