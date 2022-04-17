@@ -3,10 +3,10 @@ package com.helmy.coursesapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.helmy.coursesapp.LecturerMainFragments.AddFragment
-import com.helmy.coursesapp.LecturerMainFragments.CoursesFragment
-import com.helmy.coursesapp.LecturerMainFragments.EditFragment
-import com.helmy.coursesapp.LecturerMainFragments.LecturerChattingFragment
+import com.helmy.coursesapp.LecturerFragments.AddFragment
+import com.helmy.coursesapp.LecturerFragments.CoursesFragment
+import com.helmy.coursesapp.LecturerFragments.EditFragment
+import com.helmy.coursesapp.LecturerFragments.LecturerChattingFragment
 import kotlinx.android.synthetic.main.activity_lecturer_main.*
 
 class LecturerMainActivity : AppCompatActivity() {
@@ -16,7 +16,7 @@ class LecturerMainActivity : AppCompatActivity() {
 
         replaceFragment(CoursesFragment())
 
-        bottomNavigationView.setOnItemSelectedListener{
+        LecturerNavigationView.setOnItemSelectedListener{
             when(it.itemId){
                 R.id.Courses ->{
                     replaceFragment(CoursesFragment())
@@ -33,12 +33,13 @@ class LecturerMainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
     private fun replaceFragment(fragment:Fragment){
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.frameLayout,fragment)
+        transaction.replace(R.id.LecturerFrameLayout,fragment)
         transaction.commit()
     }
 }

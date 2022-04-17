@@ -1,4 +1,4 @@
-package com.helmy.coursesapp
+package com.helmy.coursesapp.Log
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -12,6 +12,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.LecturerMainActivity
+import com.helmy.coursesapp.R
+import com.helmy.coursesapp.StudentMainActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.util.*
 
@@ -26,6 +29,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
         // Initialize Firebase Auth
         auth = Firebase.auth
+
     }
 
     override fun onStart() {
@@ -33,6 +37,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
         loginGo.setOnClickListener {
             startActivity(Intent(this, Login::class.java))
+            finish()
         }
 
         BirthdayNameLabel.setOnClickListener {
@@ -57,10 +62,14 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                 BirthdayEdit.text.isNotEmpty()
             ) {
                 if (confirmPasswordEdit.text.toString() == PasswordEdit.text.toString()) {
+                    Toast.makeText(this, "1", Toast.LENGTH_SHORT).show()
                     if (emailEdit.text.toString().contains("@")) {
-                        if (PhoneNumberEdit.text.toString().length >= 7) {
+                        Toast.makeText(this, "2", Toast.LENGTH_SHORT).show()
+                        if (PhoneNumberEdit.text.toString().length > 6) {
                             val choice = radioGroup.checkedRadioButtonId
                             val radioButton = findViewById<RadioButton>(choice)
+                            Toast.makeText(this, radioButton.text.toString(), Toast.LENGTH_SHORT)
+                                .show()
                             saveUserData(
                                 FirstNameEdit.text.toString(),
                                 MiddleNameEdit.text.toString(),
@@ -72,14 +81,15 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                                 PasswordEdit.text.toString(),
                                 radioButton.text.toString()
                             )
-                        }
-                    } else {
+                        } else
+                            Toast.makeText(this, "Phone must be at least 7", Toast.LENGTH_SHORT)
+                                .show()
+                    } else
                         Toast.makeText(this, "email not contain @ character !!", Toast.LENGTH_SHORT)
                             .show()
-                    }
-                } else {
+                } else
                     Toast.makeText(this, "password not confirmed !!", Toast.LENGTH_SHORT).show()
-                }
+
             }
         }
     }
@@ -117,7 +127,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                                     "Sign up Successful.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                shared.putString("kind",getString(R.string.lecturer)).apply()
+                                shared.putString("kind", getString(R.string.lecturer)).apply()
                                 startActivity(Intent(this, LecturerMainActivity::class.java))
 
                             } else if (kind == getString(R.string.student)) {
@@ -126,16 +136,19 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                                     "Sign up Successful.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                shared.putString("kind",getString(R.string.student)).apply()
+                                shared.putString("kind", getString(R.string.student)).apply()
                                 startActivity(Intent(this, StudentMainActivity::class.java))
 
                             }
                         }
                         .addOnFailureListener {
-                            Toast.makeText(baseContext, "Store user data failed.", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                baseContext,
+                                "Store user data failed.",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
-
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }

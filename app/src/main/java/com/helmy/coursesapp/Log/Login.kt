@@ -1,4 +1,4 @@
-package com.helmy.coursesapp
+package com.helmy.coursesapp.Log
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +9,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.LecturerMainActivity
+import com.helmy.coursesapp.R
+import com.helmy.coursesapp.StudentMainActivity
+import com.helmy.coursesapp.UserData
 import kotlinx.android.synthetic.main.activity_login.*
 
 class Login : AppCompatActivity() {
@@ -21,18 +25,17 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = Firebase.auth
-        val kind = getSharedPreferences("shared", MODE_PRIVATE).getString("kind","")
+        val kind = getSharedPreferences("shared", MODE_PRIVATE).getString("kind", "")
 
         if (auth.currentUser != null && kind == getString(R.string.lecturer)) {
             startActivity(Intent(this, LecturerMainActivity::class.java))
             finish()
+
         } else if (auth.currentUser != null && kind == getString(R.string.student)) {
 
             startActivity(Intent(this, StudentMainActivity::class.java))
             finish()
         }
-
-
     }
 
     override fun onStart() {
@@ -41,6 +44,8 @@ class Login : AppCompatActivity() {
         signupGo.setOnClickListener {
             startActivity(Intent(this, SignUp::class.java))
         }
+
+
 
         LoginButton.setOnClickListener {
             if (emailEdit.text.isNotEmpty() && PasswordEdit.text.isNotEmpty()) {
@@ -58,14 +63,17 @@ class Login : AppCompatActivity() {
     }
 
     private fun loginToUserAccount(email: String, password: String) {
+
+        val shared = getSharedPreferences("shared", MODE_PRIVATE).edit()
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "Authentication Successful.", Toast.LENGTH_SHORT)
                         .show()
-                    val user = auth.currentUser
-                    val email = user!!.email
-                    val docRef = db.collection("users").document(email.toString())
+//                    val user = auth.currentUser
+//                    val email = user!!.email
+                    val docRef = db.collection("users").document(email)
                     docRef.get()
                         .addOnSuccessListener { document ->
                             if (document != null) {
@@ -76,10 +84,15 @@ class Login : AppCompatActivity() {
                                     userData!!.first_name,
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                if (userData.kind_of_account == "student") {
+                                if (userData.kind_of_account == getString(R.string.student)) {
                                     startActivity(Intent(this, StudentMainActivity::class.java))
-                                } else if (userData.kind_of_account == "lecturer") {
+                                    shared.putString("kind", getString(R.string.student)).apply()
+                                    finish()
+
+                                } else if (userData.kind_of_account == getString(R.string.lecturer)) {
                                     startActivity(Intent(this, LecturerMainActivity::class.java))
+                                    shared.putString("kind", getString(R.string.lecturer)).apply()
+                                    finish()
                                 }
                             } else {
                                 Toast.makeText(baseContext, "Document empty.", Toast.LENGTH_SHORT)

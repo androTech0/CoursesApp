@@ -7,26 +7,25 @@
     tools:context=".LecturerMainActivity">
 
     <FrameLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/LecturerFrameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintBottom_toTopOf="@+id/LecturerNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+        android:id="@+id/LecturerNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ddd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/frameLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/main_menu_nav"
         app:itemTextColor="@color/black"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/LecturerFrameLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/lecturer_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

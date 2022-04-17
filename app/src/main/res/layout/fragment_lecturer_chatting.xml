@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff0"
-    tools:context=".LecturerMainFragments.LecturerChattingFragment">
+    tools:context=".LecturerFragments.LecturerChattingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chattingRecycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Chatting Fragment"
-        android:textColor="#000"
-        android:textSize="26sp"
-        android:gravity="center" />
+
+        />
 
 </FrameLayout>
