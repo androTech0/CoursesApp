@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp">
-        <activity android:name=".Login" android:exported="true">
+        <activity android:name=".LecturerMainActivity"></activity>
+        <activity
+            android:name=".Login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,11 +21,9 @@
         </activity>
         <activity
             android:name=".SignUp"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".StudentMainActivity"
             android:exported="true" />
     </application>
 
