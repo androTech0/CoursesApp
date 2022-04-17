@@ -3,10 +3,10 @@ package com.helmy.coursesapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.helmy.coursesapp.LecturerFragments.AddFragment
-import com.helmy.coursesapp.LecturerFragments.CoursesFragment
-import com.helmy.coursesapp.LecturerFragments.EditFragment
-import com.helmy.coursesapp.LecturerFragments.LecturerChattingFragment
+import com.helmy.coursesapp.StudentFragments.HomeFragment
+import com.helmy.coursesapp.StudentFragments.ProfileFragment
+import com.helmy.coursesapp.StudentFragments.SettingsFragment
+import com.helmy.coursesapp.StudentFragments.StudentChattingFragment
 import kotlinx.android.synthetic.main.activity_student_main.*
 
 class StudentMainActivity : AppCompatActivity() {
@@ -17,21 +17,21 @@ class StudentMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student_main)
 
-        replaceFragment(CoursesFragment())
+        replaceFragment(HomeFragment())
 
         studentNavigationView.setOnItemSelectedListener{
             when(it.itemId){
-                R.id.Courses ->{
-                    replaceFragment(CoursesFragment())
+                R.id.Home ->{
+                    replaceFragment(HomeFragment())
                 }
-                R.id.Add ->{
-                    replaceFragment(AddFragment())
+                R.id.Profile ->{
+                    replaceFragment(ProfileFragment())
                 }
-                R.id.Edit ->{
-                    replaceFragment(EditFragment())
+                R.id.Settings ->{
+                    replaceFragment(SettingsFragment())
                 }
                 R.id.Chat ->{
-                    replaceFragment(LecturerChattingFragment())
+                    replaceFragment(StudentChattingFragment())
                 }
             }
             true
