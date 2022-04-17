@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp">
+        <activity android:name=".LecturerFragments.CourseContent"></activity>
         <activity
             android:name=".Log.Login"
             android:exported="true">
@@ -24,7 +25,6 @@
         <activity
             android:name=".StudentMainActivity"
             android:exported="true" />
-
         <activity
             android:name=".LecturerMainActivity"
             android:exported="true" />
