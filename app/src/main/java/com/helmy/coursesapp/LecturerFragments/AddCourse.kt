@@ -68,8 +68,6 @@ class AddCourse : Fragment() {
                     }
                 }
             }
-
-
     }
 
     override fun onStart() {
