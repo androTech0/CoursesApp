@@ -15,18 +15,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.UserData
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.BirthdayEdit
-import kotlinx.android.synthetic.main.fragment_profile.BirthdayNameLabel
-import kotlinx.android.synthetic.main.fragment_profile.FirstNameEdit
-import kotlinx.android.synthetic.main.fragment_profile.LastNameEdit
-import kotlinx.android.synthetic.main.fragment_profile.LocationNameEdit
-import kotlinx.android.synthetic.main.fragment_profile.MiddleNameEdit
-import kotlinx.android.synthetic.main.fragment_profile.PasswordEdit
-import kotlinx.android.synthetic.main.fragment_profile.PhoneNumberEdit
-import kotlinx.android.synthetic.main.fragment_profile.confirmPasswordEdit
-import kotlinx.android.synthetic.main.fragment_profile.emailEdit
 
 import java.util.*
 
