@@ -92,19 +92,21 @@ class SignUp : AppCompatActivity() , DatePickerDialog.OnDateSetListener{
                     Toast.makeText(baseContext, "Authentication Successful.",Toast.LENGTH_SHORT).show()
                     // Create a new user with a first and last name
                     val user = hashMapOf(
-                        "first name" to first_name,
-                        "middle name" to middle_name,
-                        "last name" to last_name,
+                        "first_name" to first_name,
+                        "middle_name" to middle_name,
+                        "last_name" to last_name,
                         "Birthday" to Birthday,
                         "location" to location,
                         "email" to email,
-                        "Phone number" to Phone_number,
+                        "Phone_number" to Phone_number,
                         "password" to password,
-                        "kind of account" to kind
+                        "kind_of_account" to kind
                     )
 
+
                     db.collection("users")
-                        .add(user)
+                        .document(email)
+                        .set(user)
                         .addOnSuccessListener { documentReference ->
                             Toast.makeText(baseContext, "Store user data Successful.",Toast.LENGTH_SHORT).show()
                         }
