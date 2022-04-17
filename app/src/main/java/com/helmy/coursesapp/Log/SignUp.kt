@@ -68,8 +68,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                         if (PhoneNumberEdit.text.toString().length > 6) {
                             val choice = radioGroup.checkedRadioButtonId
                             val radioButton = findViewById<RadioButton>(choice)
-                            Toast.makeText(this, radioButton.text.toString(), Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(this, radioButton.text.toString(), Toast.LENGTH_SHORT).show()
                             saveUserData(
                                 FirstNameEdit.text.toString(),
                                 MiddleNameEdit.text.toString(),
