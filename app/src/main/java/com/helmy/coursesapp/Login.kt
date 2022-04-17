@@ -60,11 +60,16 @@ class Login : AppCompatActivity() {
 //                                Toast.makeText(baseContext, "${document.data}", Toast.LENGTH_SHORT).show()
                                 val userData = document.toObject<UserData>()
                                 Toast.makeText(baseContext, userData!!.first_name, Toast.LENGTH_SHORT).show()
+                                if(userData.kind_of_account == "student"){
+                                    startActivity(Intent(this,StudentMainActivity::class.java))
+                                }else if(userData.kind_of_account == "lecturer"){
+                                    startActivity(Intent(this,LecturerMainActivity::class.java))
+                                }
                             } else {
                                 Toast.makeText(baseContext, "Document empty.", Toast.LENGTH_SHORT).show()
                             }
                         }
-                        .addOnFailureListener { exception ->
+                        .addOnFailureListener { _ ->
                             Toast.makeText(baseContext, "Document failed.", Toast.LENGTH_SHORT).show()
                         }
                 } else {
