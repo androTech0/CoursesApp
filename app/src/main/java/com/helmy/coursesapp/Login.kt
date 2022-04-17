@@ -10,9 +10,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.PasswordEdit
-import kotlinx.android.synthetic.main.activity_login.emailEdit
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class Login : AppCompatActivity() {
 
@@ -24,33 +21,48 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = Firebase.auth
+        val kind = getSharedPreferences("shared", MODE_PRIVATE).getString("kind","")
+
+        if (auth.currentUser != null && kind == getString(R.string.lecturer)) {
+            startActivity(Intent(this, LecturerMainActivity::class.java))
+            finish()
+        } else if (auth.currentUser != null && kind == getString(R.string.student)) {
+
+            startActivity(Intent(this, StudentMainActivity::class.java))
+            finish()
+        }
+
+
     }
 
     override fun onStart() {
         super.onStart()
 
         signupGo.setOnClickListener {
-            startActivity(Intent(this,SignUp::class.java))
+            startActivity(Intent(this, SignUp::class.java))
         }
 
         LoginButton.setOnClickListener {
-            if(emailEdit.text.isNotEmpty() && PasswordEdit.text.isNotEmpty()){
-                if(emailEdit.text.toString().contains("@")){
-                    loginToUserAccount(emailEdit.text.toString(),PasswordEdit.text.toString())
-                }else{
-                    Toast.makeText(this, "email not contain @ character !!", Toast.LENGTH_SHORT).show()
+            if (emailEdit.text.isNotEmpty() && PasswordEdit.text.isNotEmpty()) {
+                if (emailEdit.text.toString().contains("@")) {
+                    loginToUserAccount(emailEdit.text.toString(), PasswordEdit.text.toString())
+                } else {
+                    Toast.makeText(this, "email not contain @ character !!", Toast.LENGTH_SHORT)
+                        .show()
                 }
-            }else{
-                Toast.makeText(baseContext, "You didn't fill all fields !!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(baseContext, "You didn't fill all fields !!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
-    fun loginToUserAccount(email:String,password:String){
+    private fun loginToUserAccount(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(baseContext, "Authentication Successful.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Authentication Successful.", Toast.LENGTH_SHORT)
+                        .show()
                     val user = auth.currentUser
                     val email = user!!.email
                     val docRef = db.collection("users").document(email.toString())
@@ -59,18 +71,24 @@ class Login : AppCompatActivity() {
                             if (document != null) {
 //                                Toast.makeText(baseContext, "${document.data}", Toast.LENGTH_SHORT).show()
                                 val userData = document.toObject<UserData>()
-                                Toast.makeText(baseContext, userData!!.first_name, Toast.LENGTH_SHORT).show()
-                                if(userData.kind_of_account == "student"){
-                                    startActivity(Intent(this,StudentMainActivity::class.java))
-                                }else if(userData.kind_of_account == "lecturer"){
-                                    startActivity(Intent(this,LecturerMainActivity::class.java))
+                                Toast.makeText(
+                                    baseContext,
+                                    userData!!.first_name,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                if (userData.kind_of_account == "student") {
+                                    startActivity(Intent(this, StudentMainActivity::class.java))
+                                } else if (userData.kind_of_account == "lecturer") {
+                                    startActivity(Intent(this, LecturerMainActivity::class.java))
                                 }
                             } else {
-                                Toast.makeText(baseContext, "Document empty.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(baseContext, "Document empty.", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                         .addOnFailureListener { _ ->
-                            Toast.makeText(baseContext, "Document failed.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(baseContext, "Document failed.", Toast.LENGTH_SHORT)
+                                .show()
                         }
                 } else {
                     // If sign in fails, display a message to the user.
