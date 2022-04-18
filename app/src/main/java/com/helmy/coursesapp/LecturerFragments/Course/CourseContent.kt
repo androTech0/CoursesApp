@@ -17,9 +17,8 @@ import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
 import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_course_content.*
-import kotlinx.android.synthetic.main.courses_template.view.*
-import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.android.synthetic.main.video_template.*
+import kotlinx.android.synthetic.main.video_template.view.*
 
 class CourseContent : AppCompatActivity() {
 

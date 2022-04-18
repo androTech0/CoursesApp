@@ -12,7 +12,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
-import com.helmy.coursesapp.LecturerFragments.Videos.AddVideo
 import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
 import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
 import com.helmy.coursesapp.R
