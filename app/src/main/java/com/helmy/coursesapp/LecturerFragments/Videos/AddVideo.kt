@@ -96,10 +96,7 @@ class AddVideo : AppCompatActivity() {
             }
 
         btnn.setOnClickListener {
-            if (VideoUrl.isNotEmpty() && VideoName.text.toString().isNotEmpty()) {
-                newVideo()
-
-            }
+            newVideo()
         }
 
         selectVideo.setOnClickListener {
@@ -119,24 +116,46 @@ class AddVideo : AppCompatActivity() {
     }
 
     private fun newVideo() {
-        val video = mapOf(
-            "VideoId" to UUID.randomUUID().toString(),
-            "VideoName" to VideoName.text.toString(),
-            "VideoDesc" to VideoDesc.text.toString(),
-            "VideoNumber" to VideoNum.text.toString(),
-            "VideoUrl" to VideoUrl,
-            "VideoImage" to VideoImage,
-            "CourseId" to courseId
-        )
-        db.collection("Videos").add(video).addOnSuccessListener {
-            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
-            onBackPressed()
-        }.addOnFailureListener {
-            Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
+
+        when {
+            VideoName.text.toString().isEmpty() -> {
+                Toast.makeText(this, "Name is Empty", Toast.LENGTH_SHORT).show()
+            }
+            VideoDesc.text.toString().isEmpty() -> {
+                Toast.makeText(this, "Description is Empty", Toast.LENGTH_SHORT).show()
+            }
+            VideoNum.text.toString().isEmpty() -> {
+                Toast.makeText(this, "number is Empty", Toast.LENGTH_SHORT).show()
+            }
+            VideoUrl.isEmpty() -> {
+                Toast.makeText(this, "VideoUrl is Empty", Toast.LENGTH_SHORT).show()
+            }
+            VideoImage.isEmpty() -> {
+                Toast.makeText(this, "VideoImage is Empty", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                val video = mapOf(
+                    "VideoId" to UUID.randomUUID().toString(),
+                    "VideoName" to VideoName.text.toString(),
+                    "VideoDesc" to VideoDesc.text.toString(),
+                    "VideoNumber" to VideoNum.text.toString(),
+                    "VideoUrl" to VideoUrl,
+                    "VideoImage" to VideoImage,
+                    "CourseId" to courseId
+                )
+
+                db.collection("Videos").add(video).addOnSuccessListener {
+                    Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+                    onBackPressed()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
+                }
+
+            }
         }
 
-    }
 
+    }
 
 
 }

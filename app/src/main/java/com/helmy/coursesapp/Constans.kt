@@ -1,10 +1,15 @@
 package com.helmy.coursesapp
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -13,7 +18,10 @@ class Constants {
 
 
     // region Image
-      fun getFile(context: Context, uri: Uri): File? {
+
+
+
+    fun getFile(context: Context, uri: Uri): File? {
         val destinationFilename: File =
             File(context.getFilesDir().getPath() + File.separatorChar + queryName(context, uri))
         try {
@@ -30,7 +38,7 @@ class Constants {
         return destinationFilename
     }
 
-     private fun createFileFromStream(ins: InputStream, destination: File?) {
+    private fun createFileFromStream(ins: InputStream, destination: File?) {
         try {
             FileOutputStream(destination).use { os ->
                 val buffer = ByteArray(4096)
@@ -46,7 +54,7 @@ class Constants {
         }
     }
 
-     private fun queryName(context: Context, uri: Uri): String {
+    private fun queryName(context: Context, uri: Uri): String {
         val returnCursor: Cursor = context.getContentResolver().query(uri, null, null, null, null)!!
         val nameIndex: Int = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
         returnCursor.moveToFirst()
@@ -57,4 +65,38 @@ class Constants {
 
     // endregion
 
+
+    /*
+    fun mm() {
+        val m: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                progressDialog.show()
+                // There are no request codes
+                val intent: Intent? = result.data
+                val uri = intent?.data  //The uri with the location of the file
+                val file = Constants().getFile(this, uri!!)
+                val new_uri = Uri.fromFile(file)
+
+                Toast.makeText(
+                    this,
+                    "${new_uri.lastPathSegment}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                val reference = storage.child("Images/${new_uri.lastPathSegment}")
+                val uploadTask = reference.putFile(new_uri)
+
+                uploadTask.addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                }.addOnSuccessListener { taskSnapshot ->
+                    taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                        progressDialog.dismiss()
+                        imageUrl = it.toString()
+                        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+     */
 }

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp">
-        <activity android:name=".StudentFragments.Video2Student"></activity>
+        <activity android:name=".LecturerFragments.Course.EditCourse"></activity>
+        <activity android:name=".StudentFragments.Video2Student" />
         <activity android:name=".LecturerFragments.Videos.EditVideo" />
         <activity android:name=".LecturerFragments.ViewVideos4Edit" />
         <activity android:name=".LecturerFragments.Videos.ShowVideo" />

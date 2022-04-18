@@ -17,6 +17,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.LecturerFragments.Course.EditCourse
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_edit.*
@@ -53,6 +54,7 @@ class EditFragment : Fragment() {
             override fun onBindViewHolder(holder: ViewH, position: Int, model: CourseDate) {
 
                 holder.itemView.name.text = model.CourseName
+
                 if (model.CourseImage.isNotEmpty()) {
                     holder.itemView.image.load(model.CourseImage)
                 }
@@ -64,7 +66,7 @@ class EditFragment : Fragment() {
                     pop.setOnMenuItemClickListener { x ->
                         when (x.itemId) {
                             R.id.EditCourse -> {
-                                val i = Intent(requireContext(), ViewVideos4Edit::class.java)
+                                val i = Intent(requireContext(), EditCourse::class.java)
                                 i.putExtra("CourseId", model.CourseId)
                                 startActivity(i)
                             }
@@ -127,7 +129,6 @@ class EditFragment : Fragment() {
                     }
                     pop.show()
                 }
-
 
                 holder.itemView.setOnClickListener {
                     val i = Intent(requireContext(), ViewVideos4Edit::class.java)
