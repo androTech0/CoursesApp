@@ -65,6 +65,8 @@ class CoursesFragment : Fragment() {
                     i.putExtra("CourseId", model.CourseId)
                     startActivity(i)
                 }
+
+                holder.itemView.num4videos.text = model.NumberOfVideos.toString()
             }
         }
         CoursesRecycle.apply {

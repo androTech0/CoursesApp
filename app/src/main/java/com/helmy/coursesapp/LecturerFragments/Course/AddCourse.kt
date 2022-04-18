@@ -105,7 +105,8 @@ class AddCourse : AppCompatActivity() {
         val course = mapOf(
             "CourseId" to UUID.randomUUID().toString(),
             "CourseName" to name,
-            "CourseImage" to image
+            "CourseImage" to image,
+            "NumberOfVideos" to 0
         )
         db.collection("Courses").add(course).addOnSuccessListener {
             Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show()
