@@ -22,14 +22,11 @@ import kotlinx.android.synthetic.main.fragment_courses.*
 
 class CoursesFragment : Fragment() {
 
-    private var db: FirebaseFirestore? = null
+    private var db = Firebase.firestore
     private var myAdapter: FirestoreRecyclerAdapter<CourseDate, ViewH>? = null
 
     override fun onStart() {
         super.onStart()
-
-        db = Firebase.firestore
-
 
         getAllCourses()
 
@@ -39,7 +36,7 @@ class CoursesFragment : Fragment() {
 
     private fun getAllCourses() {
 
-        val query = db!!.collection("Courses")
+        val query = db.collection("Courses")
         val option =
             FirestoreRecyclerOptions.Builder<CourseDate>().setQuery(query, CourseDate::class.java)
                 .build()
@@ -85,7 +82,11 @@ class CoursesFragment : Fragment() {
         myAdapter!!.stopListening()
     }
 
-    data class CourseDate(var CourseId: String = "", var CourseName: String = "", var CourseImage: String = "")
+    data class CourseDate(
+        var CourseId: String = "",
+        var CourseName: String = "",
+        var CourseImage: String = ""
+    )
 
     class ViewH(i: View) : RecyclerView.ViewHolder(i)
 

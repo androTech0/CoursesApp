@@ -43,6 +43,7 @@ class Login : AppCompatActivity() {
 
         signupGo.setOnClickListener {
             startActivity(Intent(this, SignUp::class.java))
+            finish()
         }
 
 
