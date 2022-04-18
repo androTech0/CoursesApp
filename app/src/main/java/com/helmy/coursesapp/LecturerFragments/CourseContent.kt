@@ -1,6 +1,5 @@
 package com.helmy.coursesapp.LecturerFragments
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -42,35 +41,37 @@ class CourseContent : AppCompatActivity() {
         getAllDataOf(courseId)
 
         addVideoBtn.setOnClickListener {
-            val i = Intent(this,AddVideo::class.java)
-            i.putExtra("CourseId",courseId)
+            val i = Intent(this, AddVideo::class.java)
+            i.putExtra("CourseId", courseId)
             startActivity(i)
         }
 
     }
 
-    private fun getAllDataOf(courseId:String) {
+    private fun getAllDataOf(courseId: String) {
 
-        db.collection("Courses").whereEqualTo("CourseId",courseId).get().addOnSuccessListener {
+        db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
             CourseName.text = it.documents[0].get("CourseName").toString()
 
-            if (it.documents[0].get("CourseImage").toString().isNotEmpty()){
+            if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
                 CourseImage.load(it.documents[0].get("CourseImage").toString())
             }
         }
 
 
-        val query = db.collection("Videos").whereEqualTo("CourseId",courseId)
+        val query = db.collection("Videos").whereEqualTo("CourseId", courseId)
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
         myAdapter = object : FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>(option) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoursesFragment.ViewH {
+            override fun onCreateViewHolder(
+                parent: ViewGroup,
+                viewType: Int
+            ): CoursesFragment.ViewH {
                 val i = LayoutInflater.from(this@CourseContent)
                     .inflate(R.layout.video_template, parent, false)
                 return CoursesFragment.ViewH(i)
             }
-
 
             override fun onBindViewHolder(
                 holder: CoursesFragment.ViewH,
@@ -78,8 +79,13 @@ class CourseContent : AppCompatActivity() {
                 model: VideoData
             ) {
                 holder.itemView.name.text = model.VideoName
-                if (model.VideoImage.isNotEmpty()){
+                if (model.VideoImage.isNotEmpty()) {
                     holder.itemView.image.load(model.VideoImage)
+                }
+                holder.itemView.setOnClickListener {
+                    val i = Intent(this@CourseContent, ShowVideo::class.java)
+                    i.putExtra("VideoUrl", model.VideoUrl)
+                    startActivity(i)
                 }
 
 
@@ -90,8 +96,6 @@ class CourseContent : AppCompatActivity() {
                 LinearLayoutManager(this@CourseContent, LinearLayoutManager.VERTICAL, false)
             adapter = myAdapter
         }
-
-
 
 
     }
