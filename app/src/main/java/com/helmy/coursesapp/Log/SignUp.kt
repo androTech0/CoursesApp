@@ -163,6 +163,6 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     @SuppressLint("SetTextI18n")
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        BirthdayEdit.text = "$p2/$p3/$p1"
+        BirthdayEdit.text = "${p2 + 1}/$p3/$p1"
     }
 }

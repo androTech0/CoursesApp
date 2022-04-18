@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.LecturerFragments.Videos.AddVideo
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
 import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
+import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_course_content.*
 import kotlinx.android.synthetic.main.courses_template.view.*
@@ -103,11 +104,6 @@ class CourseContent : AppCompatActivity() {
 
     }
 
-    data class VideoData(
-        var VideoId: String = "",
-        var VideoName: String = "",
-        var VideoUrl: String = "",
-        var VideoImage: String = ""
-    )
+
 
 }

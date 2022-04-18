@@ -50,13 +50,15 @@ class EditFragment : Fragment() {
             override fun onBindViewHolder(holder: ViewH, position: Int, model: CourseDate) {
 
                 holder.itemView.name.text = model.CourseName
-                holder.itemView.editBtn.visibility = View.VISIBLE
-                holder.itemView.editBtn.setOnClickListener {
-
-                }
                 if (model.CourseImage.isNotEmpty()) {
                     holder.itemView.image.load(model.CourseImage)
                 }
+                holder.itemView.editBtn.visibility = View.VISIBLE
+
+                holder.itemView.editBtn.setOnClickListener {
+
+                }
+
 
                 holder.itemView.setOnClickListener {
                     val i = Intent(requireContext(), ViewVideos4Edit::class.java)

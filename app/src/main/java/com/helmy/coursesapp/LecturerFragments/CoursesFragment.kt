@@ -15,6 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.LecturerFragments.Course.CourseContent
+import com.helmy.coursesapp.LecturerFragments.Course.CourseData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_courses.*
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_courses.*
 class CoursesFragment : Fragment() {
 
     private var db = Firebase.firestore
-    private var myAdapter: FirestoreRecyclerAdapter<CourseDate, ViewH>? = null
+    private var myAdapter: FirestoreRecyclerAdapter<CourseData, ViewH>? = null
 
     override fun onStart() {
         super.onStart()
@@ -37,9 +38,9 @@ class CoursesFragment : Fragment() {
 
         val query = db.collection("Courses")
         val option =
-            FirestoreRecyclerOptions.Builder<CourseDate>().setQuery(query, CourseDate::class.java)
+            FirestoreRecyclerOptions.Builder<CourseData>().setQuery(query, CourseData::class.java)
                 .build()
-        myAdapter = object : FirestoreRecyclerAdapter<CourseDate, ViewH>(option) {
+        myAdapter = object : FirestoreRecyclerAdapter<CourseData, ViewH>(option) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewH {
                 val i = LayoutInflater.from(requireContext())
                     .inflate(R.layout.courses_template, parent, false)
@@ -47,7 +48,7 @@ class CoursesFragment : Fragment() {
             }
 
             @SuppressLint("SetTextI18n")
-            override fun onBindViewHolder(holder: ViewH, position: Int, model: CourseDate) {
+            override fun onBindViewHolder(holder: ViewH, position: Int, model: CourseData) {
 
                 holder.itemView.name.text = model.CourseName
                 if (model.CourseImage.isNotEmpty()) {
@@ -81,11 +82,7 @@ class CoursesFragment : Fragment() {
         myAdapter!!.stopListening()
     }
 
-    data class CourseDate(
-        var CourseId: String = "",
-        var CourseName: String = "",
-        var CourseImage: String = ""
-    )
+    
 
     class ViewH(i: View) : RecyclerView.ViewHolder(i)
 
