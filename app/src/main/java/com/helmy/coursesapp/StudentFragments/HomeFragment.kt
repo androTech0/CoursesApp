@@ -13,7 +13,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.helmy.coursesapp.LecturerFragments.Course.CourseContent
 import com.helmy.coursesapp.LecturerFragments.Course.CourseData
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
 import com.helmy.coursesapp.R
@@ -64,7 +63,7 @@ class HomeFragment : Fragment() {
                 }
 
                 holder.itemView.setOnClickListener {
-                    val i = Intent(requireContext(), CourseContent::class.java)
+                    val i = Intent(requireContext(), Video2Student::class.java)
                     i.putExtra("CourseId", model.CourseId)
                     startActivity(i)
                 }
