@@ -3,9 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0f0"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LecturerFragments.CoursesFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        >
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/CoursesRecycle"
         android:layout_width="match_parent"
@@ -13,4 +19,16 @@
 
         />
 
+    <TextView
+        android:id="@+id/AddCoursee"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="30dp"
+        android:backgroundTint="@color/black"
+        android:background="@drawable/ic_baseline_library_add_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

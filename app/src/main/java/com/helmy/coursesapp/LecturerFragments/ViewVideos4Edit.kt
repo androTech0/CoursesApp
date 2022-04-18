@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -23,7 +24,6 @@ class ViewVideos4Edit : AppCompatActivity() {
     
     private val db = Firebase.firestore
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +68,22 @@ class ViewVideos4Edit : AppCompatActivity() {
 
 
                 holder.itemView.name.text = model.VideoName
-                holder.itemView.editBtn.visibility = View.VISIBLE
+                holder.itemView.DeleteVideo.visibility = View.VISIBLE
+                holder.itemView.DeleteVideo.setOnClickListener {
+                    db.collection("Videos").whereEqualTo("VideoId",model.VideoId).get().addOnSuccessListener {
+                        db.collection("Videos").document(it.documents[0].id).delete()
+                        val d = AlertDialog.Builder(this@ViewVideos4Edit)
+                        d.setTitle("Delete Video")
+                        d.setMessage(" do you wanna delete this Video !?!")
+                        d.setPositiveButton("Delete") { _, _ ->
+                            Toast.makeText(this@ViewVideos4Edit, "Deleted", Toast.LENGTH_SHORT)
+                                .show()
+                        }.setNegativeButton("cancel") { _d, _ ->
+                            _d.dismiss()
+                        }.create().show()
+                    }
+                }
+
                 if (model.VideoImage.isNotEmpty()) {
                     holder.itemView.image.load(model.VideoImage)
                 }
@@ -87,8 +102,6 @@ class ViewVideos4Edit : AppCompatActivity() {
                 LinearLayoutManager(this@ViewVideos4Edit, LinearLayoutManager.VERTICAL, false)
             adapter = myAdapter
         }
-
-
     }
 
 

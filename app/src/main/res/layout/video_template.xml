@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
-    app:cardCornerRadius="15dp"
-    app:cardElevation="15dp"
     android:backgroundTint="#D6D6D6"
-    >
+    app:cardCornerRadius="15dp"
+    app:cardElevation="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,10 +17,10 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:text="name"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:layout_marginStart="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,16 +35,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/editBtn"
+            android:id="@+id/DeleteVideo"
             android:layout_width="wrap_content"
-            android:visibility="invisible"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="20dp"
-            android:background="@drawable/ic_baseline_settings_24"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_baseline_delete_24"
             android:backgroundTint="@color/black"
-            />
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

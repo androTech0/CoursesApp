@@ -14,6 +14,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.LecturerFragments.Course.AddCourse
 import com.helmy.coursesapp.LecturerFragments.Course.CourseContent
 import com.helmy.coursesapp.LecturerFragments.Course.CourseData
 import com.helmy.coursesapp.R
@@ -29,6 +30,10 @@ class CoursesFragment : Fragment() {
         super.onStart()
 
         getAllCourses()
+
+        AddCoursee.setOnClickListener {
+            startActivity(Intent(requireContext(), AddCourse::class.java))
+        }
 
         myAdapter!!.startListening()
 

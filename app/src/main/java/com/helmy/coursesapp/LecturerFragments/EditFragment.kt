@@ -1,6 +1,7 @@
 package com.helmy.coursesapp.LecturerFragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -58,18 +60,66 @@ class EditFragment : Fragment() {
 
                 holder.itemView.editBtn.setOnClickListener {
                     val pop = PopupMenu(this@EditFragment.requireContext(), holder.itemView.editBtn)
-                    pop.menuInflater.inflate(R.menu.edit_video_menu, pop.menu)
+                    pop.menuInflater.inflate(R.menu.edit_course_menu, pop.menu)
                     pop.setOnMenuItemClickListener { x ->
                         when (x.itemId) {
-                            R.id.EditVideo -> {
+                            R.id.EditCourse -> {
+                                val i = Intent(requireContext(), ViewVideos4Edit::class.java)
+                                i.putExtra("CourseId", model.CourseId)
+                                startActivity(i)
+                            }
+
+                            R.id.DeleteCourse -> {
+
+                                val dialog = AlertDialog.Builder(this@EditFragment.requireContext())
+                                dialog.apply {
+                                    setTitle("warning")
+                                    setMessage("Will delete all videos ")
+                                    setPositiveButton("Ok") { _, _ ->
+                                        db.collection("Courses")
+                                            .whereEqualTo("CourseId", model.CourseId)
+                                            .get()
+                                            .addOnSuccessListener {
+                                                db.collection("Courses")
+                                                    .document(it.documents[0].id)
+                                                    .delete()
+                                                    .addOnSuccessListener {
+                                                        db.collection("Videos")
+                                                            .whereEqualTo(
+                                                                "CourseId",
+                                                                model.CourseId
+                                                            ).get()
+                                                            .addOnSuccessListener { videos ->
+                                                                if (videos.size() > 0) {
+                                                                    for (i in 0 until videos.size()) {
+                                                                        db.collection("Videos")
+                                                                            .document(videos.documents[i].id)
+                                                                            .delete()
+                                                                            .addOnSuccessListener {
+                                                                                Toast.makeText(
+                                                                                    this@EditFragment.requireContext(),
+                                                                                    "$i deleted",
+                                                                                    Toast.LENGTH_SHORT
+                                                                                )
+                                                                                    .show()
+                                                                            }
+
+                                                                    }
+                                                                }
+                                                            }
+                                                    }
+                                            }
+                                    }
+                                    setNegativeButton("Cancel") { d, _ ->
+                                        d.cancel()
+                                    }
+                                    create().show()
+                                }
+
 
                             }
 
-                            R.id.DeleteVideo -> {
-
-                            }
-
-                            R.id.HideVideo -> {
+                            R.id.HideCourse -> {
 
                             }
                         }

@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/EditVideo"
+        android:id="@+id/EditCourse"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Edit" />
     <item
-        android:id="@+id/DeleteVideo"
+        android:id="@+id/DeleteCourse"
         android:icon="@drawable/ic_baseline_chat_24"
         android:title="Delete" />
     <item
-        android:id="@+id/HideVideo"
+        android:id="@+id/HideCourse"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="Hide" />
 

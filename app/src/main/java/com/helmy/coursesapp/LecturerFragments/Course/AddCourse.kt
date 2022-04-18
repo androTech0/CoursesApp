@@ -99,6 +99,7 @@ class AddCourse : AppCompatActivity() {
         )
         db.collection("Courses").add(course).addOnSuccessListener {
             Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show()
+            onBackPressed()
         }.addOnFailureListener {
             Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
         }
