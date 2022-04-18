@@ -3,7 +3,6 @@ package com.helmy.coursesapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.helmy.coursesapp.LecturerFragments.AddCourse
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
 import com.helmy.coursesapp.LecturerFragments.EditFragment
 import com.helmy.coursesapp.LecturerFragments.LecturerChattingFragment

@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.LecturerFragments
+package com.helmy.coursesapp.LecturerFragments.Videos
 
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity

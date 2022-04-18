@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.LecturerFragments
+package com.helmy.coursesapp.LecturerFragments.Course
 
 import android.app.Activity
 import android.app.ProgressDialog

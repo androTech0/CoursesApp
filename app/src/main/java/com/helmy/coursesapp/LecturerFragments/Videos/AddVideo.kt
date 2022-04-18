@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.LecturerFragments
+package com.helmy.coursesapp.LecturerFragments.Videos
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -7,7 +7,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
