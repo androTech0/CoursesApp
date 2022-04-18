@@ -14,4 +14,8 @@
         android:id="@+id/Chat"
         android:icon="@drawable/ic_baseline_chat_24"
         android:title="Chat" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="profile" />
 </menu>

@@ -13,6 +13,6 @@ data class UserData(
     var password: String = "",
     var kind_of_account: String = "",
     var Courses:HashMap<String,HashMap<String,String>> = hashMapOf("course1" to hashMapOf(
-        "course_name" to "", "course_progress" to "1", "course_done" to "false")
+        "course_name" to "", "course_progress" to "v1", "course_done" to "no")
 )
 )

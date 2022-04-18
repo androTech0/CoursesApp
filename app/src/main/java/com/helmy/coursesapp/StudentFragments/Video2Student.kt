@@ -77,7 +77,7 @@ class Video2Student : AppCompatActivity() {
                     holder.itemView.image.load(model.VideoImage)
                 }
                 holder.itemView.setOnClickListener {
-                    val i = Intent(this@Video2Student, ShowVideo::class.java)
+                    val i = Intent(this@Video2Student,ShowVideo::class.java)
                     i.putExtra("VideoUrl", model.VideoUrl)
                     startActivity(i)
                 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
 import com.helmy.coursesapp.LecturerFragments.EditFragment
 import com.helmy.coursesapp.LecturerFragments.LecturerChattingFragment
+import com.helmy.coursesapp.LecturerFragments.Profile2LecturerFragment
 import kotlinx.android.synthetic.main.activity_lecturer_main.*
 
 class LecturerMainActivity : AppCompatActivity() {
@@ -25,6 +26,9 @@ class LecturerMainActivity : AppCompatActivity() {
                 }
                 R.id.Chat ->{
                     replaceFragment(LecturerChattingFragment())
+                }
+                R.id.profile ->{
+                    replaceFragment(Profile2LecturerFragment())
                 }
             }
             true
