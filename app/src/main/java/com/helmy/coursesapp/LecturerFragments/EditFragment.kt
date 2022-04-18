@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -56,7 +57,25 @@ class EditFragment : Fragment() {
                 holder.itemView.editBtn.visibility = View.VISIBLE
 
                 holder.itemView.editBtn.setOnClickListener {
+                    val pop = PopupMenu(this@EditFragment.requireContext(), holder.itemView.editBtn)
+                    pop.menuInflater.inflate(R.menu.edit_video_menu, pop.menu)
+                    pop.setOnMenuItemClickListener { x ->
+                        when (x.itemId) {
+                            R.id.EditVideo -> {
 
+                            }
+
+                            R.id.DeleteVideo -> {
+
+                            }
+
+                            R.id.HideVideo -> {
+
+                            }
+                        }
+                        true
+                    }
+                    pop.show()
                 }
 
 
