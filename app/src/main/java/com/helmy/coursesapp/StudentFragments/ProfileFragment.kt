@@ -75,16 +75,14 @@ class ProfileFragment : Fragment(),DatePickerDialog.OnDateSetListener {
     }
 
     private fun getUserInfo(){
-        val user = auth.currentUser
-        val email = user!!.email
-        val docRef = db.collection("users").document(email.toString())
-        docRef.get().addOnSuccessListener{document ->
+        val email = auth.currentUser!!.email.toString()
+        db.collection("users").document(email).get().addOnSuccessListener{document ->
             if(document != null){
                 val userData = document.toObject<UserData>()
                 FirstNameEdit.setText(userData!!.first_name)
                 MiddleNameEdit.setText(userData.middle_name)
                 LastNameEdit.setText(userData.last_name)
-                BirthdayEdit.setText(userData.Birthday)
+                BirthdayEdit.text = userData.Birthday
                 LocationNameEdit.setText(userData.location)
                 emailEdit.setText(userData.email)
                 PhoneNumberEdit.setText(userData.Phone_number)
