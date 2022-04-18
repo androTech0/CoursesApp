@@ -5,10 +5,7 @@
         android:id="@+id/Courses"
         android:icon="@drawable/ic_baseline_video_library_24"
         android:title="Courses" />
-    <item
-        android:id="@+id/Add"
-        android:icon="@drawable/ic_baseline_library_add_24"
-        android:title="Add" />
+
     <item
         android:id="@+id/Edit"
         android:icon="@drawable/ic_baseline_video_settings_24"

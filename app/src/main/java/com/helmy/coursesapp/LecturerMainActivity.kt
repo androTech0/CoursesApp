@@ -21,9 +21,6 @@ class LecturerMainActivity : AppCompatActivity() {
                 R.id.Courses ->{
                     replaceFragment(CoursesFragment())
                 }
-                R.id.Add ->{
-                    replaceFragment(AddCourse())
-                }
                 R.id.Edit ->{
                     replaceFragment(EditFragment())
                 }

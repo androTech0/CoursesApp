@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp">
-        <activity android:name=".LecturerFragments.ShowVideo"></activity>
+        <activity android:name=".LecturerFragments.ViewVideos4Edit"></activity>
+        <activity android:name=".LecturerFragments.ShowVideo" />
         <activity android:name=".LecturerFragments.AddVideo" />
         <activity android:name=".LecturerFragments.CourseContent" />
+        <activity android:name=".LecturerFragments.AddCourse" />
         <activity
             android:name=".Log.Login"
             android:exported="true">
