@@ -4,18 +4,20 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
+import com.helmy.coursesapp.LecturerFragments.Videos.EditVideo
 import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
 import com.helmy.coursesapp.R
-import kotlinx.android.synthetic.main.activity_course_content.*
-import kotlinx.android.synthetic.main.courses_template.view.*
+import kotlinx.android.synthetic.main.video_template.view.*
+import kotlinx.android.synthetic.main.view_videos_to_edit.*
 
 class ViewVideos4Edit : AppCompatActivity() {
     
@@ -25,7 +27,7 @@ class ViewVideos4Edit : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_videos)
+        setContentView(R.layout.view_videos_to_edit)
 
         val courseId = intent.getStringExtra("CourseId")!!
 
@@ -63,28 +65,41 @@ class ViewVideos4Edit : AppCompatActivity() {
                 position: Int,
                 model: VideoData
             ) {
-                holder.itemView.name.text = model.VideoName
 
+
+                holder.itemView.name.text = model.VideoName
+                holder.itemView.editBtn.visibility = View.VISIBLE
                 if (model.VideoImage.isNotEmpty()) {
                     holder.itemView.image.load(model.VideoImage)
                 }
 
                 holder.itemView.setOnClickListener {
-                    val i = Intent(this@ViewVideos4Edit, ShowVideo::class.java)
-                    i.putExtra("VideoUrl", model.VideoUrl)
+                    val i = Intent(this@ViewVideos4Edit, EditVideo::class.java)
+                    i.putExtra("VideoId", model.VideoId)
                     startActivity(i)
                 }
 
 
             }
         }
-        customRecycle.apply {
+        editRecycle.apply {
             layoutManager =
                 LinearLayoutManager(this@ViewVideos4Edit, LinearLayoutManager.VERTICAL, false)
             adapter = myAdapter
         }
 
 
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        myAdapter!!.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        myAdapter!!.stopListening()
     }
 
 

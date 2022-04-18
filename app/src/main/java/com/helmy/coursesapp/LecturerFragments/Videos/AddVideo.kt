@@ -122,6 +122,8 @@ class AddVideo : AppCompatActivity() {
         val video = mapOf(
             "VideoId" to UUID.randomUUID().toString(),
             "VideoName" to VideoName.text.toString(),
+            "VideoDesc" to VideoDesc.text.toString(),
+            "VideoNumber" to VideoNum.text.toString(),
             "VideoUrl" to VideoUrl,
             "VideoImage" to VideoImage,
             "CourseId" to courseId
