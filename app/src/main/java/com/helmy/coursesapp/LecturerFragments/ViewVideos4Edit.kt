@@ -71,16 +71,25 @@ class ViewVideos4Edit : AppCompatActivity() {
                 holder.itemView.DeleteVideo.visibility = View.VISIBLE
                 holder.itemView.DeleteVideo.setOnClickListener {
                     db.collection("Videos").whereEqualTo("VideoId",model.VideoId).get().addOnSuccessListener {
-                        db.collection("Videos").document(it.documents[0].id).delete()
+
                         val d = AlertDialog.Builder(this@ViewVideos4Edit)
                         d.setTitle("Delete Video")
                         d.setMessage(" do you wanna delete this Video !?!")
                         d.setPositiveButton("Delete") { _, _ ->
                             Toast.makeText(this@ViewVideos4Edit, "Deleted", Toast.LENGTH_SHORT)
                                 .show()
+                            db.collection("Videos").document(it.documents[0].id).delete()
+                            db.collection("Courses").whereEqualTo("CourseId", courseId)
+                                .get().addOnSuccessListener {documents ->
+                                    for(document in documents){
+                                        db.collection("Courses").document(document.id)
+                                            .update("NumberOfVideos",(document.get("NumberOfVideos").toString().toLong()-1))
+                                    }
+                                }
                         }.setNegativeButton("cancel") { _d, _ ->
                             _d.dismiss()
                         }.create().show()
+
                     }
                 }
 

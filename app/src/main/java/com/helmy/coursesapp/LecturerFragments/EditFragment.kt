@@ -54,11 +54,12 @@ class EditFragment : Fragment() {
             override fun onBindViewHolder(holder: ViewH, position: Int, model: CourseDate) {
 
                 holder.itemView.name.text = model.CourseName
-
+                holder.itemView.num4videos.text = model.NumberOfVideos.toString()
                 if (model.CourseImage.isNotEmpty()) {
                     holder.itemView.image.load(model.CourseImage)
                 }
                 holder.itemView.editBtn.visibility = View.VISIBLE
+
 
                 holder.itemView.editBtn.setOnClickListener {
                     val pop = PopupMenu(this@EditFragment.requireContext(), holder.itemView.editBtn)
@@ -153,7 +154,8 @@ class EditFragment : Fragment() {
     data class CourseDate(
         var CourseId: String = "",
         var CourseName: String = "",
-        var CourseImage: String = ""
+        var CourseImage: String = "",
+        var NumberOfVideos:Long = 0
     )
 
     class ViewH(i: View) : RecyclerView.ViewHolder(i)
