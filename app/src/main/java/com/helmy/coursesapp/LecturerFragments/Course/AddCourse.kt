@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -20,10 +22,10 @@ import java.util.*
 
 class AddCourse : AppCompatActivity() {
 
-    private var db = Firebase.firestore
-    val storage = Firebase.storage.reference
+    private val const = Constants(this)
 
-    lateinit var progressDialog: ProgressDialog
+
+
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
     var imageUrl = ""
 
@@ -34,48 +36,28 @@ class AddCourse : AppCompatActivity() {
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    progressDialog.show()
+                    const.progressDialog.show()
                     // There are no request codes
                     val intent: Intent? = result.data
                     val uri = intent?.data  //The uri with the location of the file
-                    val file = Constants().getFile(this, uri!!)
+                    val file = const.getFile(this, uri!!)
                     val new_uri = Uri.fromFile(file)
 
-                    Toast.makeText(
-                        this,
-                        "${new_uri.lastPathSegment}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    val reference = storage.child("Images/${new_uri.lastPathSegment}")
+                    val reference = const.storage.child("Images/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
 
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            progressDialog.dismiss()
+                            const.progressDialog.dismiss()
                             imageUrl = it.toString()
+                            selectImage.load(imageUrl)
                             Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
-
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-
-        progressDialog = ProgressDialog(this)
-        progressDialog.apply {
-            setTitle("Loading")
-            setMessage("Loading")
-            setCancelable(false)
-        }
-
-
 
 
         btn.setOnClickListener {
@@ -99,16 +81,23 @@ class AddCourse : AppCompatActivity() {
             resultLauncher.launch(Intent.createChooser(intent, "Select image"))
         }
 
+
     }
+
+
+
+
+
 
     private fun newCourse(name: String, image: String) {
         val course = mapOf(
             "CourseId" to UUID.randomUUID().toString(),
             "CourseName" to name,
             "CourseImage" to image,
+            "LecturerEmail" to const.auth.currentUser!!.email,
             "NumberOfVideos" to 0
         )
-        db.collection("Courses").add(course).addOnSuccessListener {
+        const.db.collection("Courses").add(course).addOnSuccessListener {
             Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show()
             onBackPressed()
         }.addOnFailureListener {

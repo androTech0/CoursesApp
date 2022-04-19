@@ -14,6 +14,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerFragments.Videos.EditVideo
 import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
 import com.helmy.coursesapp.R
@@ -21,8 +22,9 @@ import kotlinx.android.synthetic.main.video_template.view.*
 import kotlinx.android.synthetic.main.view_videos_to_edit.*
 
 class ViewVideos4Edit : AppCompatActivity() {
-    
-    private val db = Firebase.firestore
+
+    private val const = Constants(applicationContext)
+
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +39,7 @@ class ViewVideos4Edit : AppCompatActivity() {
 
     private fun getAllDataOf(courseId: String) {
 
-        db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
+        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
             CourseName.text = it.documents[0].get("CourseName").toString()
 
             if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
@@ -46,7 +48,7 @@ class ViewVideos4Edit : AppCompatActivity() {
         }
 
 
-        val query = db.collection("Videos").whereEqualTo("CourseId", courseId)
+        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
@@ -70,7 +72,7 @@ class ViewVideos4Edit : AppCompatActivity() {
                 holder.itemView.name.text = model.VideoName
                 holder.itemView.DeleteVideo.visibility = View.VISIBLE
                 holder.itemView.DeleteVideo.setOnClickListener {
-                    db.collection("Videos").whereEqualTo("VideoId",model.VideoId).get().addOnSuccessListener {
+                    const.db.collection("Videos").whereEqualTo("VideoId",model.VideoId).get().addOnSuccessListener {
 
                         val d = AlertDialog.Builder(this@ViewVideos4Edit)
                         d.setTitle("Delete Video")
@@ -78,11 +80,11 @@ class ViewVideos4Edit : AppCompatActivity() {
                         d.setPositiveButton("Delete") { _, _ ->
                             Toast.makeText(this@ViewVideos4Edit, "Deleted", Toast.LENGTH_SHORT)
                                 .show()
-                            db.collection("Videos").document(it.documents[0].id).delete()
-                            db.collection("Courses").whereEqualTo("CourseId", courseId)
+                            const.db.collection("Videos").document(it.documents[0].id).delete()
+                            const.db.collection("Courses").whereEqualTo("CourseId", courseId)
                                 .get().addOnSuccessListener {documents ->
                                     for(document in documents){
-                                        db.collection("Courses").document(document.id)
+                                        const.db.collection("Courses").document(document.id)
                                             .update("NumberOfVideos",(document.get("NumberOfVideos").toString().toLong()-1))
                                     }
                                 }

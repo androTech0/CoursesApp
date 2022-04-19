@@ -13,20 +13,21 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.UserData
 import kotlinx.android.synthetic.main.fragment_profile2_lecturer.*
 import java.util.*
 
-class Profile2LecturerFragment : Fragment() , DatePickerDialog.OnDateSetListener{
+class Profile2LecturerFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
-    private lateinit var auth: FirebaseAuth
-    val db = Firebase.firestore
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        auth = Firebase.auth
         return inflater.inflate(R.layout.fragment_profile2_lecturer, container, false)
     }
 
@@ -34,7 +35,7 @@ class Profile2LecturerFragment : Fragment() , DatePickerDialog.OnDateSetListener
         super.onResume()
         BirthdayNameLabel.setOnClickListener {
             val datePikerDialog = DatePickerDialog(
-                requireContext(),this,
+                requireContext(), this,
                 2010,
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -44,37 +45,47 @@ class Profile2LecturerFragment : Fragment() , DatePickerDialog.OnDateSetListener
         getUserInfo()
 
         UpdateButton.setOnClickListener {
-            updateUserInfo(FirstNameEdit.text.toString(),
+            updateUserInfo(
+                FirstNameEdit.text.toString(),
                 MiddleNameEdit.text.toString(),
                 LastNameEdit.text.toString(),
                 BirthdayEdit.text.toString(),
                 LocationNameEdit.text.toString(),
                 PhoneNumberEdit.text.toString(),
-                PasswordEdit.text.toString())
+                PasswordEdit.text.toString()
+            )
         }
 
     }
 
-    private fun updateUserInfo(first_name:String,middle_name:String,
-                               last_name:String,Birthday:String,location:String,
-                               Phone_number:String,password:String){
-        val user = auth.currentUser
-        val email = user!!.email
-        db.collection("users").document(email.toString())
-            .update("first_name" , first_name,
-                "middle_name" , middle_name,
-                "last_name" , last_name,
-                "Birthday" , Birthday,
-                "location" , location,
-                "email" , email,
-                "Phone_number" , Phone_number,
-                "password" , password)
+    private fun updateUserInfo(
+        first_name: String, middle_name: String,
+        last_name: String, Birthday: String, location: String,
+        Phone_number: String, password: String
+    ) {
+         val const = Constants(requireActivity())
+        val email = const.auth.currentUser!!.email
+        const.db.collection("users").document(email.toString())
+            .update(
+                "first_name", first_name,
+                "middle_name", middle_name,
+                "last_name", last_name,
+                "Birthday", Birthday,
+                "location", location,
+                "email", email,
+                "Phone_number", Phone_number,
+                "password", password
+            )
     }
 
-    private fun getUserInfo(){
-        val email = auth.currentUser!!.email.toString()
-        db.collection("users").document(email).get().addOnSuccessListener{document ->
-            if(document != null){
+    private fun getUserInfo() {
+
+         val const = Constants(requireActivity())
+
+
+        val email = const.auth.currentUser!!.email.toString()
+        const.db.collection("users").document(email).get().addOnSuccessListener { document ->
+            if (document != null) {
                 val userData = document.toObject<UserData>()
                 FirstNameEdit.setText(userData!!.first_name)
                 MiddleNameEdit.setText(userData.middle_name)

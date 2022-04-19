@@ -11,6 +11,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerFragments.Videos.AddVideo
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
 import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
@@ -22,18 +23,9 @@ import kotlinx.android.synthetic.main.video_template.view.*
 
 class CourseContent : AppCompatActivity() {
 
-    private val db = Firebase.firestore
+    private val const = Constants(this)
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
 
-    override fun onStart() {
-        super.onStart()
-        myAdapter!!.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        myAdapter!!.stopListening()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +43,19 @@ class CourseContent : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        myAdapter!!.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        myAdapter!!.stopListening()
+    }
+
     private fun getAllDataOf(courseId: String) {
 
-        db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
+        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
             CourseName.text = it.documents[0].get("CourseName").toString()
 
             if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
@@ -62,7 +64,7 @@ class CourseContent : AppCompatActivity() {
         }
 
 
-        val query = db.collection("Videos").whereEqualTo("CourseId", courseId)
+        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
@@ -102,7 +104,6 @@ class CourseContent : AppCompatActivity() {
 
 
     }
-
 
 
 }

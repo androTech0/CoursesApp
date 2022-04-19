@@ -17,6 +17,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerFragments.Course.EditCourse
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.courses_template.view.*
@@ -25,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_edit.*
 class EditFragment : Fragment() {
 
 
-    private var db = Firebase.firestore
     private var myAdapter: FirestoreRecyclerAdapter<CourseDate, ViewH>? = null
 
     override fun onStart() {
@@ -38,8 +38,10 @@ class EditFragment : Fragment() {
     }
 
     private fun getAllCourses() {
+        val const = Constants(requireActivity())
 
-        val query = db.collection("Courses")
+        val query =
+            const.db.collection("Courses").whereEqualTo("LecturerEmail", const.auth.currentUser!!.email)
         val option =
             FirestoreRecyclerOptions.Builder<CourseDate>().setQuery(query, CourseDate::class.java)
                 .build()
@@ -79,15 +81,15 @@ class EditFragment : Fragment() {
                                     setTitle("warning")
                                     setMessage("Will delete all videos ")
                                     setPositiveButton("Ok") { _, _ ->
-                                        db.collection("Courses")
+                                        const.db.collection("Courses")
                                             .whereEqualTo("CourseId", model.CourseId)
                                             .get()
                                             .addOnSuccessListener {
-                                                db.collection("Courses")
+                                                const.db.collection("Courses")
                                                     .document(it.documents[0].id)
                                                     .delete()
                                                     .addOnSuccessListener {
-                                                        db.collection("Videos")
+                                                        const.db.collection("Videos")
                                                             .whereEqualTo(
                                                                 "CourseId",
                                                                 model.CourseId
@@ -95,7 +97,7 @@ class EditFragment : Fragment() {
                                                             .addOnSuccessListener { videos ->
                                                                 if (videos.size() > 0) {
                                                                     for (i in 0 until videos.size()) {
-                                                                        db.collection("Videos")
+                                                                        const.db.collection("Videos")
                                                                             .document(videos.documents[i].id)
                                                                             .delete()
                                                                             .addOnSuccessListener {
@@ -155,7 +157,7 @@ class EditFragment : Fragment() {
         var CourseId: String = "",
         var CourseName: String = "",
         var CourseImage: String = "",
-        var NumberOfVideos:Long = 0
+        var NumberOfVideos: Long = 0
     )
 
     class ViewH(i: View) : RecyclerView.ViewHolder(i)

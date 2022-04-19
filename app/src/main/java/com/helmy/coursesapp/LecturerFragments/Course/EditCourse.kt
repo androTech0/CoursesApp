@@ -19,23 +19,14 @@ import kotlinx.android.synthetic.main.activity_edit_course.*
 
 class EditCourse : AppCompatActivity() {
 
-    private val db = Firebase.firestore
-    val storage = Firebase.storage.reference
+    private val const = Constants(this)
 
-    lateinit var progressDialog: ProgressDialog
     var imageUrl = ""
     private var CourseId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_course)
-
-        progressDialog = ProgressDialog(this)
-        progressDialog.apply {
-            setTitle("Loading")
-            setMessage("Loading")
-            setCancelable(false)
-        }
 
         CourseId = intent.getStringExtra("CourseId")!!
 
@@ -44,21 +35,21 @@ class EditCourse : AppCompatActivity() {
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    progressDialog.show()
+                    const.progressDialog.show()
                     // There are no request codes
                     val intent: Intent? = result.data
                     val uri = intent?.data  //The uri with the location of the file
-                    val file = Constants().getFile(this, uri!!)
+                    val file = const.getFile(this, uri!!)
                     val new_uri = Uri.fromFile(file)
 
-                    val reference = storage.child("Images/${new_uri.lastPathSegment}")
+                    val reference = const.storage.child("Images/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
 
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            progressDialog.dismiss()
+                            const.progressDialog.dismiss()
                             imageUrl = it.toString()
                             selectImage.load(imageUrl)
                             Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
@@ -93,7 +84,7 @@ class EditCourse : AppCompatActivity() {
     }
 
     private fun getCourseData(){
-        db.collection("Courses").whereEqualTo("CourseId",CourseId).get().addOnSuccessListener {
+        const.db.collection("Courses").whereEqualTo("CourseId",CourseId).get().addOnSuccessListener {
             CourseName.setText(it.documents[0].get("CourseName").toString())
             imageUrl = it.documents[0].get("CourseImage").toString()
             selectImage.load(imageUrl)
@@ -106,8 +97,8 @@ class EditCourse : AppCompatActivity() {
             "CourseName" to name,
             "CourseImage" to imageUrl
         )
-        db.collection("Courses").whereEqualTo("CourseId",CourseId).get().addOnSuccessListener {
-            db.collection("Courses").document(it.documents[0].id).update(course)
+        const.db.collection("Courses").whereEqualTo("CourseId",CourseId).get().addOnSuccessListener {
+            const.db.collection("Courses").document(it.documents[0].id).update(course)
             Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
             onBackPressed()
         }.addOnFailureListener {

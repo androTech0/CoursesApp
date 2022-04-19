@@ -19,10 +19,8 @@ import java.util.*
 
 class AddVideo : AppCompatActivity() {
 
-    private var db = Firebase.firestore
-    val storage = Firebase.storage.reference
+    private val const = Constants(this)
 
-    lateinit var progressDialog: ProgressDialog
     private var VideoUrl = ""
     private var VideoImage = ""
     private var courseId = ""
@@ -31,24 +29,16 @@ class AddVideo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_video)
 
-
-        progressDialog = ProgressDialog(this@AddVideo)
-        progressDialog.apply {
-            setTitle("Loading")
-            setMessage("Loading")
-            setCancelable(false)
-        }
-
         courseId = intent.getStringExtra("CourseId").toString()
 
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    progressDialog.show()
+                    const.progressDialog.show()
                     // There are no request codes
                     val intent: Intent? = result.data
                     val uri = intent?.data  //The uri with the location of the file
-                    val file = Constants().getFile(this, uri!!)
+                    val file = const.getFile(this, uri!!)
                     val new_uri = Uri.fromFile(file)
 
                     Toast.makeText(
@@ -56,14 +46,14 @@ class AddVideo : AppCompatActivity() {
                         "${new_uri.lastPathSegment}",
                         Toast.LENGTH_SHORT
                     ).show()
-                    val reference = storage.child("Videos/${new_uri.lastPathSegment}")
+                    val reference = const.storage.child("Videos/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
 
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            progressDialog.dismiss()
+                            const.progressDialog.dismiss()
                             VideoUrl = it.toString()
                             Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
                         }
@@ -74,22 +64,23 @@ class AddVideo : AppCompatActivity() {
         val resultLauncher2 =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    progressDialog.show()
+                    const.progressDialog.show()
                     // There are no request codes
                     val intent: Intent? = result.data
                     val uri = intent?.data  //The uri with the location of the file
-                    val file = Constants().getFile(this, uri!!)
+                    val file = const.getFile(this, uri!!)
                     val new_uri = Uri.fromFile(file)
 
-                    val reference = storage.child("Images/${new_uri.lastPathSegment}")
+                    val reference = const.storage.child("Images/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
 
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            progressDialog.dismiss()
+                            const.progressDialog.dismiss()
                             VideoImage = it.toString()
+                            selectImage.load(VideoImage)
                             Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -145,12 +136,12 @@ class AddVideo : AppCompatActivity() {
                     "CourseId" to courseId
                 )
 
-                db.collection("Videos").add(video).addOnSuccessListener {
+                const.db.collection("Videos").add(video).addOnSuccessListener {
                     Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
-                    db.collection("Courses").whereEqualTo("CourseId", courseId)
+                    const.db.collection("Courses").whereEqualTo("CourseId", courseId)
                         .get().addOnSuccessListener {documents ->
                             for(document in documents){
-                                db.collection("Courses").document(document.id)
+                                const.db.collection("Courses").document(document.id)
                                     .update("NumberOfVideos",(document.get("NumberOfVideos").toString().toLong()+1))
                             }
                     }

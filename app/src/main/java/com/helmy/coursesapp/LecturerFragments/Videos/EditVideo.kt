@@ -19,10 +19,7 @@ import kotlinx.android.synthetic.main.activity_edit_video.*
 
 class EditVideo : AppCompatActivity() {
 
-    private var db = Firebase.firestore
-    val storage = Firebase.storage.reference
-
-    lateinit var progressDialog: ProgressDialog
+    private val const = Constants(this)
 
     private var videoId = ""
     private var VideoUrl = ""
@@ -32,12 +29,12 @@ class EditVideo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_video)
 
-        progressDialog = ProgressDialog(this@EditVideo)
-        progressDialog.apply {
-            setTitle("Loading")
-            setMessage("Loading")
-            setCancelable(false)
-        }
+//        const.progressDialog = ProgressDialog(this@EditVideo)
+//        const.progressDialog.apply {
+//            setTitle("Loading")
+//            setMessage("Loading")
+//            setCancelable(false)
+//        }
 
         videoId = intent.getStringExtra("VideoId").toString()
 
@@ -46,21 +43,21 @@ class EditVideo : AppCompatActivity() {
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    progressDialog.show()
+                    const.progressDialog.show()
                     // There are no request codes
                     val intent: Intent? = result.data
                     val uri = intent?.data  //The uri with the location of the file
-                    val file = Constants().getFile(this, uri!!)
+                    val file = const.getFile(this, uri!!)
                     val new_uri = Uri.fromFile(file)
 
-                    val reference = storage.child("Videos/${new_uri.lastPathSegment}")
+                    val reference = const.storage.child("Videos/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
 
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            progressDialog.dismiss()
+                            const.progressDialog.dismiss()
                             VideoUrl = it.toString()
                             Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
                         }
@@ -71,21 +68,21 @@ class EditVideo : AppCompatActivity() {
         val resultLauncher2 =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    progressDialog.show()
+                    const.progressDialog.show()
                     // There are no request codes
                     val intent: Intent? = result.data
                     val uri = intent?.data  //The uri with the location of the file
-                    val file = Constants().getFile(this, uri!!)
+                    val file = const.getFile(this, uri!!)
                     val new_uri = Uri.fromFile(file)
 
-                    val reference = storage.child("Images/${new_uri.lastPathSegment}")
+                    val reference = const.storage.child("Images/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
 
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            progressDialog.dismiss()
+                            const.progressDialog.dismiss()
                             VideoImage = it.toString()
                             newImage.load(VideoImage)
                             Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
@@ -120,8 +117,8 @@ class EditVideo : AppCompatActivity() {
                         "VideoUrl" to VideoUrl,
                         "VideoImage" to VideoImage,
                     )
-                    db.collection("Videos").whereEqualTo("VideoId", videoId).get().addOnSuccessListener {
-                        db.collection("Videos").document(it.documents[0].id).update(video).addOnSuccessListener {
+                    const.db.collection("Videos").whereEqualTo("VideoId", videoId).get().addOnSuccessListener {
+                        const.db.collection("Videos").document(it.documents[0].id).update(video).addOnSuccessListener {
                             onBackPressed()
                             Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
                         }
@@ -148,7 +145,7 @@ class EditVideo : AppCompatActivity() {
 
     private fun getVideoData() {
 
-        db.collection("Videos").whereEqualTo("VideoId", videoId).get().addOnSuccessListener {
+        const.db.collection("Videos").whereEqualTo("VideoId", videoId).get().addOnSuccessListener {
             val video = it.documents[0].toObject<VideoData>()!!
             V_Name.setText(video.VideoName)
             V_desc.setText(video.VideoDesc)

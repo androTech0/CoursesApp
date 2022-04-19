@@ -1,24 +1,32 @@
 package com.helmy.coursesapp
 
-import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class Constants {
+class Constants(cont: Context) {
 
+
+    val db = Firebase.firestore
+    val storage = Firebase.storage.reference
+    val auth = Firebase.auth
+    val progressDialog = ProgressDialog(cont).apply {
+        setTitle("Loading")
+        setMessage("Loading")
+        setCancelable(false)
+    }
 
     // region Image
-
 
 
     fun getFile(context: Context, uri: Uri): File? {

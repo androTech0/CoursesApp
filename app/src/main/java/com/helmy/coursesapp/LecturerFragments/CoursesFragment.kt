@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerFragments.Course.AddCourse
 import com.helmy.coursesapp.LecturerFragments.Course.CourseContent
 import com.helmy.coursesapp.LecturerFragments.Course.CourseData
@@ -23,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_courses.*
 
 class CoursesFragment : Fragment() {
 
-    private var db = Firebase.firestore
     private var myAdapter: FirestoreRecyclerAdapter<CourseData, ViewH>? = null
 
     override fun onStart() {
@@ -40,8 +41,10 @@ class CoursesFragment : Fragment() {
     }
 
     private fun getAllCourses() {
+        val const = Constants(requireActivity())
 
-        val query = db.collection("Courses")
+        val query = const.db.collection("Courses")
+            .whereEqualTo("LecturerEmail", const.auth.currentUser!!.email)
         val option =
             FirestoreRecyclerOptions.Builder<CourseData>().setQuery(query, CourseData::class.java)
                 .build()
@@ -90,7 +93,6 @@ class CoursesFragment : Fragment() {
         myAdapter!!.stopListening()
     }
 
-    
 
     class ViewH(i: View) : RecyclerView.ViewHolder(i)
 
