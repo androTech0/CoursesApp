@@ -23,13 +23,15 @@ class StudentMainActivity : AppCompatActivity() {
                     replaceFragment(HomeFragment())
                 }
                 R.id.ChatS ->{
-                    replaceFragment(SettingsFragment())
+
+                    replaceFragment(StudentChattingFragment())
                 }
                 R.id.Settings ->{
-                    replaceFragment(ProfileFragment())
+                    replaceFragment(SettingsFragment())
                 }
                 R.id.Profile ->{
-                    replaceFragment(StudentChattingFragment())
+
+                    replaceFragment(ProfileFragment())
                 }
             }
             true
