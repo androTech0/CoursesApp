@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import coil.load
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -146,6 +147,13 @@ class AddVideo : AppCompatActivity() {
 
                 db.collection("Videos").add(video).addOnSuccessListener {
                     Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+                    db.collection("Courses").whereEqualTo("CourseId", courseId)
+                        .get().addOnSuccessListener {documents ->
+                            for(document in documents){
+                                db.collection("Courses").document(document.id)
+                                    .update("NumberOfVideos",(document.get("NumberOfVideos").toString().toLong()+1))
+                            }
+                    }
                     onBackPressed()
                 }.addOnFailureListener {
                     Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
