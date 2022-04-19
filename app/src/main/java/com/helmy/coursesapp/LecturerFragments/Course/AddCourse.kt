@@ -21,9 +21,7 @@ import java.util.*
 
 
 class AddCourse : AppCompatActivity() {
-
-    private val const = Constants(this)
-
+    lateinit var const:Constants
 
 
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -32,6 +30,8 @@ class AddCourse : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_course)
+
+        const = Constants(this)
 
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

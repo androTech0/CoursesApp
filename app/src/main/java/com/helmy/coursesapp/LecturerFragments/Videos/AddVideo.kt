@@ -19,7 +19,7 @@ import java.util.*
 
 class AddVideo : AppCompatActivity() {
 
-    private val const = Constants(this)
+    lateinit var const:Constants
 
     private var VideoUrl = ""
     private var VideoImage = ""
@@ -28,6 +28,7 @@ class AddVideo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_video)
+        const = Constants(this)
 
         courseId = intent.getStringExtra("CourseId").toString()
 

@@ -22,14 +22,15 @@ import kotlinx.android.synthetic.main.video_template.*
 import kotlinx.android.synthetic.main.video_template.view.*
 
 class CourseContent : AppCompatActivity() {
+    lateinit var const:Constants
 
-    private val const = Constants(this)
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_content)
+        const = Constants(this)
 
         val courseId = intent.getStringExtra("CourseId").toString()
 

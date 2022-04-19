@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_edit_course.*
 
 class EditCourse : AppCompatActivity() {
 
-    private val const = Constants(this)
+    lateinit var const:Constants
 
     var imageUrl = ""
     private var CourseId = ""
@@ -27,6 +27,7 @@ class EditCourse : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_course)
+        const = Constants(this)
 
         CourseId = intent.getStringExtra("CourseId")!!
 

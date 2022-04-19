@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_edit_video.*
 
 class EditVideo : AppCompatActivity() {
 
-    private val const = Constants(this)
+    lateinit var const:Constants
 
     private var videoId = ""
     private var VideoUrl = ""
@@ -28,6 +28,7 @@ class EditVideo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_video)
+        const = Constants(this)
 
 //        const.progressDialog = ProgressDialog(this@EditVideo)
 //        const.progressDialog.apply {
