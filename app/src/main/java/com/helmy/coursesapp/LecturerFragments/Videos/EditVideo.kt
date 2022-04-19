@@ -19,23 +19,18 @@ import kotlinx.android.synthetic.main.activity_edit_video.*
 
 class EditVideo : AppCompatActivity() {
 
-    lateinit var const:Constants
+    lateinit var const: Constants
 
     private var videoId = ""
     private var VideoUrl = ""
     private var VideoImage = ""
+    private var VideoFile = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_video)
         const = Constants(this)
 
-//        const.progressDialog = ProgressDialog(this@EditVideo)
-//        const.progressDialog.apply {
-//            setTitle("Loading")
-//            setMessage("Loading")
-//            setCancelable(false)
-//        }
 
         videoId = intent.getStringExtra("VideoId").toString()
 
@@ -92,40 +87,33 @@ class EditVideo : AppCompatActivity() {
                 }
             }
 
-        V_Save.setOnClickListener {
+        val resultLauncher3 =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    const.progressDialog.show()
+                    // There are no request codes
+                    val intent: Intent? = result.data
+                    val uri = intent?.data  //The uri with the location of the file
+                    val file = const.getFile(this, uri!!)
+                    val new_uri = Uri.fromFile(file)
 
-            when {
-                V_Name.text.toString().isEmpty() -> {
-                    Toast.makeText(this, "Name is Empty", Toast.LENGTH_SHORT).show()
-                }
-                V_desc.text.toString().isEmpty() -> {
-                    Toast.makeText(this, "Description is Empty", Toast.LENGTH_SHORT).show()
-                }
-                V_Num.text.toString().isEmpty() -> {
-                    Toast.makeText(this, "number is Empty", Toast.LENGTH_SHORT).show()
-                }
-                VideoUrl.isEmpty() -> {
-                    Toast.makeText(this, "VideoUrl is Empty", Toast.LENGTH_SHORT).show()
-                }
-                VideoImage.isEmpty() -> {
-                    Toast.makeText(this, "VideoImage is Empty", Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    val video = mapOf(
-                        "VideoName" to V_Name.text.toString(),
-                        "VideoDesc" to V_desc.text.toString(),
-                        "VideoNumber" to V_Num.text.toString(),
-                        "VideoUrl" to VideoUrl,
-                        "VideoImage" to VideoImage,
-                    )
-                    const.db.collection("Videos").whereEqualTo("VideoId", videoId).get().addOnSuccessListener {
-                        const.db.collection("Videos").document(it.documents[0].id).update(video).addOnSuccessListener {
-                            onBackPressed()
-                            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+                    val reference = const.storage.child("Files/${new_uri.lastPathSegment}")
+                    val uploadTask = reference.putFile(new_uri)
+
+                    uploadTask.addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                    }.addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            const.progressDialog.dismiss()
+                            VideoFile = it.toString()
+                            Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
+
+        V_Save.setOnClickListener {
+            updateVideo()
         }
 
         newVideo.setOnClickListener {
@@ -142,6 +130,54 @@ class EditVideo : AppCompatActivity() {
             resultLauncher2.launch(Intent.createChooser(intent, "Select image"))
         }
 
+        V_File.setOnClickListener {
+            val intent = Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+            resultLauncher3.launch(Intent.createChooser(intent, "Select File"))
+        }
+
+    }
+
+    private fun updateVideo() {
+        when {
+            V_Name.text.toString().isEmpty() -> {
+                Toast.makeText(this, "Name is Empty", Toast.LENGTH_SHORT).show()
+            }
+            V_desc.text.toString().isEmpty() -> {
+                Toast.makeText(this, "Description is Empty", Toast.LENGTH_SHORT).show()
+            }
+            V_Num.text.toString().isEmpty() -> {
+                Toast.makeText(this, "number is Empty", Toast.LENGTH_SHORT).show()
+            }
+            VideoUrl.isEmpty() -> {
+                Toast.makeText(this, "VideoUrl is Empty", Toast.LENGTH_SHORT).show()
+            }
+            VideoImage.isEmpty() -> {
+                Toast.makeText(this, "VideoImage is Empty", Toast.LENGTH_SHORT).show()
+            }
+            VideoFile.isEmpty() -> {
+                Toast.makeText(this, "VideoFile is Empty", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                val video = mapOf(
+                    "VideoName" to V_Name.text.toString(),
+                    "VideoDesc" to V_desc.text.toString(),
+                    "VideoNumber" to V_Num.text.toString(),
+                    "VideoUrl" to VideoUrl,
+                    "VideoFile" to VideoFile,
+                    "VideoImage" to VideoImage,
+                )
+                const.db.collection("Videos").whereEqualTo("VideoId", videoId).get()
+                    .addOnSuccessListener {
+                        const.db.collection("Videos").document(it.documents[0].id).update(video)
+                            .addOnSuccessListener {
+                                onBackPressed()
+                                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+            }
+        }
     }
 
     private fun getVideoData() {
@@ -156,6 +192,7 @@ class EditVideo : AppCompatActivity() {
 
             VideoUrl = video.VideoUrl
             VideoImage = video.VideoImage
+            VideoFile = video.VideoFile
         }
 
     }

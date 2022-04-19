@@ -85,6 +85,7 @@ class CourseContent : AppCompatActivity() {
                 model: VideoData
             ) {
                 holder.itemView.name.text = model.VideoName
+
                 if (model.VideoImage.isNotEmpty()) {
                     holder.itemView.image.load(model.VideoImage)
                 }

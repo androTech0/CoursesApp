@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerMainActivity
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.StudentMainActivity
@@ -20,20 +21,10 @@ import java.util.*
 
 class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
-    private lateinit var auth: FirebaseAuth
-    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         loginGo.setOnClickListener {
             startActivity(Intent(this, Login::class.java))
@@ -62,14 +53,10 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                 BirthdayEdit.text.isNotEmpty()
             ) {
                 if (confirmPasswordEdit.text.toString() == PasswordEdit.text.toString()) {
-                    Toast.makeText(this, "1", Toast.LENGTH_SHORT).show()
                     if (emailEdit.text.toString().contains("@")) {
-                        Toast.makeText(this, "2", Toast.LENGTH_SHORT).show()
                         if (PhoneNumberEdit.text.toString().length > 6) {
                             val choice = radioGroup.checkedRadioButtonId
                             val radioButton = findViewById<RadioButton>(choice)
-                            Toast.makeText(this, radioButton.text.toString(), Toast.LENGTH_SHORT)
-                                .show()
                             saveUserData(
                                 FirstNameEdit.text.toString(),
                                 MiddleNameEdit.text.toString(),
@@ -89,7 +76,6 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                             .show()
                 } else
                     Toast.makeText(this, "password not confirmed !!", Toast.LENGTH_SHORT).show()
-
             }
         }
     }
@@ -98,11 +84,11 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         first_name: String, middle_name: String, last_name: String, Birthday: String,
         location: String, email: String, Phone_number: String, password: String, kind: String
     ) {
-        auth.createUserWithEmailAndPassword(email, password)
+
+        val const = Constants(this)
+        const.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
-                    // Create a new user with a first and last name
                     val user = hashMapOf(
                         "first_name" to first_name,
                         "middle_name" to middle_name,
@@ -123,7 +109,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     )
 
                     val shared = getSharedPreferences("shared", MODE_PRIVATE).edit()
-                    db.collection("users")
+                    const.db.collection("users")
                         .document(email)
                         .set(user)
                         .addOnSuccessListener {
@@ -135,7 +121,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                                 ).show()
                                 shared.putString("kind", getString(R.string.lecturer)).apply()
                                 startActivity(Intent(this, LecturerMainActivity::class.java))
-
+                                finish()
                             } else if (kind == getString(R.string.student)) {
                                 Toast.makeText(
                                     baseContext,
@@ -144,7 +130,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                                 ).show()
                                 shared.putString("kind", getString(R.string.student)).apply()
                                 startActivity(Intent(this, StudentMainActivity::class.java))
-
+                                finish()
                             }
                         }
                         .addOnFailureListener {

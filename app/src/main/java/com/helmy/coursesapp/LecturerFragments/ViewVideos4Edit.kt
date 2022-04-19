@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.view_videos_to_edit.*
 
 class ViewVideos4Edit : AppCompatActivity() {
 
-    private val const = Constants(applicationContext)
 
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
 
@@ -39,13 +38,16 @@ class ViewVideos4Edit : AppCompatActivity() {
 
     private fun getAllDataOf(courseId: String) {
 
-        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
-            CourseName.text = it.documents[0].get("CourseName").toString()
+        val const = Constants(this)
 
-            if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
-                CourseImage.load(it.documents[0].get("CourseImage").toString())
+        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get()
+            .addOnSuccessListener {
+                CourseName.text = it.documents[0].get("CourseName").toString()
+
+                if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
+                    CourseImage.load(it.documents[0].get("CourseImage").toString())
+                }
             }
-        }
 
 
         val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
@@ -72,27 +74,31 @@ class ViewVideos4Edit : AppCompatActivity() {
                 holder.itemView.name.text = model.VideoName
                 holder.itemView.DeleteVideo.visibility = View.VISIBLE
                 holder.itemView.DeleteVideo.setOnClickListener {
-                    const.db.collection("Videos").whereEqualTo("VideoId",model.VideoId).get().addOnSuccessListener {
+                    const.db.collection("Videos").whereEqualTo("VideoId", model.VideoId).get()
+                        .addOnSuccessListener {
 
-                        val d = AlertDialog.Builder(this@ViewVideos4Edit)
-                        d.setTitle("Delete Video")
-                        d.setMessage(" do you wanna delete this Video !?!")
-                        d.setPositiveButton("Delete") { _, _ ->
-                            Toast.makeText(this@ViewVideos4Edit, "Deleted", Toast.LENGTH_SHORT)
-                                .show()
-                            const.db.collection("Videos").document(it.documents[0].id).delete()
-                            const.db.collection("Courses").whereEqualTo("CourseId", courseId)
-                                .get().addOnSuccessListener {documents ->
-                                    for(document in documents){
-                                        const.db.collection("Courses").document(document.id)
-                                            .update("NumberOfVideos",(document.get("NumberOfVideos").toString().toLong()-1))
+                            val d = AlertDialog.Builder(this@ViewVideos4Edit)
+                            d.setTitle("Delete Video")
+                            d.setMessage(" do you wanna delete this Video !?!")
+                            d.setPositiveButton("Delete") { _, _ ->
+                                Toast.makeText(this@ViewVideos4Edit, "Deleted", Toast.LENGTH_SHORT)
+                                    .show()
+                                const.db.collection("Videos").document(it.documents[0].id).delete()
+                                const.db.collection("Courses").whereEqualTo("CourseId", courseId)
+                                    .get().addOnSuccessListener { documents ->
+                                        for (document in documents) {
+                                            const.db.collection("Courses").document(document.id)
+                                                .update("NumberOfVideos",
+                                                    (document.get("NumberOfVideos").toString()
+                                                        .toLong() - 1)
+                                                )
+                                        }
                                     }
-                                }
-                        }.setNegativeButton("cancel") { _d, _ ->
-                            _d.dismiss()
-                        }.create().show()
+                            }.setNegativeButton("cancel") { _d, _ ->
+                                _d.dismiss()
+                            }.create().show()
 
-                    }
+                        }
                 }
 
                 if (model.VideoImage.isNotEmpty()) {

@@ -9,44 +9,35 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.helmy.coursesapp.LecturerMainActivity
-import com.helmy.coursesapp.R
-import com.helmy.coursesapp.StudentMainActivity
-import com.helmy.coursesapp.UserData
+import com.helmy.coursesapp.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 class Login : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-    val db = Firebase.firestore
+    lateinit var const: Constants
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        auth = Firebase.auth
         val kind = getSharedPreferences("shared", MODE_PRIVATE).getString("kind", "")
 
-        if (auth.currentUser != null && kind == getString(R.string.lecturer)) {
+        const = Constants(this)
+
+        if (const.auth.currentUser != null && kind == getString(R.string.lecturer)) {
             startActivity(Intent(this, LecturerMainActivity::class.java))
             finish()
 
-        } else if (auth.currentUser != null && kind == getString(R.string.student)) {
+        } else if (const.auth.currentUser != null && kind == getString(R.string.student)) {
 
             startActivity(Intent(this, StudentMainActivity::class.java))
             finish()
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         signupGo.setOnClickListener {
             startActivity(Intent(this, SignUp::class.java))
             finish()
         }
-
-
 
         LoginButton.setOnClickListener {
             if (emailEdit.text.isNotEmpty() && PasswordEdit.text.isNotEmpty()) {
@@ -67,24 +58,16 @@ class Login : AppCompatActivity() {
 
         val shared = getSharedPreferences("shared", MODE_PRIVATE).edit()
 
-        auth.signInWithEmailAndPassword(email, password)
+        const.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "Authentication Successful.", Toast.LENGTH_SHORT)
                         .show()
-//                    val user = auth.currentUser
-//                    val email = user!!.email
-                    val docRef = db.collection("users").document(email)
-                    docRef.get()
+                    const.db.collection("users").document(email).get()
                         .addOnSuccessListener { document ->
                             if (document != null) {
-//                                Toast.makeText(baseContext, "${document.data}", Toast.LENGTH_SHORT).show()
-                                val userData = document.toObject<UserData>()
-                                Toast.makeText(
-                                    baseContext,
-                                    userData!!.first_name,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                val userData = document.toObject<UserData>()!!
+
                                 if (userData.kind_of_account == getString(R.string.student)) {
                                     startActivity(Intent(this, StudentMainActivity::class.java))
                                     shared.putString("kind", getString(R.string.student)).apply()
@@ -96,16 +79,15 @@ class Login : AppCompatActivity() {
                                     finish()
                                 }
                             } else {
-                                Toast.makeText(baseContext, "Document empty.", Toast.LENGTH_SHORT)
+                                Toast.makeText(this, "Document empty.", Toast.LENGTH_SHORT)
                                     .show()
                             }
                         }
                         .addOnFailureListener { _ ->
-                            Toast.makeText(baseContext, "Document failed.", Toast.LENGTH_SHORT)
+                            Toast.makeText(this, "Document failed.", Toast.LENGTH_SHORT)
                                 .show()
                         }
                 } else {
-                    // If sign in fails, display a message to the user.
                     Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }

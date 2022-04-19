@@ -21,8 +21,8 @@ import java.util.*
 
 
 class AddCourse : AppCompatActivity() {
-    lateinit var const:Constants
 
+    lateinit var const:Constants
 
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
     var imageUrl = ""

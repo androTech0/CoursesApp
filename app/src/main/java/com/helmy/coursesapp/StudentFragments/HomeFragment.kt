@@ -13,6 +13,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerFragments.Course.CourseData
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
 import com.helmy.coursesapp.R
@@ -22,14 +23,12 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
-    private var db = Firebase.firestore
     private var myAdapter: FirestoreRecyclerAdapter<CourseData, CoursesFragment.ViewH>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -43,7 +42,9 @@ class HomeFragment : Fragment() {
 
     private fun getAllCourses() {
 
-        val query = db.collection("Courses")
+        val const = Constants(requireContext())
+
+        val query = const.db.collection("Courses")
         val option =
             FirestoreRecyclerOptions.Builder<CourseData>().setQuery(query, CourseData::class.java)
                 .build()
@@ -58,6 +59,7 @@ class HomeFragment : Fragment() {
             override fun onBindViewHolder(holder: CoursesFragment.ViewH, position: Int, model: CourseData) {
 
                 holder.itemView.name.text = model.CourseName
+                holder.itemView.num4videos.text = model.NumberOfVideos.toString()
                 if (model.CourseImage.isNotEmpty()) {
                     holder.itemView.image.load(model.CourseImage)
                 }

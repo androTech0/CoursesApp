@@ -13,28 +13,42 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.UserData
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.BirthdayEdit
+import kotlinx.android.synthetic.main.fragment_profile.BirthdayNameLabel
+import kotlinx.android.synthetic.main.fragment_profile.FirstNameEdit
+import kotlinx.android.synthetic.main.fragment_profile.LastNameEdit
+import kotlinx.android.synthetic.main.fragment_profile.LocationNameEdit
+import kotlinx.android.synthetic.main.fragment_profile.MiddleNameEdit
+import kotlinx.android.synthetic.main.fragment_profile.PasswordEdit
+import kotlinx.android.synthetic.main.fragment_profile.PhoneNumberEdit
+import kotlinx.android.synthetic.main.fragment_profile.UpdateButton
+import kotlinx.android.synthetic.main.fragment_profile.confirmPasswordEdit
+import kotlinx.android.synthetic.main.fragment_profile.emailEdit
+import kotlinx.android.synthetic.main.fragment_profile.logOutBtn
+import kotlinx.android.synthetic.main.fragment_profile2_lecturer.*
 
 import java.util.*
 
 class ProfileFragment : Fragment(),DatePickerDialog.OnDateSetListener {
 
-    private lateinit var auth: FirebaseAuth
-    val db = Firebase.firestore
+    lateinit var const: Constants
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        auth = Firebase.auth
-
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onResume() {
         super.onResume()
+
+        const = Constants(requireContext())
+
         BirthdayNameLabel.setOnClickListener {
             val datePikerDialog = DatePickerDialog(
                 requireContext(),this,
@@ -56,14 +70,18 @@ class ProfileFragment : Fragment(),DatePickerDialog.OnDateSetListener {
                 PasswordEdit.text.toString())
         }
 
+        logOutBtn.setOnClickListener {
+            Constants(requireContext()).logOut()
+        }
+
     }
 
     private fun updateUserInfo(first_name:String,middle_name:String,
                                last_name:String,Birthday:String,location:String,
                                Phone_number:String,password:String){
-        val user = auth.currentUser
+        val user = const.auth.currentUser
         val email = user!!.email
-        db.collection("users").document(email.toString())
+        const.db.collection("users").document(email.toString())
             .update("first_name" , first_name,
                 "middle_name" , middle_name,
                 "last_name" , last_name,
@@ -75,8 +93,8 @@ class ProfileFragment : Fragment(),DatePickerDialog.OnDateSetListener {
     }
 
     private fun getUserInfo(){
-        val email = auth.currentUser!!.email.toString()
-        db.collection("users").document(email).get().addOnSuccessListener{document ->
+        val email = const.auth.currentUser!!.email.toString()
+        const.db.collection("users").document(email).get().addOnSuccessListener{document ->
             if(document != null){
                 val userData = document.toObject<UserData>()
                 FirstNameEdit.setText(userData!!.first_name)

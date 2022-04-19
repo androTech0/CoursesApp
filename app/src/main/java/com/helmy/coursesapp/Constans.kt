@@ -2,19 +2,22 @@ package com.helmy.coursesapp
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.helmy.coursesapp.Log.Login
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class Constants(cont: Context) {
+class Constants(var cont: Context) {
 
 
     val db = Firebase.firestore
@@ -24,6 +27,22 @@ class Constants(cont: Context) {
         setTitle("Loading")
         setMessage("Loading")
         setCancelable(false)
+    }
+
+    fun logOut(){
+        val s = AlertDialog.Builder(cont)
+        s.setTitle("Log Out")
+        s.setMessage("Are you sure to Log Out??")
+        s.setIcon(R.drawable.ic_baseline_exit_to_app_24)
+        s.setCancelable(true)
+
+        s.setPositiveButton("OK") { _, _ ->
+            auth.signOut()
+            cont.startActivity(Intent(cont, Login::class.java))
+        }
+        s.setNegativeButton("Cancel") { d, _ ->
+            d.cancel()
+        }.show()
     }
 
     // region Image

@@ -56,6 +56,10 @@ class Profile2LecturerFragment : Fragment(), DatePickerDialog.OnDateSetListener 
             )
         }
 
+        logOutBtn.setOnClickListener {
+            Constants(requireContext()).logOut()
+        }
+
     }
 
     private fun updateUserInfo(

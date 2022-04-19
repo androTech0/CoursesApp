@@ -73,9 +73,9 @@
         android:id="@+id/newImage"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/V_File"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/newVideo" />
 
@@ -83,13 +83,23 @@
         android:id="@+id/newVideo"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/ic_baseline_video_settings_24"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/V_File"
         app:layout_constraintEnd_toStartOf="@id/newImage"
         app:layout_constraintStart_toStartOf="parent"
 
         />
+
+    <Button
+        android:id="@+id/V_File"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:text="Upload new File"
+        app:layout_constraintBottom_toTopOf="@id/V_Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/V_Save"

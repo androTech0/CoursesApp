@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LecturerFragments.Profile2LecturerFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/logOutBtn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_baseline_exit_to_app_24"
+            android:layout_margin="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+
+            />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -148,10 +159,10 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:enabled="false"
                     android:inputType="textEmailAddress"
                     android:textColor="#000"
                     android:textSize="18sp"
-                    android:enabled="false"
                     app:layout_constraintTop_toBottomOf="@id/emailLabel" />
 
                 <TextView

@@ -19,8 +19,9 @@ import java.util.*
 
 class AddVideo : AppCompatActivity() {
 
-    lateinit var const:Constants
+    lateinit var const: Constants
 
+    private var VideoFile = ""
     private var VideoUrl = ""
     private var VideoImage = ""
     private var courseId = ""
@@ -42,11 +43,6 @@ class AddVideo : AppCompatActivity() {
                     val file = const.getFile(this, uri!!)
                     val new_uri = Uri.fromFile(file)
 
-                    Toast.makeText(
-                        this,
-                        "${new_uri.lastPathSegment}",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     val reference = const.storage.child("Videos/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
 
@@ -88,6 +84,31 @@ class AddVideo : AppCompatActivity() {
                 }
             }
 
+        val resultLauncher3 =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    const.progressDialog.show()
+                    // There are no request codes
+                    val intent: Intent? = result.data
+                    val uri = intent?.data  //The uri with the location of the file
+                    val file = const.getFile(this, uri!!)
+                    val new_uri = Uri.fromFile(file)
+
+                    val reference = const.storage.child("Files/${new_uri.lastPathSegment}")
+                    val uploadTask = reference.putFile(new_uri)
+
+                    uploadTask.addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                    }.addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            const.progressDialog.dismiss()
+                            VideoFile = it.toString()
+                            Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
         btnn.setOnClickListener {
             newVideo()
         }
@@ -104,6 +125,13 @@ class AddVideo : AppCompatActivity() {
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
             resultLauncher2.launch(Intent.createChooser(intent, "Select Image"))
+        }
+
+        btnFile.setOnClickListener {
+            val intent = Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+            resultLauncher3.launch(Intent.createChooser(intent, "Select File"))
         }
 
     }
@@ -126,6 +154,9 @@ class AddVideo : AppCompatActivity() {
             VideoImage.isEmpty() -> {
                 Toast.makeText(this, "VideoImage is Empty", Toast.LENGTH_SHORT).show()
             }
+            VideoFile.isEmpty() -> {
+                Toast.makeText(this, "VideoFile is Empty", Toast.LENGTH_SHORT).show()
+            }
             else -> {
                 val video = mapOf(
                     "VideoId" to UUID.randomUUID().toString(),
@@ -134,22 +165,27 @@ class AddVideo : AppCompatActivity() {
                     "VideoNumber" to VideoNum.text.toString(),
                     "VideoUrl" to VideoUrl,
                     "VideoImage" to VideoImage,
+                    "VideoFile" to VideoFile,
                     "CourseId" to courseId
                 )
 
                 const.db.collection("Videos").add(video).addOnSuccessListener {
                     Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
                     const.db.collection("Courses").whereEqualTo("CourseId", courseId)
-                        .get().addOnSuccessListener {documents ->
-                            for(document in documents){
+                        .get().addOnSuccessListener { documents ->
+                            for (document in documents) {
                                 const.db.collection("Courses").document(document.id)
-                                    .update("NumberOfVideos",(document.get("NumberOfVideos").toString().toLong()+1))
+                                    .update(
+                                        "NumberOfVideos",
+                                        (document.get("NumberOfVideos").toString().toLong() + 1)
+                                    )
                             }
-                    }
+                        }
                     onBackPressed()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
                 }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
+                    }
 
             }
         }

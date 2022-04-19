@@ -6,5 +6,6 @@ data class VideoData(
     var VideoDesc: String = "",
     var VideoNumber: String = "",
     var VideoUrl: String = "",
-    var VideoImage: String = ""
+    var VideoImage: String = "",
+    var VideoFile: String = ""
 )
