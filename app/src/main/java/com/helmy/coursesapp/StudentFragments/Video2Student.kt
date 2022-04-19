@@ -1,6 +1,7 @@
 package com.helmy.coursesapp.StudentFragments
 
 import android.Manifest
+import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,8 @@ import android.os.Environment
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -27,17 +30,49 @@ import kotlinx.android.synthetic.main.student_video_template.view.*
 class Video2Student : AppCompatActivity() {
 
     lateinit var const: Constants
-
+    var courseId = ""
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
+    lateinit var resultLauncher:ActivityResultLauncher<Intent>
+    var VideoId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video2_student)
-        val courseId = intent.getStringExtra("CourseId").toString()
+        courseId = intent.getStringExtra("CourseId").toString()
 
         const = Constants(this)
 
-        getAllDataOf(courseId)
+        getAllData()
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    const.progressDialog.show()
+                    // There are no request codes
+                    val intent: Intent? = result.data
+                    val uri = intent?.data  //The uri with the location of the file
+                    val file = const.getFile(this, uri!!)
+                    val new_uri = Uri.fromFile(file)
+
+                    val reference = const.storage.child("Files/${new_uri.lastPathSegment}")
+                    val uploadTask = reference.putFile(new_uri)
+
+                    uploadTask.addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                    }.addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            const.progressDialog.dismiss()
+                            uploadFile(
+                                it.toString(),
+                                const.auth.currentUser!!.email.toString(),
+                                VideoId,
+                                courseId
+                            )
+                            Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
 
     }
 
@@ -51,15 +86,16 @@ class Video2Student : AppCompatActivity() {
         myAdapter!!.stopListening()
     }
 
-    private fun getAllDataOf(courseId: String) {
+    private fun getAllData() {
 
-        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
-            CourseName.text = it.documents[0].get("CourseName").toString()
+        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get()
+            .addOnSuccessListener {
+                CourseName.text = it.documents[0].get("CourseName").toString()
 
-            if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
-                CourseImage.load(it.documents[0].get("CourseImage").toString())
+                if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
+                    CourseImage.load(it.documents[0].get("CourseImage").toString())
+                }
             }
-        }
 
 
         val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
@@ -82,6 +118,7 @@ class Video2Student : AppCompatActivity() {
                 model: VideoData
             ) {
                 holder.itemView.name.text = model.VideoName
+                VideoId = model.VideoId
                 if (model.VideoImage.isNotEmpty()) {
                     holder.itemView.image.load(model.VideoImage)
                 }
@@ -96,15 +133,21 @@ class Video2Student : AppCompatActivity() {
 //                    startActivity(i)
                 }
 
+
+
                 holder.itemView.uploadFile.setOnClickListener {
-
-
-
+                    val intent = Intent()
+                        .setType("*/*")
+                        .setAction(Intent.ACTION_GET_CONTENT)
+                    resultLauncher.launch(Intent.createChooser(intent, "Select File"))
                 }
 
                 holder.itemView.downloadFile.setOnClickListener {
                     if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1000)
+                        requestPermissions(
+                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            1000
+                        )
                     } else {
                         startDownloading(model.VideoFile)
                     }
@@ -112,6 +155,8 @@ class Video2Student : AppCompatActivity() {
                 }
 
             }
+
+
         }
         customRecycle.apply {
             layoutManager =
@@ -122,7 +167,28 @@ class Video2Student : AppCompatActivity() {
 
     }
 
-    private fun startDownloading(url:String) {
+    private fun uploadFile(
+        fileUrl: String,
+        studentEmail: String,
+        videoId: String,
+        courseId: String
+    ) {
+
+        val file = mapOf(
+            "FileUrl" to fileUrl,
+            "StudentEmail" to studentEmail,
+            "VideoId" to videoId,
+            "CourseId" to courseId,
+
+            )
+        const.db.collection("Tasks").add(file).addOnSuccessListener {
+            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun startDownloading(url: String) {
         val request = DownloadManager.Request(Uri.parse(url))
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
             .setTitle("Download")
