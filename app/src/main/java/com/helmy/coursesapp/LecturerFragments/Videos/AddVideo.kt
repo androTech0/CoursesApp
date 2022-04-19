@@ -96,14 +96,14 @@ class AddVideo : AppCompatActivity() {
 
                     val reference = const.storage.child("Files/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
-
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             const.progressDialog.dismiss()
-                            VideoFile = it.toString()
+                            VideoFile = "Files/${new_uri.lastPathSegment}"
                             Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "${new_uri.lastPathSegment}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.storage.FirebaseStorage
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerFragments.CoursesFragment
 import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
@@ -149,7 +150,11 @@ class Video2Student : AppCompatActivity() {
                             1000
                         )
                     } else {
-                        startDownloading(model.VideoFile)
+                        val storageRef = FirebaseStorage.getInstance().reference.child(model.VideoFile)
+                        storageRef.downloadUrl.addOnSuccessListener {
+                            Toast.makeText(this@Video2Student, it.toString(), Toast.LENGTH_SHORT).show()
+                            startDownloading(it.toString(),model.VideoFile)
+                        }
                     }
 
                 }
@@ -188,16 +193,17 @@ class Video2Student : AppCompatActivity() {
         }
     }
 
-    private fun startDownloading(url: String) {
+    private fun startDownloading(url: String,name:String) {
+        Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
         val request = DownloadManager.Request(Uri.parse(url))
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-            .setTitle("Download")
+            .setTitle(name)
             .setDescription("the file is  downloading")
             .allowScanningByMediaScanner()
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationInExternalPublicDir(
                 Environment.DIRECTORY_DOWNLOADS,
-                "${System.currentTimeMillis()}"
+                name
             )
 
         val manager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
