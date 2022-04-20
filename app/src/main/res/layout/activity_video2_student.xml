@@ -30,6 +30,20 @@
         android:layout_marginTop="20dp"
         android:textSize="20sp"
         android:padding="20dp"
+        android:visibility="invisible"
+        />
+    <Button
+        android:id="@+id/unjoin_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="Un join"
+        app:layout_constraintTop_toBottomOf="@id/CourseName"
+        app:layout_constraintEnd_toStartOf="@id/CourseImage"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:padding="20dp"
         />
 
 

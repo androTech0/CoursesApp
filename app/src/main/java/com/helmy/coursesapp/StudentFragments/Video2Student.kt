@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -47,6 +48,8 @@ class Video2Student : AppCompatActivity() {
         const = Constants(this)
 
         getAllDataOf()
+
+        checkJion()
 
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -113,7 +116,41 @@ class Video2Student : AppCompatActivity() {
                                     (document.get("NumberOfStudents").toString().toLong() + 1)
                                 )
                         }
+                        unjoin_btn.visibility = View.VISIBLE
+                        join_btn.visibility = View.INVISIBLE
+                    }
+                }
+        }
 
+        unjoin_btn.setOnClickListener {
+            const.db.collection("Courses").whereEqualTo("CourseId", courseId)
+                .get().addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        val user = const.auth.currentUser
+                        val email = user!!.email
+                        val dataRes = document.get("StudentsIDs").toString().substring(1,(document.get("StudentsIDs").toString().length-1))
+                        var ar = dataRes.split(",").map { it.trim() }
+                        Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
+
+                        val next = arrayListOf<String>()
+                        for (e in ar){
+                            if(e.isNotEmpty() && e != email){
+                                next.add(e)
+                            }
+                        }
+                        ar = next
+                        const.db.collection("Courses").document(document.id)
+                            .update(
+                                "StudentsIDs",
+                                ar
+                            )
+                        const.db.collection("Courses").document(document.id)
+                            .update(
+                                "NumberOfStudents",
+                                (document.get("NumberOfStudents").toString().toLong() - 1)
+                            )
+                        unjoin_btn.visibility = View.INVISIBLE
+                        join_btn.visibility = View.VISIBLE
                     }
                 }
         }
@@ -271,5 +308,28 @@ class Video2Student : AppCompatActivity() {
         }
     }
 
+    private fun checkJion(){
+        const.db.collection("Courses").whereEqualTo("CourseId", courseId)
+            .get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val user = const.auth.currentUser
+                    val email = user!!.email
+                    var exist = false
+                    val dataRes = document.get("StudentsIDs").toString().substring(1,(document.get("StudentsIDs").toString().length-1))
+                    val ar = dataRes.split(",").map { it.trim() }
+                    Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
+                    for (e in ar){
+                        if(e == email){
+                            exist = true
+                        }
+                    }
+                    if(!exist){
+                        join_btn.visibility = View.VISIBLE
+                    }else{
+                        unjoin_btn.visibility = View.VISIBLE
+                    }
+                }
+            }
+    }
 
 }
