@@ -43,7 +43,7 @@ class Video2Student : AppCompatActivity() {
 
         const = Constants(this)
 
-        getAllData()
+        getAllDataOf()
 
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -87,7 +87,7 @@ class Video2Student : AppCompatActivity() {
         myAdapter!!.stopListening()
     }
 
-    private fun getAllData() {
+    private fun getAllDataOf() {
 
         const.db.collection("Courses").whereEqualTo("CourseId", courseId).get()
             .addOnSuccessListener {
