@@ -49,7 +49,7 @@ class Video2Student : AppCompatActivity() {
 
         getAllDataOf()
 
-        checkJion()
+        checkJoin()
 
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -308,7 +308,7 @@ class Video2Student : AppCompatActivity() {
         }
     }
 
-    private fun checkJion(){
+    private fun checkJoin(){
         const.db.collection("Courses").whereEqualTo("CourseId", courseId)
             .get().addOnSuccessListener { documents ->
                 for (document in documents) {
