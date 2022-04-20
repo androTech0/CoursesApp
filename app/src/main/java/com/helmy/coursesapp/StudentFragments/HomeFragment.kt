@@ -60,6 +60,7 @@ class HomeFragment : Fragment() {
 
                 holder.itemView.name.text = model.CourseName
                 holder.itemView.num4videos.text = model.NumberOfVideos.toString()
+                holder.itemView.num4students.text = model.NumberOfStudents.toString()
                 if (model.CourseImage.isNotEmpty()) {
                     holder.itemView.image.load(model.CourseImage)
                 }

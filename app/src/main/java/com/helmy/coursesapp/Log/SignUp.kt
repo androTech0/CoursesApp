@@ -99,13 +99,7 @@ class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                         "Phone_number" to Phone_number,
                         "password" to password,
                         "kind_of_account" to kind,
-                        "Courses" to hashMapOf(
-                            "course1" to hashMapOf(
-                                "course_name" to "",
-                                "course_progress" to 1,
-                                "course_done" to false
-                            )
-                        )
+                        "Courses" to hashMapOf<String,HashMap<String,*>>()
                     )
 
                     val shared = getSharedPreferences("shared", MODE_PRIVATE).edit()

@@ -19,6 +19,19 @@
         android:text="CourseName"
         />
 
+    <Button
+        android:id="@+id/join_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="join"
+        app:layout_constraintTop_toBottomOf="@id/CourseName"
+        app:layout_constraintEnd_toStartOf="@id/CourseImage"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:padding="20dp"
+        />
+
 
     <ImageView
         android:id="@+id/CourseImage"

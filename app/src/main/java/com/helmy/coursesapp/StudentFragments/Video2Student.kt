@@ -26,6 +26,9 @@ import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
 import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_video2_student.*
+import kotlinx.android.synthetic.main.activity_video2_student.CourseImage
+import kotlinx.android.synthetic.main.activity_video2_student.CourseName
+import kotlinx.android.synthetic.main.activity_video2_student.customRecycle
 import kotlinx.android.synthetic.main.student_video_template.view.*
 
 class Video2Student : AppCompatActivity() {
@@ -75,6 +78,45 @@ class Video2Student : AppCompatActivity() {
                 }
             }
 
+        join_btn.setOnClickListener {
+            const.db.collection("Courses").whereEqualTo("CourseId", courseId)
+                .get().addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        val user = const.auth.currentUser
+                        val email = user!!.email
+                        var exist = false
+                        val dataRes = document.get("StudentsIDs").toString().substring(1,(document.get("StudentsIDs").toString().length-1))
+                        var ar = dataRes.split(",").map { it.trim() }
+                        Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
+                        for (e in ar){
+                            if(e == email){
+                                exist = true
+                            }
+                        }
+                        if(!exist){
+                            val next = arrayListOf<String>()
+                            next.add(email.toString())
+                            for (e in ar){
+                                if(e.isNotEmpty()){
+                                    next.add(e)
+                                }
+                            }
+                            ar = next
+                            const.db.collection("Courses").document(document.id)
+                                .update(
+                                    "StudentsIDs",
+                                    ar
+                                )
+                            const.db.collection("Courses").document(document.id)
+                                .update(
+                                    "NumberOfStudents",
+                                    (document.get("NumberOfStudents").toString().toLong() + 1)
+                                )
+                        }
+
+                    }
+                }
+        }
     }
 
     override fun onStart() {

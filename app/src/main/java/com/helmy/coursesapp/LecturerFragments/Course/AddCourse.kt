@@ -95,7 +95,9 @@ class AddCourse : AppCompatActivity() {
             "CourseName" to name,
             "CourseImage" to image,
             "LecturerEmail" to const.auth.currentUser!!.email,
-            "NumberOfVideos" to 0
+            "NumberOfVideos" to 0,
+            "NumberOfStudents" to 0,
+            "StudentsIDs" to listOf<String>()
         )
         const.db.collection("Courses").add(course).addOnSuccessListener {
             Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show()

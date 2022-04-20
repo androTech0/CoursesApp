@@ -49,15 +49,26 @@
 
         <TextView
             android:id="@+id/num4videos"
-            android:layout_width="85dp"
+            android:layout_width="90dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="30dp"
             android:drawableStart="@drawable/ic_baseline_videocam_24"
             android:gravity="top"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="25sp"
             app:layout_constraintEnd_toStartOf="@id/image"
+            app:layout_constraintTop_toBottomOf="@id/name" />
+
+        <TextView
+            android:id="@+id/num4students"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:drawableStart="@drawable/ic_baseline_people_24"
+            android:gravity="top"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toStartOf="@id/num4videos"
             app:layout_constraintTop_toBottomOf="@id/name" />
 
 

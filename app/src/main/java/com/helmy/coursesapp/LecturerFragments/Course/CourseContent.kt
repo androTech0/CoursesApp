@@ -32,6 +32,7 @@ class CourseContent : AppCompatActivity() {
         setContentView(R.layout.activity_course_content)
         const = Constants(this)
 
+
         val courseId = intent.getStringExtra("CourseId").toString()
 
         getAllDataOf(courseId)
