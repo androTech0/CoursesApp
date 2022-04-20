@@ -50,7 +50,7 @@ class ViewVideos4Edit : AppCompatActivity() {
             }
 
 
-        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
+        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId).orderBy("VideoNumber")
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()

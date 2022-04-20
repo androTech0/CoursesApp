@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.helmy.coursesapp">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp"
         android:usesCleartextTraffic="true">
+        <activity android:name=".TestActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".LecturerFragments.Course.EditCourse" />
         <activity android:name=".StudentFragments.Video2Student" />
         <activity android:name=".LecturerFragments.Videos.EditVideo" />
@@ -27,17 +32,11 @@
         <activity android:name=".Log.SignUp" />
         <activity android:name=".StudentMainActivity" />
         <activity android:name=".LecturerMainActivity" />
-
         <activity
             android:name=".Log.Login"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
