@@ -12,7 +12,10 @@ data class UserData(
     var Phone_number: String = "",
     var password: String = "",
     var kind_of_account: String = "",
-    var Courses:HashMap<String,HashMap<String,*>> = hashMapOf("course1" to hashMapOf(
-        "course_name" to "", "course_progress" to 1, "course_done" to false)
-)
+    var Courses:HashMap<String,HashMap<String,*>> = hashMapOf()
+
+    /*
+    hashMapOf("course_id" to hashMapOf("course_progress" to 1,"course_done" to false))
+
+     */
 )
