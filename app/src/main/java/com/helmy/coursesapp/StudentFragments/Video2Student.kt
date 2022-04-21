@@ -92,7 +92,6 @@ class Video2Student : AppCompatActivity() {
                         val dataRes = document.get("StudentsIDs").toString()
                             .substring(1, (document.get("StudentsIDs").toString().length - 1))
                         var ar = dataRes.split(",").map { it.trim() }
-                        Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
                         for (e in ar) {
                             if (e == email) {
                                 exist = true
@@ -117,9 +116,26 @@ class Video2Student : AppCompatActivity() {
                                     "NumberOfStudents",
                                     (document.get("NumberOfStudents").toString().toLong() + 1)
                                 )
+
+                            const.db.collection("users").document(email.toString())
+                                .get().addOnSuccessListener {
+                                    val oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
+                                    val newHash:HashMap<String,HashMap<String,*>> = hashMapOf(
+                                        courseId to hashMapOf(
+                                        "course_progress" to 0,"course_done" to false))
+                                    for(key in oldHash.keys) {
+                                        newHash.put(key, oldHash[key]!!)
+                                    }
+                                    const.db.collection("users").document(email.toString())
+                                        .update(
+                                            "Courses",
+                                            newHash
+                                        )
+                                }
+                            unjoin_btn.visibility = View.VISIBLE
+                            join_btn.visibility = View.INVISIBLE
                         }
-                        unjoin_btn.visibility = View.VISIBLE
-                        join_btn.visibility = View.INVISIBLE
+
                     }
                 }
         }
@@ -152,6 +168,22 @@ class Video2Student : AppCompatActivity() {
                                 "NumberOfStudents",
                                 (document.get("NumberOfStudents").toString().toLong() - 1)
                             )
+                        const.db.collection("users").document(email.toString())
+                            .get().addOnSuccessListener {
+                                val oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
+                                val newHash:HashMap<String,HashMap<String,*>> = hashMapOf()
+                                for(key in oldHash.keys) {
+                                    if(key != courseId){
+                                        newHash.put(key, oldHash[key]!!)
+                                    }
+
+                                }
+                                const.db.collection("users").document(email.toString())
+                                    .update(
+                                        "Courses",
+                                        newHash
+                                    )
+                            }
                         unjoin_btn.visibility = View.INVISIBLE
                         join_btn.visibility = View.VISIBLE
                     }
@@ -206,6 +238,38 @@ class Video2Student : AppCompatActivity() {
                     holder.itemView.image.load(model.VideoImage)
                 }
                 holder.itemView.setOnClickListener {
+
+                    val user = const.auth.currentUser
+                    val email = user!!.email
+                    const.db.collection("Videos")
+                        .whereEqualTo("VideoId", model.VideoId)
+                        .get().addOnSuccessListener {
+                            val vidNum = it.documents[0].get("VideoNumber").toString().toLong()
+                            const.db.collection("users").document(email.toString())
+                                .get().addOnSuccessListener {
+                                    var oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
+                                    var newHash:HashMap<String,HashMap<String,*>> = hashMapOf()
+                                    val nId = oldHash[courseId]
+
+                                    if(nId!!["course_progress"].toString().toLong() < model.VideoNumber.toLong()){
+                                        for(key in oldHash.keys) {
+                                            if(key == courseId){
+                                                newHash.put(key,hashMapOf(
+                                                    "course_progress" to vidNum,"course_done" to false))
+                                                continue
+                                            }else{
+                                                newHash.put(key, oldHash[key]!!)
+                                            }
+                                        }
+                                        const.db.collection("users").document(email.toString())
+                                            .update(
+                                                "Courses",
+                                                newHash
+                                            )
+
+                                    }
+                                }
+                        }
                     val i = Intent(this@Video2Student, ShowVideo::class.java)
                     i.putExtra("VideoUrl", model.VideoUrl)
                     startActivity(i)
