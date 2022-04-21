@@ -37,12 +37,13 @@ class Video2Student : AppCompatActivity() {
     lateinit var const: Constants
     var courseId = ""
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
-    lateinit var resultLauncher:ActivityResultLauncher<Intent>
+    lateinit var resultLauncher: ActivityResultLauncher<Intent>
     var VideoId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video2_student)
+
         courseId = intent.getStringExtra("CourseId").toString()
 
         const = Constants(this)
@@ -88,19 +89,20 @@ class Video2Student : AppCompatActivity() {
                         val user = const.auth.currentUser
                         val email = user!!.email
                         var exist = false
-                        val dataRes = document.get("StudentsIDs").toString().substring(1,(document.get("StudentsIDs").toString().length-1))
+                        val dataRes = document.get("StudentsIDs").toString()
+                            .substring(1, (document.get("StudentsIDs").toString().length - 1))
                         var ar = dataRes.split(",").map { it.trim() }
                         Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
-                        for (e in ar){
-                            if(e == email){
+                        for (e in ar) {
+                            if (e == email) {
                                 exist = true
                             }
                         }
-                        if(!exist){
+                        if (!exist) {
                             val next = arrayListOf<String>()
                             next.add(email.toString())
-                            for (e in ar){
-                                if(e.isNotEmpty()){
+                            for (e in ar) {
+                                if (e.isNotEmpty()) {
                                     next.add(e)
                                 }
                             }
@@ -128,13 +130,14 @@ class Video2Student : AppCompatActivity() {
                     for (document in documents) {
                         val user = const.auth.currentUser
                         val email = user!!.email
-                        val dataRes = document.get("StudentsIDs").toString().substring(1,(document.get("StudentsIDs").toString().length-1))
+                        val dataRes = document.get("StudentsIDs").toString()
+                            .substring(1, (document.get("StudentsIDs").toString().length - 1))
                         var ar = dataRes.split(",").map { it.trim() }
                         Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
 
                         val next = arrayListOf<String>()
-                        for (e in ar){
-                            if(e.isNotEmpty() && e != email){
+                        for (e in ar) {
+                            if (e.isNotEmpty() && e != email) {
                                 next.add(e)
                             }
                         }
@@ -178,7 +181,7 @@ class Video2Student : AppCompatActivity() {
             }
 
 
-        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId).orderBy("VideoNumber")
+        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
@@ -229,10 +232,12 @@ class Video2Student : AppCompatActivity() {
                             1000
                         )
                     } else {
-                        val storageRef = FirebaseStorage.getInstance().reference.child(model.VideoFile)
+                        val storageRef =
+                            FirebaseStorage.getInstance().reference.child(model.VideoFile)
                         storageRef.downloadUrl.addOnSuccessListener {
-                            Toast.makeText(this@Video2Student, it.toString(), Toast.LENGTH_SHORT).show()
-                            startDownloading(it.toString(),model.VideoFile)
+                            Toast.makeText(this@Video2Student, it.toString(), Toast.LENGTH_SHORT)
+                                .show()
+                            startDownloading(it.toString(), model.VideoFile)
                         }
                     }
 
@@ -272,7 +277,7 @@ class Video2Student : AppCompatActivity() {
         }
     }
 
-    private fun startDownloading(url: String,name:String) {
+    private fun startDownloading(url: String, name: String) {
         Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
         val request = DownloadManager.Request(Uri.parse(url))
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
@@ -308,24 +313,25 @@ class Video2Student : AppCompatActivity() {
         }
     }
 
-    private fun checkJoin(){
+    private fun checkJoin() {
         const.db.collection("Courses").whereEqualTo("CourseId", courseId)
             .get().addOnSuccessListener { documents ->
                 for (document in documents) {
                     val user = const.auth.currentUser
                     val email = user!!.email
                     var exist = false
-                    val dataRes = document.get("StudentsIDs").toString().substring(1,(document.get("StudentsIDs").toString().length-1))
+                    val dataRes = document.get("StudentsIDs").toString()
+                        .substring(1, (document.get("StudentsIDs").toString().length - 1))
                     val ar = dataRes.split(",").map { it.trim() }
-                    Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
-                    for (e in ar){
-                        if(e == email){
+//                    Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
+                    for (e in ar) {
+                        if (e == email) {
                             exist = true
                         }
                     }
-                    if(!exist){
+                    if (!exist) {
                         join_btn.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         unjoin_btn.visibility = View.VISIBLE
                     }
                 }

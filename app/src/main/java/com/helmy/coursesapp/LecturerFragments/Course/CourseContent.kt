@@ -66,7 +66,7 @@ class CourseContent : AppCompatActivity() {
         }
 
 
-        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId).orderBy("VideoNumber")
+        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()

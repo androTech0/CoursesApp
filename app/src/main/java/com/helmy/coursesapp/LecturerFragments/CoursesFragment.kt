@@ -71,8 +71,6 @@ class CoursesFragment : Fragment() {
                     startActivity(i)
                 }
 
-
-
                 holder.itemView.num4videos.text = model.NumberOfVideos.toString()
             }
         }

@@ -59,7 +59,6 @@ class EditCourse : AppCompatActivity() {
                 }
             }
 
-
         btn.setOnClickListener {
             when {
                 CourseName.text.toString().isEmpty() -> {
@@ -80,7 +79,6 @@ class EditCourse : AppCompatActivity() {
                 .setAction(Intent.ACTION_GET_CONTENT)
             resultLauncher.launch(Intent.createChooser(intent, "Select image"))
         }
-
 
     }
 

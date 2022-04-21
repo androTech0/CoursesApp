@@ -14,9 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TestActivity" android:exported="true">
 
-        </activity>
         <activity android:name=".LecturerFragments.Course.EditCourse" />
         <activity android:name=".StudentFragments.Video2Student" />
         <activity android:name=".LecturerFragments.Videos.EditVideo" />
