@@ -50,6 +50,7 @@
         app:layout_constraintTop_toBottomOf="@id/PasswordLabel"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:text="1234567"
         android:textColor="#000"
         android:textSize="18sp"
         android:id="@+id/PasswordEdit"

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/Courses"
+        android:id="@+id/Courses_"
         android:icon="@drawable/ic_baseline_video_library_24"
         android:title="Courses" />
 
@@ -11,11 +11,11 @@
         android:icon="@drawable/ic_baseline_video_settings_24"
         android:title="Edit" />
     <item
-        android:id="@+id/Chat"
+        android:id="@+id/Chat_"
         android:icon="@drawable/ic_baseline_chat_24"
         android:title="Chat" />
     <item
-        android:id="@+id/profile"
+        android:id="@+id/profile_"
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="profile" />
 </menu>

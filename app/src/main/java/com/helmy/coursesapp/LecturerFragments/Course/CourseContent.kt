@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.LecturerFragments.Videos.AddVideo
@@ -18,11 +20,12 @@ import com.helmy.coursesapp.LecturerFragments.Videos.ShowVideo
 import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_course_content.*
+import kotlinx.android.synthetic.main.student_video_template.*
 import kotlinx.android.synthetic.main.video_template.*
 import kotlinx.android.synthetic.main.video_template.view.*
 
 class CourseContent : AppCompatActivity() {
-    lateinit var const:Constants
+    lateinit var const: Constants
 
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
 
@@ -43,6 +46,16 @@ class CourseContent : AppCompatActivity() {
             startActivity(i)
         }
 
+        showStudents.setOnClickListener {
+            const.db.collection("Courses").whereEqualTo("CourseId", courseId).get()
+                .addOnSuccessListener {
+                    val obj = it.toObjects<CourseData>()
+                    obj[0].StudentsIDs.forEach { id ->
+                        Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
+
     }
 
     override fun onStart() {
@@ -57,13 +70,14 @@ class CourseContent : AppCompatActivity() {
 
     private fun getAllDataOf(courseId: String) {
 
-        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
-            CourseName.text = it.documents[0].get("CourseName").toString()
+        const.db.collection("Courses").whereEqualTo("CourseId", courseId).get()
+            .addOnSuccessListener {
+                CourseName.text = it.documents[0].get("CourseName").toString()
 
-            if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
-                CourseImage.load(it.documents[0].get("CourseImage").toString())
+                if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
+                    CourseImage.load(it.documents[0].get("CourseImage").toString())
+                }
             }
-        }
 
 
         val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)

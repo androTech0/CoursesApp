@@ -18,16 +18,16 @@ class LecturerMainActivity : AppCompatActivity() {
 
         LecturerNavigationView.setOnItemSelectedListener{
             when(it.itemId){
-                R.id.Courses ->{
+                R.id.Courses_ ->{
                     replaceFragment(CoursesFragment())
                 }
                 R.id.Edit ->{
                     replaceFragment(EditFragment())
                 }
-                R.id.Chat ->{
+                R.id.Chat_ ->{
                     replaceFragment(LecturerChattingFragment())
                 }
-                R.id.profile ->{
+                R.id.profile_ ->{
                     replaceFragment(Profile2LecturerFragment())
                 }
             }

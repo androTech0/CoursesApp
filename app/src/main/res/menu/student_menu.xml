@@ -5,14 +5,17 @@
         android:id="@+id/Home"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home" />
+
+    <item
+        android:id="@+id/Coursess"
+        android:icon="@drawable/ic_baseline_video_library_24"
+        android:title="Courses" />
+
     <item
         android:id="@+id/ChatS"
         android:icon="@drawable/ic_baseline_chat_24"
         android:title="Chat" />
-    <item
-        android:id="@+id/Settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Settings" />
+
     <item
         android:id="@+id/Profile"
         android:icon="@drawable/ic_baseline_account_circle_24"

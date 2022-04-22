@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.helmy.coursesapp.StudentFragments.HomeFragment
 import com.helmy.coursesapp.StudentFragments.ProfileFragment
-import com.helmy.coursesapp.StudentFragments.SettingsFragment
+import com.helmy.coursesapp.StudentFragments.RegesteredCourses
 import com.helmy.coursesapp.StudentFragments.StudentChattingFragment
 import kotlinx.android.synthetic.main.activity_student_main.*
 
@@ -23,14 +23,12 @@ class StudentMainActivity : AppCompatActivity() {
                     replaceFragment(HomeFragment())
                 }
                 R.id.ChatS ->{
-
                     replaceFragment(StudentChattingFragment())
                 }
-                R.id.Settings ->{
-                    replaceFragment(SettingsFragment())
+                R.id.Coursess ->{
+                    replaceFragment(RegesteredCourses())
                 }
                 R.id.Profile ->{
-
                     replaceFragment(ProfileFragment())
                 }
             }
