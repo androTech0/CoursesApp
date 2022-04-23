@@ -32,6 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    packagingOptions {
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/LICENSE.md'
+    }
 }
 
 dependencies {
@@ -54,5 +58,8 @@ dependencies {
     implementation("io.coil-kt:coil:2.0.0-rc01")
 
     implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
+
+    implementation 'com.sun.mail:android-mail:1.6.6'
+    implementation 'com.sun.mail:android-activation:1.6.6'
 
 }

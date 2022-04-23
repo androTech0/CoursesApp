@@ -2,6 +2,7 @@ package com.helmy.coursesapp.LecturerFragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
+import com.helmy.coursesapp.SendEmailActivity
 import com.helmy.coursesapp.UserData
 import kotlinx.android.synthetic.main.fragment_profile2_lecturer.*
 import java.util.*
@@ -33,6 +35,11 @@ class Profile2LecturerFragment : Fragment(), DatePickerDialog.OnDateSetListener 
 
     override fun onResume() {
         super.onResume()
+
+        EmailButton.setOnClickListener {
+            startActivity(Intent(requireActivity(),SendEmailActivity::class.java))
+        }
+
         BirthdayNameLabel.setOnClickListener {
             val datePikerDialog = DatePickerDialog(
                 requireContext(), this,
@@ -59,6 +66,7 @@ class Profile2LecturerFragment : Fragment(), DatePickerDialog.OnDateSetListener 
         logOutBtn.setOnClickListener {
             Constants(requireContext()).logOut()
         }
+
 
     }
 
