@@ -9,6 +9,7 @@ import android.provider.OpenableColumns
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -21,6 +22,7 @@ class Constants(var cont: Context) {
 
 
     val db = Firebase.firestore
+    val rtdb = Firebase.database.reference
     val storage = Firebase.storage.reference
     val auth = Firebase.auth
     val progressDialog = ProgressDialog(cont).apply {

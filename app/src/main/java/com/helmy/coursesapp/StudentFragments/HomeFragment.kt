@@ -146,8 +146,7 @@ class HomeFragment : Fragment(), TextWatcher {
     class adapterr(val context: Context, val List: ArrayList<CourseData>) :
         RecyclerView.Adapter<adapterr.viewHolder>() {
 
-        class viewHolder(I: View) : RecyclerView.ViewHolder(I) {
-        }
+        class viewHolder(I: View) : RecyclerView.ViewHolder(I)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
 

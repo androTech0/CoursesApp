@@ -29,7 +29,6 @@ class CourseContent : AppCompatActivity() {
 
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_content)
@@ -47,13 +46,9 @@ class CourseContent : AppCompatActivity() {
         }
 
         showStudents.setOnClickListener {
-            const.db.collection("Courses").whereEqualTo("CourseId", courseId).get()
-                .addOnSuccessListener {
-                    val obj = it.toObjects<CourseData>()
-                    obj[0].StudentsIDs.forEach { id ->
-                        Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
-                    }
-                }
+            val i = Intent(this, CourseUsers::class.java)
+            i.putExtra("CourseId", courseId)
+            startActivity(i)
         }
 
     }
