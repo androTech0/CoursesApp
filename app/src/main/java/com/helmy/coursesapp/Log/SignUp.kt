@@ -8,14 +8,10 @@ import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.RadioButton
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.LecturerMainActivity
+import com.helmy.coursesapp.Lecturer.LecturerMainActivity
 import com.helmy.coursesapp.R
-import com.helmy.coursesapp.StudentMainActivity
+import com.helmy.coursesapp.Student.StudentMainActivity
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import java.util.*
 

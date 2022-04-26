@@ -1,7 +1,6 @@
-package com.helmy.coursesapp.LecturerFragments.Videos
+package com.helmy.coursesapp.Lecturer.Videos
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -9,32 +8,26 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import coil.load
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
-import kotlinx.android.synthetic.main.activity_edit_video.*
+import kotlinx.android.synthetic.main.activity_add_video.*
+import java.util.*
 
-class EditVideo : AppCompatActivity() {
+class AddVideo : AppCompatActivity() {
 
     lateinit var const: Constants
 
-    private var videoId = ""
+    private var VideoFile = ""
     private var VideoUrl = ""
     private var VideoImage = ""
-    private var VideoFile = ""
+    private var courseId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_video)
+        setContentView(R.layout.activity_add_video)
         const = Constants(this)
 
-
-        videoId = intent.getStringExtra("VideoId").toString()
-
-        getVideoData()
+        courseId = intent.getStringExtra("CourseId").toString()
 
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -55,7 +48,7 @@ class EditVideo : AppCompatActivity() {
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             const.progressDialog.dismiss()
                             VideoUrl = it.toString()
-                            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -80,8 +73,8 @@ class EditVideo : AppCompatActivity() {
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             const.progressDialog.dismiss()
                             VideoImage = it.toString()
-                            newImage.load(VideoImage)
-                            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+                            selectImage.load(VideoImage)
+                            Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -99,38 +92,38 @@ class EditVideo : AppCompatActivity() {
 
                     val reference = const.storage.child("Files/${new_uri.lastPathSegment}")
                     val uploadTask = reference.putFile(new_uri)
-
                     uploadTask.addOnFailureListener { e ->
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             const.progressDialog.dismiss()
-                            VideoFile = it.toString()
+                            VideoFile = "Files/${new_uri.lastPathSegment}"
                             Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "${new_uri.lastPathSegment}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
 
-        V_Save.setOnClickListener {
-            updateVideo()
+        btnn.setOnClickListener {
+            newVideo()
         }
 
-        newVideo.setOnClickListener {
+        selectVideo.setOnClickListener {
             val intent = Intent()
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
             resultLauncher.launch(Intent.createChooser(intent, "Select Video"))
         }
 
-        newImage.setOnClickListener {
+        selectImage.setOnClickListener {
             val intent = Intent()
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
-            resultLauncher2.launch(Intent.createChooser(intent, "Select image"))
+            resultLauncher2.launch(Intent.createChooser(intent, "Select Image"))
         }
 
-        V_File.setOnClickListener {
+        btnFile.setOnClickListener {
             val intent = Intent()
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
@@ -139,15 +132,16 @@ class EditVideo : AppCompatActivity() {
 
     }
 
-    private fun updateVideo() {
+    private fun newVideo() {
+
         when {
-            V_Name.text.toString().isEmpty() -> {
+            VideoName.text.toString().isEmpty() -> {
                 Toast.makeText(this, "Name is Empty", Toast.LENGTH_SHORT).show()
             }
-            V_desc.text.toString().isEmpty() -> {
+            VideoDesc.text.toString().isEmpty() -> {
                 Toast.makeText(this, "Description is Empty", Toast.LENGTH_SHORT).show()
             }
-            V_Num.text.toString().isEmpty() -> {
+            VideoNum.text.toString().isEmpty() -> {
                 Toast.makeText(this, "number is Empty", Toast.LENGTH_SHORT).show()
             }
             VideoUrl.isEmpty() -> {
@@ -161,39 +155,39 @@ class EditVideo : AppCompatActivity() {
             }
             else -> {
                 val video = mapOf(
-                    "VideoName" to V_Name.text.toString(),
-                    "VideoDesc" to V_desc.text.toString(),
-                    "VideoNumber" to V_Num.text.toString(),
+                    "VideoId" to UUID.randomUUID().toString(),
+                    "VideoName" to VideoName.text.toString(),
+                    "VideoDesc" to VideoDesc.text.toString(),
+                    "VideoNumber" to VideoNum.text.toString(),
                     "VideoUrl" to VideoUrl,
-                    "VideoFile" to VideoFile,
                     "VideoImage" to VideoImage,
+                    "VideoFile" to VideoFile,
+                    "CourseId" to courseId
                 )
-                const.db.collection("Videos").whereEqualTo("VideoId", videoId).get()
-                    .addOnSuccessListener {
-                        const.db.collection("Videos").document(it.documents[0].id).update(video)
-                            .addOnSuccessListener {
-                                onBackPressed()
-                                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
+
+                const.db.collection("Videos").add(video).addOnSuccessListener {
+                    Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+                    const.db.collection("Courses").whereEqualTo("CourseId", courseId)
+                        .get().addOnSuccessListener { documents ->
+                            for (document in documents) {
+                                const.db.collection("Courses").document(document.id)
+                                    .update(
+                                        "NumberOfVideos",
+                                        (document.get("NumberOfVideos").toString().toLong() + 1)
+                                    )
                             }
+                        }
+                    onBackPressed()
+                }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
                     }
+
             }
         }
-    }
 
-    private fun getVideoData() {
-
-        const.db.collection("Videos").whereEqualTo("VideoId", videoId).get().addOnSuccessListener {
-            val video = it.documents[0].toObject<VideoData>()!!
-            V_Name.setText(video.VideoName)
-            V_desc.setText(video.VideoDesc)
-            V_Num.setText(video.VideoNumber)
-            V_Url.text = video.VideoUrl
-            newImage.load(video.VideoImage)
-
-            VideoUrl = video.VideoUrl
-            VideoImage = video.VideoImage
-            VideoFile = video.VideoFile
-        }
 
     }
+
+
 }

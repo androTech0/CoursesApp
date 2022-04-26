@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.LecturerFragments.Course
+package com.helmy.coursesapp.Lecturer.Course
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -24,48 +24,44 @@ import kotlinx.android.synthetic.main.right_chat.view.*
 
 class ChatWithStudent : AppCompatActivity() {
 
+    lateinit var currentUserEmail:String
+    lateinit var receiverEmail:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_with_student)
 
-        val receiverEmail = intent.getStringExtra("ReceiverEmail").toString()
-
+        currentUserEmail = Constants(this).auth.currentUser!!.email!!
+        receiverEmail = intent.getStringExtra("ReceiverEmail").toString()
         sendBtn.setOnClickListener {
             if (enterMsg.text.isNotEmpty())
-                sendMessage(enterMsg.text.toString(), receiverEmail)
+                sendMessage(enterMsg.text.toString())
         }
-
-
         getAllMessages()
 
     }
 
-
-    private fun sendMessage(msg: String, receiver: String) {
-
-        val currentUser = Constants(this).auth.currentUser!!.email
+    private fun sendMessage(msg: String) {
 
         val message = mapOf(
             "message" to msg,
-            "sender" to currentUser,
-            "receiver" to receiver
+            "sender" to currentUserEmail,
+            "receiver" to receiverEmail
         )
 
-        Firebase.database.reference.child("m").push().setValue(message)
+        Firebase.database.reference.child("Chats").push().setValue(message)
             .addOnSuccessListener {
-                Toast.makeText(this, "done", Toast.LENGTH_SHORT).show()
+                enterMsg.text.clear()
             }.addOnFailureListener {
                 Toast.makeText(this, "Error --> $it", Toast.LENGTH_LONG).show()
             }
-
-
     }
 
     private fun getAllMessages() {
 
         val const = Constants(this)
 
-        val arra = ArrayList<msg>()
+        val arra = ArrayList<MsgClass>()
 
         val db = const.rtdb.child("Chats")
         db.addValueEventListener(object : ValueEventListener {
@@ -73,18 +69,16 @@ class ChatWithStudent : AppCompatActivity() {
                 arra.clear()
                 snapshot.children.forEach {
 
-                    val obj = it.getValue(msg::class.java)
-                    Toast.makeText(this@ChatWithStudent, "it.value.toString()", Toast.LENGTH_SHORT)
-                        .show()
-//                    if (obj.sender == currentEmail && obj.reciever == receiverEmail ||
-//                        obj.sender == receiverEmail && obj.reciever == currentEmail
-//                    ) {
-                    arra.add(obj!!)
-//                        Toast.makeText(this@ChatActivity, "Added", Toast.LENGTH_SHORT).show()
-//                    }
+                    val obj = it.getValue(MsgClass::class.java)!!
+
+                    if (obj.sender == currentUserEmail && obj.receiver == receiverEmail ||
+                        obj.sender == receiverEmail && obj.receiver == currentUserEmail
+                    ) {
+                        arra.add(obj)
+                    }
                 }
                 chatRecycle.apply {
-                    adapter = chatAdapter(this@ChatWithStudent, arra)
+                    adapter = ChatAdapter(this@ChatWithStudent, arra)
                     layoutManager = LinearLayoutManager(this@ChatWithStudent)
                 }
             }
@@ -97,10 +91,14 @@ class ChatWithStudent : AppCompatActivity() {
 
     }
 
-    data class msg(var message: String = "", var receiver: String = "", var sender: String = "")
+    data class MsgClass(
+        var message: String = "",
+        var receiver: String = "",
+        var sender: String = ""
+    )
 
-    class chatAdapter(val context: Context, val ll: ArrayList<msg>) :
-        RecyclerView.Adapter<chatAdapter.viewHolder>() {
+    class ChatAdapter(val context: Context, val ll: ArrayList<MsgClass>) :
+        RecyclerView.Adapter<ChatAdapter.viewHolder>() {
 
         val currentUEmail = Constants(context).auth.currentUser!!.email
 
@@ -132,13 +130,11 @@ class ChatWithStudent : AppCompatActivity() {
                 holder.itemView.leftMsg.text = ll[position].message
             }
 
-
         }
 
         override fun getItemCount(): Int {
             return ll.size
         }
-
         override fun getItemViewType(position: Int): Int {
 
             return if (ll[position].sender == currentUEmail) {

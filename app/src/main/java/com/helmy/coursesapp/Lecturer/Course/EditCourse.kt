@@ -1,39 +1,34 @@
-package com.helmy.coursesapp.LecturerFragments.Course
+package com.helmy.coursesapp.Lecturer.Course
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import coil.load
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
-import kotlinx.android.synthetic.main.add_course.*
-import java.util.*
+import kotlinx.android.synthetic.main.activity_edit_course.*
 
-
-class AddCourse : AppCompatActivity() {
+class EditCourse : AppCompatActivity() {
 
     lateinit var const:Constants
 
-    lateinit var resultLauncher: ActivityResultLauncher<Intent>
     var imageUrl = ""
+    private var CourseId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_course)
-
+        setContentView(R.layout.activity_edit_course)
         const = Constants(this)
 
-        resultLauncher =
+        CourseId = intent.getStringExtra("CourseId")!!
+
+        getCourseData()
+
+        val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     const.progressDialog.show()
@@ -59,7 +54,6 @@ class AddCourse : AppCompatActivity() {
                 }
             }
 
-
         btn.setOnClickListener {
             when {
                 CourseName.text.toString().isEmpty() -> {
@@ -69,7 +63,7 @@ class AddCourse : AppCompatActivity() {
                     Toast.makeText(this, "image is empty", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    newCourse(CourseName.text.toString(), imageUrl)
+                    updateCourse(CourseName.text.toString(), imageUrl)
                 }
             }
         }
@@ -81,31 +75,30 @@ class AddCourse : AppCompatActivity() {
             resultLauncher.launch(Intent.createChooser(intent, "Select image"))
         }
 
-
     }
 
+    private fun getCourseData(){
+        const.db.collection("Courses").whereEqualTo("CourseId",CourseId).get().addOnSuccessListener {
+            CourseName.setText(it.documents[0].get("CourseName").toString())
+            imageUrl = it.documents[0].get("CourseImage").toString()
+            selectImage.load(imageUrl)
+        }
+    }
 
+    private fun updateCourse(name: String, imageUrl: String) {
 
-
-
-
-    private fun newCourse(name: String, image: String) {
         val course = mapOf(
-            "CourseId" to UUID.randomUUID().toString(),
             "CourseName" to name,
-            "CourseImage" to image,
-            "LecturerEmail" to const.auth.currentUser!!.email,
-            "NumberOfVideos" to 0,
-            "NumberOfStudents" to 0,
-            "StudentsIDs" to listOf<String>()
+            "CourseImage" to imageUrl
         )
-        const.db.collection("Courses").add(course).addOnSuccessListener {
-            Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show()
+        const.db.collection("Courses").whereEqualTo("CourseId",CourseId).get().addOnSuccessListener {
+            const.db.collection("Courses").document(it.documents[0].id).update(course)
+            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show()
             onBackPressed()
         }.addOnFailureListener {
             Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
         }
-
     }
+
 
 }

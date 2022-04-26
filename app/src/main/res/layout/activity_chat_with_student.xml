@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LecturerFragments.Course.ChatWithStudent">
+    tools:context=".Lecturer.Course.ChatWithStudent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/con"
@@ -17,8 +17,8 @@
             android:id="@+id/receiverImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_launcher_foreground"
             android:layout_margin="10dp"
+            android:src="@drawable/ic_launcher_foreground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,9 +32,9 @@
             android:text="Name"
             android:textColor="@color/black"
             android:textSize="22sp"
-            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@id/receiverImage"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +55,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="Enter msg"
-        android:text="test Text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

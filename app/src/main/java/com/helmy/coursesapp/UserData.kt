@@ -14,8 +14,4 @@ data class UserData(
     var kind_of_account: String = "",
     var Courses:HashMap<String,HashMap<String,*>> = hashMapOf()
 
-    /*
-    hashMapOf("course_id" to hashMapOf("course_progress" to 1,"course_done" to false))
-
-    */
 )

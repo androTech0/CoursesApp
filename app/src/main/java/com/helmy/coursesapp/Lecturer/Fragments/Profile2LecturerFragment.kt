@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.LecturerFragments
+package com.helmy.coursesapp.Lecturer.Fragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -9,11 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
+import android.widget.Toast
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.SendEmailActivity
@@ -87,7 +84,9 @@ class Profile2LecturerFragment : Fragment(), DatePickerDialog.OnDateSetListener 
                 "email", email,
                 "Phone_number", Phone_number,
                 "password", password
-            )
+            ).addOnSuccessListener {
+                Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun getUserInfo() {

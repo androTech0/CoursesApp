@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.StudentFragments
+package com.helmy.coursesapp.Student.Fragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -8,15 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.UserData
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.BirthdayEdit
 import kotlinx.android.synthetic.main.fragment_profile.BirthdayNameLabel
 import kotlinx.android.synthetic.main.fragment_profile.FirstNameEdit
@@ -29,7 +24,6 @@ import kotlinx.android.synthetic.main.fragment_profile.UpdateButton
 import kotlinx.android.synthetic.main.fragment_profile.confirmPasswordEdit
 import kotlinx.android.synthetic.main.fragment_profile.emailEdit
 import kotlinx.android.synthetic.main.fragment_profile.logOutBtn
-import kotlinx.android.synthetic.main.fragment_profile2_lecturer.*
 
 import java.util.*
 

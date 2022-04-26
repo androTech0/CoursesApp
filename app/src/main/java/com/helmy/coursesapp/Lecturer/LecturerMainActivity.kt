@@ -1,12 +1,13 @@
-package com.helmy.coursesapp
+package com.helmy.coursesapp.Lecturer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.helmy.coursesapp.LecturerFragments.CoursesFragment
-import com.helmy.coursesapp.LecturerFragments.EditFragment
-import com.helmy.coursesapp.LecturerFragments.LecturerChattingFragment
-import com.helmy.coursesapp.LecturerFragments.Profile2LecturerFragment
+import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
+import com.helmy.coursesapp.Lecturer.Fragments.EditFragment
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerChattingFragment
+import com.helmy.coursesapp.Lecturer.Fragments.Profile2LecturerFragment
+import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_lecturer_main.*
 
 class LecturerMainActivity : AppCompatActivity() {

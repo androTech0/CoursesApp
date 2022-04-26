@@ -1,8 +1,7 @@
-package com.helmy.coursesapp.LecturerFragments.Course
+package com.helmy.coursesapp.Lecturer.Course
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.toObjects
 import com.helmy.coursesapp.Constants
@@ -13,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_course_users.*
 class CourseUsers : AppCompatActivity() {
 
     lateinit var const: Constants
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_users)
@@ -46,14 +46,11 @@ class CourseUsers : AppCompatActivity() {
 
                 }
 
-
-
             }
 
     }
 
 
-    data class Uuser(var email: String = "", var image: String = "", var name: String = "")
 
 
 }

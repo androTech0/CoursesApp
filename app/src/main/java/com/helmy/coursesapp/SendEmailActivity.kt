@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.helmy.coursesapp.LecturerFragments.Course.CourseData
-import com.helmy.coursesapp.LecturerFragments.CoursesFragment
+import com.helmy.coursesapp.Lecturer.Course.CourseData
+import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
 import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.android.synthetic.main.send_mail_dialog.*
@@ -30,12 +30,9 @@ class SendEmailActivity : AppCompatActivity() {
 
     private var myAdapter: FirestoreRecyclerAdapter<CourseData, CoursesFragment.ViewH>? = null
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_email)
-
 
         getAllCourses()
 

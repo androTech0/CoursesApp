@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.LecturerFragments
+package com.helmy.coursesapp.Lecturer
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.LecturerFragments.Videos.EditVideo
-import com.helmy.coursesapp.LecturerFragments.Videos.VideoData
+import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
+import com.helmy.coursesapp.Lecturer.Videos.EditVideo
+import com.helmy.coursesapp.Lecturer.Videos.VideoData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.video_template.view.*
 import kotlinx.android.synthetic.main.view_videos_to_edit.*

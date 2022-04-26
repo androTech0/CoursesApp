@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.LecturerFragments.Course
+package com.helmy.coursesapp.Lecturer.Course
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.course_users_template.view.*
 
-class CourseUsersAdapter(var cont: Context, var arr: ArrayList<CourseUsers.Uuser>) :
+class CourseUsersAdapter(var cont: Context, var arr: ArrayList<Uuser>) :
     RecyclerView.Adapter<CourseUsersAdapter.viewHolder>() {
 
     class viewHolder(v: View) : RecyclerView.ViewHolder(v)
@@ -24,7 +24,7 @@ class CourseUsersAdapter(var cont: Context, var arr: ArrayList<CourseUsers.Uuser
         holder.itemView.U_Name.text = arr[position].name
         holder.itemView.setOnClickListener {
             val i = Intent(cont, ChatWithStudent::class.java)
-            i.putExtra("ReceiverEmail",arr[position].email)
+            i.putExtra("ReceiverEmail", arr[position].email)
             cont.startActivity(i)
         }
     }

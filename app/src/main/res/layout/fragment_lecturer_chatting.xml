@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff0"
-    tools:context=".LecturerFragments.LecturerChattingFragment">
+    tools:context=".Lecturer.Fragments.LecturerChattingFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chattingRecycle"
+        android:id="@+id/chattingRecycleLecturer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 

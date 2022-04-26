@@ -41,6 +41,7 @@ class Constants(var cont: Context) {
         s.setPositiveButton("OK") { _, _ ->
             auth.signOut()
             cont.startActivity(Intent(cont, Login::class.java))
+
         }
         s.setNegativeButton("Cancel") { d, _ ->
             d.cancel()

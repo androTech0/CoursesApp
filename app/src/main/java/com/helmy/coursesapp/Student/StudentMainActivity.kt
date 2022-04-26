@@ -1,12 +1,13 @@
-package com.helmy.coursesapp
+package com.helmy.coursesapp.Student
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.helmy.coursesapp.StudentFragments.HomeFragment
-import com.helmy.coursesapp.StudentFragments.ProfileFragment
-import com.helmy.coursesapp.StudentFragments.RegesteredCourses
-import com.helmy.coursesapp.StudentFragments.StudentChattingFragment
+import com.helmy.coursesapp.R
+import com.helmy.coursesapp.Student.Fragments.HomeFragment
+import com.helmy.coursesapp.Student.Fragments.ProfileFragment
+import com.helmy.coursesapp.Student.Fragments.RegesteredCourses
+import com.helmy.coursesapp.Student.Fragments.StudentChattingFragment
 import kotlinx.android.synthetic.main.activity_student_main.*
 
 class StudentMainActivity : AppCompatActivity() {

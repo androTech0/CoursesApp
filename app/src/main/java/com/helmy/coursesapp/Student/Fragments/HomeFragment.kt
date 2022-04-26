@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.StudentFragments
+package com.helmy.coursesapp.Student.Fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,19 +10,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.LecturerFragments.Course.CourseData
-import com.helmy.coursesapp.LecturerFragments.CoursesFragment
+import com.helmy.coursesapp.Lecturer.Course.CourseData
+import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
 import com.helmy.coursesapp.R
+import com.helmy.coursesapp.Student.Video2Student
 import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
