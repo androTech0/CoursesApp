@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.toObjects
+import com.helmy.coursesapp.Classes.CourseData
+import com.helmy.coursesapp.Classes.UsersChattedAdapter
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
-import com.helmy.coursesapp.UserData
+import com.helmy.coursesapp.Classes.UserData
+import com.helmy.coursesapp.Classes.Uuser
 import kotlinx.android.synthetic.main.activity_course_users.*
 
 class CourseUsers : AppCompatActivity() {
@@ -17,7 +20,6 @@ class CourseUsers : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_users)
         const = Constants(this)
-
 
         getUsers(intent.getStringExtra("CourseId").toString())
 
@@ -39,7 +41,7 @@ class CourseUsers : AppCompatActivity() {
                             allUsers.add(Uuser(ob.email, "obj.image", fullName))
 
                             courseUsersRec.apply {
-                                adapter = CourseUsersAdapter(this@CourseUsers, allUsers)
+                                adapter = UsersChattedAdapter(this@CourseUsers, allUsers)
                                 layoutManager = LinearLayoutManager(this@CourseUsers)
                             }
                         }

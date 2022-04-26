@@ -14,11 +14,11 @@ import com.google.firebase.firestore.ktx.toObject
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.SendEmailActivity
-import com.helmy.coursesapp.UserData
+import com.helmy.coursesapp.Classes.UserData
 import kotlinx.android.synthetic.main.fragment_profile2_lecturer.*
 import java.util.*
 
-class Profile2LecturerFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+class LecturerProfileFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
 
 

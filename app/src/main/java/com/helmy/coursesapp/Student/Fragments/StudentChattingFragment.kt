@@ -10,9 +10,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.Lecturer.Course.ChatWithStudent
-import com.helmy.coursesapp.Lecturer.Course.CourseUsersAdapter
-import com.helmy.coursesapp.Lecturer.Course.Uuser
+import com.helmy.coursesapp.ChattingActivity
+import com.helmy.coursesapp.Classes.UsersChattedAdapter
+import com.helmy.coursesapp.Classes.Uuser
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.fragment_student_chatting.*
 
@@ -39,7 +39,7 @@ class StudentChattingFragment : Fragment() {
                 arra.clear()
                 snapshot.children.forEach {
 
-                    val obj = it.getValue(ChatWithStudent.MsgClass::class.java)!!
+                    val obj = it.getValue(ChattingActivity.MsgClass::class.java)!!
                     if (obj.receiver == currentUserEmail) {
 
                         const.db.collection("users").document(obj.sender).get()
@@ -52,7 +52,7 @@ class StudentChattingFragment : Fragment() {
                                     arra.add(Uuser(obj.sender, "", fullName))
 
                                 UserChatRecycle.apply {
-                                    adapter = CourseUsersAdapter(requireContext(), arra)
+                                    adapter = UsersChattedAdapter(requireContext(), arra)
                                     layoutManager = LinearLayoutManager(requireContext())
                                 }
                             }

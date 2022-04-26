@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.helmy.coursesapp.Lecturer.Course.CourseData
-import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
+import com.helmy.coursesapp.Classes.CourseData
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_courses.*
 import kotlinx.android.synthetic.main.send_mail_dialog.*
@@ -28,7 +28,7 @@ import javax.mail.internet.MimeMessage
 
 class SendEmailActivity : AppCompatActivity() {
 
-    private var myAdapter: FirestoreRecyclerAdapter<CourseData, CoursesFragment.ViewH>? = null
+    private var myAdapter: FirestoreRecyclerAdapter<CourseData, LecturerCoursesFragment.ViewH>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +53,15 @@ class SendEmailActivity : AppCompatActivity() {
         val option =
             FirestoreRecyclerOptions.Builder<CourseData>().setQuery(query, CourseData::class.java)
                 .build()
-        myAdapter = object : FirestoreRecyclerAdapter<CourseData, CoursesFragment.ViewH>(option) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoursesFragment.ViewH {
+        myAdapter = object : FirestoreRecyclerAdapter<CourseData, LecturerCoursesFragment.ViewH>(option) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LecturerCoursesFragment.ViewH {
                 val i = LayoutInflater.from(this@SendEmailActivity)
                     .inflate(R.layout.courses_template, parent, false)
-                return CoursesFragment.ViewH(i)
+                return LecturerCoursesFragment.ViewH(i)
             }
 
             @SuppressLint("SetTextI18n")
-            override fun onBindViewHolder(holder: CoursesFragment.ViewH, position: Int, model: CourseData) {
+            override fun onBindViewHolder(holder: LecturerCoursesFragment.ViewH, position: Int, model: CourseData) {
 
                 holder.itemView.name.text = model.CourseName
                 holder.itemView.num4videos.text = model.NumberOfVideos.toString()
@@ -82,7 +82,7 @@ class SendEmailActivity : AppCompatActivity() {
                     b1.setOnClickListener {
                         const.db.collection("Courses").whereEqualTo("CourseId", idCou).get()
                             .addOnSuccessListener {
-                                val obj:CourseData = it.documents[0].toObject(CourseData::class.java)!!
+                                val obj: CourseData = it.documents[0].toObject(CourseData::class.java)!!
                                 obj.StudentsIDs.forEach { id ->
                                     Toast.makeText(this@SendEmailActivity, id, Toast.LENGTH_SHORT).show()
                                     sendEmail(id,dialog.editText2.text.toString(),dialog.editText3.text.toString())

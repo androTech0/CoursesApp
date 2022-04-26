@@ -15,12 +15,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.Lecturer.Course.AddCourse
 import com.helmy.coursesapp.Lecturer.Course.CourseContent
-import com.helmy.coursesapp.Lecturer.Course.CourseData
+import com.helmy.coursesapp.Classes.CourseData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_courses.*
 
-class CoursesFragment : Fragment() {
+class LecturerCoursesFragment : Fragment() {
 
     private var myAdapter: FirestoreRecyclerAdapter<CourseData, ViewH>? = null
 

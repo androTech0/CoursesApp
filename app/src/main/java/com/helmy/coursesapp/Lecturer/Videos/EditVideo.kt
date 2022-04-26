@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import coil.load
 import com.google.firebase.firestore.ktx.toObject
+import com.helmy.coursesapp.Classes.VideoData
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_edit_video.*

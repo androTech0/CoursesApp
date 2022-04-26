@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Lecturer.Course.ChatWithStudent" />
+        <activity android:name=".ChattingActivity" />
         <activity android:name=".Lecturer.Course.CourseUsers" />
         <activity android:name=".SendEmailActivity" />
         <activity android:name=".Lecturer.Course.EditCourse" />
         <activity android:name=".Student.Video2Student" />
         <activity android:name=".Lecturer.Videos.EditVideo" />
-        <activity android:name=".Lecturer.ViewVideos4Edit" />
+        <activity android:name=".Lecturer.Videos.ViewVideos4Edit" />
         <activity android:name=".Lecturer.Videos.ShowVideo" />
         <activity android:name=".Lecturer.Videos.AddVideo" />
         <activity android:name=".Lecturer.Course.CourseContent" />

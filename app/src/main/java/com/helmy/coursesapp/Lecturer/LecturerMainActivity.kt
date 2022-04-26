@@ -3,10 +3,10 @@ package com.helmy.coursesapp.Lecturer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
-import com.helmy.coursesapp.Lecturer.Fragments.EditFragment
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerEditCourseFragment
 import com.helmy.coursesapp.Lecturer.Fragments.LecturerChattingFragment
-import com.helmy.coursesapp.Lecturer.Fragments.Profile2LecturerFragment
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerProfileFragment
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_lecturer_main.*
 
@@ -15,21 +15,21 @@ class LecturerMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lecturer_main)
 
-        replaceFragment(CoursesFragment())
+        replaceFragment(LecturerCoursesFragment())
 
         LecturerNavigationView.setOnItemSelectedListener{
             when(it.itemId){
                 R.id.Courses_ ->{
-                    replaceFragment(CoursesFragment())
+                    replaceFragment(LecturerCoursesFragment())
                 }
                 R.id.Edit ->{
-                    replaceFragment(EditFragment())
+                    replaceFragment(LecturerEditCourseFragment())
                 }
                 R.id.Chat_ ->{
                     replaceFragment(LecturerChattingFragment())
                 }
                 R.id.profile_ ->{
-                    replaceFragment(Profile2LecturerFragment())
+                    replaceFragment(LecturerProfileFragment())
                 }
             }
             true

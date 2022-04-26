@@ -1,4 +1,4 @@
-package com.helmy.coursesapp
+package com.helmy.coursesapp.Classes
 
 import java.util.HashMap
 

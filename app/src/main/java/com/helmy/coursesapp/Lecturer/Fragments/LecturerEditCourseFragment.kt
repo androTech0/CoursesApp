@@ -16,14 +16,14 @@ import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.Lecturer.Course.CourseData
+import com.helmy.coursesapp.Classes.CourseData
 import com.helmy.coursesapp.Lecturer.Course.EditCourse
-import com.helmy.coursesapp.Lecturer.ViewVideos4Edit
+import com.helmy.coursesapp.Lecturer.Videos.ViewVideos4Edit
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_edit.*
 
-class EditFragment : Fragment() {
+class LecturerEditCourseFragment : Fragment() {
 
 
     private var myAdapter: FirestoreRecyclerAdapter<CourseData, ViewH>? = null
@@ -65,7 +65,7 @@ class EditFragment : Fragment() {
 
 
                 holder.itemView.editBtn.setOnClickListener {
-                    val pop = PopupMenu(this@EditFragment.requireContext(), holder.itemView.editBtn)
+                    val pop = PopupMenu(this@LecturerEditCourseFragment.requireContext(), holder.itemView.editBtn)
                     pop.menuInflater.inflate(R.menu.edit_course_menu, pop.menu)
                     pop.setOnMenuItemClickListener { x ->
                         when (x.itemId) {
@@ -77,7 +77,7 @@ class EditFragment : Fragment() {
 
                             R.id.DeleteCourse -> {
 
-                                val dialog = AlertDialog.Builder(this@EditFragment.requireContext())
+                                val dialog = AlertDialog.Builder(this@LecturerEditCourseFragment.requireContext())
                                 dialog.apply {
                                     setTitle("warning")
                                     setMessage("Will delete all videos ")
@@ -103,7 +103,7 @@ class EditFragment : Fragment() {
                                                                             .delete()
                                                                             .addOnSuccessListener {
                                                                                 Toast.makeText(
-                                                                                    this@EditFragment.requireContext(),
+                                                                                    this@LecturerEditCourseFragment.requireContext(),
                                                                                     "$i deleted",
                                                                                     Toast.LENGTH_SHORT
                                                                                 )

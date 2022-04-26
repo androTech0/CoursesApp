@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.Lecturer.Course
+package com.helmy.coursesapp.Classes
 
 data class CourseData(
     var CourseId: String = "",

@@ -1,28 +1,22 @@
-package com.helmy.coursesapp.Lecturer.Course
+package com.helmy.coursesapp
 
-import android.annotation.SuppressLint
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.R
+import com.helmy.coursesapp.Classes.ChatAdapter
+import com.helmy.coursesapp.Classes.MsgClass
 import kotlinx.android.synthetic.main.activity_chat_with_student.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.left_chat.view.*
 import kotlinx.android.synthetic.main.right_chat.view.*
 
-class ChatWithStudent : AppCompatActivity() {
+class ChattingActivity : AppCompatActivity() {
 
     lateinit var currentUserEmail:String
     lateinit var receiverEmail:String
@@ -78,8 +72,8 @@ class ChatWithStudent : AppCompatActivity() {
                     }
                 }
                 chatRecycle.apply {
-                    adapter = ChatAdapter(this@ChatWithStudent, arra)
-                    layoutManager = LinearLayoutManager(this@ChatWithStudent)
+                    adapter = ChatAdapter(this@ChattingActivity, arra)
+                    layoutManager = LinearLayoutManager(this@ChattingActivity)
                 }
             }
 
@@ -91,61 +85,7 @@ class ChatWithStudent : AppCompatActivity() {
 
     }
 
-    data class MsgClass(
-        var message: String = "",
-        var receiver: String = "",
-        var sender: String = ""
-    )
 
-    class ChatAdapter(val context: Context, val ll: ArrayList<MsgClass>) :
-        RecyclerView.Adapter<ChatAdapter.viewHolder>() {
 
-        val currentUEmail = Constants(context).auth.currentUser!!.email
-
-        val msgLeft = 0
-        val megRight = 1
-        var isRight = false
-
-        class viewHolder(I: View) : RecyclerView.ViewHolder(I)
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
-            return if (viewType == msgLeft) {
-                viewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.left_chat, parent, false)
-                )
-            } else {
-                viewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.right_chat, parent, false)
-                )
-            }
-        }
-
-        @SuppressLint("SetTextI18n")
-        override fun onBindViewHolder(holder: viewHolder, position: Int) {
-
-            if (isRight) {
-                holder.itemView.rightMsg.text = ll[position].message
-
-            } else {
-                holder.itemView.leftMsg.text = ll[position].message
-            }
-
-        }
-
-        override fun getItemCount(): Int {
-            return ll.size
-        }
-        override fun getItemViewType(position: Int): Int {
-
-            return if (ll[position].sender == currentUEmail) {
-                isRight = true
-                megRight
-            } else {
-                isRight = false
-                msgLeft
-            }
-        }
-
-    }
 
 }

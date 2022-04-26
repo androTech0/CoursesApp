@@ -11,7 +11,7 @@ import android.widget.DatePicker
 import com.google.firebase.firestore.ktx.toObject
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
-import com.helmy.coursesapp.UserData
+import com.helmy.coursesapp.Classes.UserData
 import kotlinx.android.synthetic.main.fragment_profile.BirthdayEdit
 import kotlinx.android.synthetic.main.fragment_profile.BirthdayNameLabel
 import kotlinx.android.synthetic.main.fragment_profile.FirstNameEdit

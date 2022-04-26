@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.Lecturer
+package com.helmy.coursesapp.Lecturer.Videos
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.helmy.coursesapp.Classes.VideoData
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
-import com.helmy.coursesapp.Lecturer.Videos.EditVideo
-import com.helmy.coursesapp.Lecturer.Videos.VideoData
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.video_template.view.*
 import kotlinx.android.synthetic.main.view_videos_to_edit.*
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.view_videos_to_edit.*
 class ViewVideos4Edit : AppCompatActivity() {
 
 
-    private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
+    private var myAdapter: FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,18 +52,18 @@ class ViewVideos4Edit : AppCompatActivity() {
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
-        myAdapter = object : FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>(option) {
+        myAdapter = object : FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>(option) {
             override fun onCreateViewHolder(
                 parent: ViewGroup,
                 viewType: Int
-            ): CoursesFragment.ViewH {
+            ): LecturerCoursesFragment.ViewH {
                 val i = LayoutInflater.from(this@ViewVideos4Edit)
                     .inflate(R.layout.video_template, parent, false)
-                return CoursesFragment.ViewH(i)
+                return LecturerCoursesFragment.ViewH(i)
             }
 
             override fun onBindViewHolder(
-                holder: CoursesFragment.ViewH,
+                holder: LecturerCoursesFragment.ViewH,
                 position: Int,
                 model: VideoData
             ) {

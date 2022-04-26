@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.Lecturer.Course
+package com.helmy.coursesapp.Classes
 
 import android.content.Context
 import android.content.Intent
@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.helmy.coursesapp.ChattingActivity
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.course_users_template.view.*
 
-class CourseUsersAdapter(var cont: Context, var arr: ArrayList<Uuser>) :
-    RecyclerView.Adapter<CourseUsersAdapter.viewHolder>() {
+class UsersChattedAdapter(var cont: Context, var arr: ArrayList<Uuser>) :
+    RecyclerView.Adapter<UsersChattedAdapter.viewHolder>() {
 
     class viewHolder(v: View) : RecyclerView.ViewHolder(v)
 
@@ -23,7 +24,7 @@ class CourseUsersAdapter(var cont: Context, var arr: ArrayList<Uuser>) :
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
         holder.itemView.U_Name.text = arr[position].name
         holder.itemView.setOnClickListener {
-            val i = Intent(cont, ChatWithStudent::class.java)
+            val i = Intent(cont, ChattingActivity::class.java)
             i.putExtra("ReceiverEmail", arr[position].email)
             cont.startActivity(i)
         }

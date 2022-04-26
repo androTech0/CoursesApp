@@ -17,8 +17,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.toObject
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.Lecturer.Course.CourseData
-import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
+import com.helmy.coursesapp.Classes.CourseData
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.Student.Video2Student
 import kotlinx.android.synthetic.main.courses_template.view.*
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment(), TextWatcher {
 
     lateinit var const: Constants
-    private var myAdapter: FirestoreRecyclerAdapter<CourseData, CoursesFragment.ViewH>? = null
+    private var myAdapter: FirestoreRecyclerAdapter<CourseData, LecturerCoursesFragment.ViewH>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,19 +55,19 @@ class HomeFragment : Fragment(), TextWatcher {
         val option =
             FirestoreRecyclerOptions.Builder<CourseData>().setQuery(query, CourseData::class.java)
                 .build()
-        myAdapter = object : FirestoreRecyclerAdapter<CourseData, CoursesFragment.ViewH>(option) {
+        myAdapter = object : FirestoreRecyclerAdapter<CourseData, LecturerCoursesFragment.ViewH>(option) {
             override fun onCreateViewHolder(
                 parent: ViewGroup,
                 viewType: Int
-            ): CoursesFragment.ViewH {
+            ): LecturerCoursesFragment.ViewH {
                 val i = LayoutInflater.from(requireContext())
                     .inflate(R.layout.courses_template, parent, false)
-                return CoursesFragment.ViewH(i)
+                return LecturerCoursesFragment.ViewH(i)
             }
 
             @SuppressLint("SetTextI18n")
             override fun onBindViewHolder(
-                holder: CoursesFragment.ViewH,
+                holder: LecturerCoursesFragment.ViewH,
                 position: Int,
                 model: CourseData
             ) {

@@ -1,4 +1,4 @@
-package com.helmy.coursesapp.Lecturer.Videos
+package com.helmy.coursesapp.Classes
 
 data class VideoData(
     var VideoId: String = "",

@@ -11,9 +11,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.Lecturer.Videos.AddVideo
-import com.helmy.coursesapp.Lecturer.Fragments.CoursesFragment
+import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import com.helmy.coursesapp.Lecturer.Videos.ShowVideo
-import com.helmy.coursesapp.Lecturer.Videos.VideoData
+import com.helmy.coursesapp.Classes.VideoData
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_course_content.*
 import kotlinx.android.synthetic.main.student_video_template.*
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.video_template.view.*
 class CourseContent : AppCompatActivity() {
     lateinit var const: Constants
 
-    private var myAdapter: FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>? = null
+    private var myAdapter: FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,18 +75,18 @@ class CourseContent : AppCompatActivity() {
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
-        myAdapter = object : FirestoreRecyclerAdapter<VideoData, CoursesFragment.ViewH>(option) {
+        myAdapter = object : FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>(option) {
             override fun onCreateViewHolder(
                 parent: ViewGroup,
                 viewType: Int
-            ): CoursesFragment.ViewH {
+            ): LecturerCoursesFragment.ViewH {
                 val i = LayoutInflater.from(this@CourseContent)
                     .inflate(R.layout.video_template, parent, false)
-                return CoursesFragment.ViewH(i)
+                return LecturerCoursesFragment.ViewH(i)
             }
 
             override fun onBindViewHolder(
-                holder: CoursesFragment.ViewH,
+                holder: LecturerCoursesFragment.ViewH,
                 position: Int,
                 model: VideoData
             ) {

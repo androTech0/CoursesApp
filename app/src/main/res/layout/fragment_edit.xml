@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00f"
-    tools:context=".Lecturer.Fragments.EditFragment">
+    tools:context=".Lecturer.Fragments.LecturerEditCourseFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/editRecycle"
