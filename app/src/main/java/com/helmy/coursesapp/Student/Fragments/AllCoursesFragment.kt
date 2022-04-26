@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.courses_template.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : Fragment(), TextWatcher {
+class AllCoursesFragment : Fragment(), TextWatcher {
 
     lateinit var const: Constants
     private var myAdapter: FirestoreRecyclerAdapter<CourseData, LecturerCoursesFragment.ViewH>? = null

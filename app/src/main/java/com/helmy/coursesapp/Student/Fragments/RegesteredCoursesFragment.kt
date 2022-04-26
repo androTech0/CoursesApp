@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.courses_fragment.*
 import kotlinx.android.synthetic.main.courses_template.view.*
 
 
-class RegesteredCourses : Fragment() {
+class RegesteredCoursesFragment : Fragment() {
 
     lateinit var const: Constants
     private var myAdapter: FirestoreRecyclerAdapter<CourseData, LecturerCoursesFragment.ViewH>? = null

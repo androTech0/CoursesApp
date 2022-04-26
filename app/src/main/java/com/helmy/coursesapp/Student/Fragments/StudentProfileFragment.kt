@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_profile.logOutBtn
 
 import java.util.*
 
-class ProfileFragment : Fragment(),DatePickerDialog.OnDateSetListener {
+class StudentProfileFragment : Fragment(),DatePickerDialog.OnDateSetListener {
 
     lateinit var const: Constants
 

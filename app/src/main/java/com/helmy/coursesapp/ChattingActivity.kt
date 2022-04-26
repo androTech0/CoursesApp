@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -91,7 +92,18 @@ class ChattingActivity : AppCompatActivity() {
 
     private fun getReceiverData() {
         Constants(this).db.collection("users").document(receiverEmail).get().addOnSuccessListener {
-            receiverName.text = it.get("first_name").toString()
+
+            val userName = it.get("first_name")
+            if (userName != null) {
+                receiverName.text = it.get("first_name").toString()
+                Toast.makeText(this, "m", Toast.LENGTH_SHORT).show()
+            } else {
+                Constants(this).db.collection("Courses").whereEqualTo("CourseId", receiverEmail)
+                    .get().addOnSuccessListener { i ->
+                    receiverName.text = i.documents[0].get("CourseName").toString()
+                        receiverImage.load(i.documents[0].get("CourseImage").toString())
+                }
+            }
         }
 
     }

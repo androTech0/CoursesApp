@@ -61,8 +61,8 @@ class StudentChattingFragment : Fragment() {
                             courses.forEach { currentCourse ->
                                 val students = currentCourse.get("StudentsIDs") as ArrayList<String>
                                 if (students.contains(currentUserEmail)) {
-                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), "", "GroupName")))
-                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), "", "GroupName"))
+                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), "currentCourse.get(CourseImage).toString()", currentCourse.get("CourseName").toString())))
+                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), "currentCourse.get(CourseImage).toString()", currentCourse.get("CourseName").toString()))
 
                                     UserChatRecycle.apply {
                                         adapter = UsersChattedAdapter(requireContext(), arra)
