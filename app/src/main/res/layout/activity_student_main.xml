@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back3"
     tools:context=".Student.StudentMainActivity">
 
     <FrameLayout
@@ -21,8 +22,9 @@
         android:id="@+id/studentNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ddd"
+        android:background="@drawable/back_bar1"
         app:itemTextColor="@color/black"
+        app:itemIconTint="#490078"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/studentFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
