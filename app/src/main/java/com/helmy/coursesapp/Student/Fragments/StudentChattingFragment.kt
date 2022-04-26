@@ -10,7 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.ChattingActivity
+import com.helmy.coursesapp.Classes.MsgClass
 import com.helmy.coursesapp.Classes.UsersChattedAdapter
 import com.helmy.coursesapp.Classes.Uuser
 import com.helmy.coursesapp.R
@@ -39,7 +39,7 @@ class StudentChattingFragment : Fragment() {
                 arra.clear()
                 snapshot.children.forEach {
 
-                    val obj = it.getValue(ChattingActivity.MsgClass::class.java)!!
+                    val obj = it.getValue(MsgClass::class.java)!!
                     if (obj.receiver == currentUserEmail) {
 
                         const.db.collection("users").document(obj.sender).get()
@@ -56,6 +56,21 @@ class StudentChattingFragment : Fragment() {
                                     layoutManager = LinearLayoutManager(requireContext())
                                 }
                             }
+                    } else {
+                        const.db.collection("Courses").get().addOnSuccessListener { courses ->
+                            courses.forEach { currentCourse ->
+                                val students = currentCourse.get("StudentsIDs") as ArrayList<String>
+                                if (students.contains(currentUserEmail)) {
+                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), "", "GroupName")))
+                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), "", "GroupName"))
+
+                                    UserChatRecycle.apply {
+                                        adapter = UsersChattedAdapter(requireContext(), arra)
+                                        layoutManager = LinearLayoutManager(requireContext())
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

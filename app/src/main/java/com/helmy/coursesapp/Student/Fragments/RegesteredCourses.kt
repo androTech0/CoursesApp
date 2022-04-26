@@ -38,7 +38,6 @@ class RegesteredCourses : Fragment() {
 
     private fun getAllCourses() {
         val currentUEmail = const.auth.currentUser!!.email
-        Toast.makeText(requireContext(), currentUEmail, Toast.LENGTH_SHORT).show()
         val query =
             const.db.collection("Courses").whereArrayContains("StudentsIDs", currentUEmail!!)
 

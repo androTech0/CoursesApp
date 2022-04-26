@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.right_chat.view.*
 
 class ChattingActivity : AppCompatActivity() {
 
-    lateinit var currentUserEmail:String
-    lateinit var receiverEmail:String
+    lateinit var currentUserEmail: String
+    lateinit var receiverEmail: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +27,14 @@ class ChattingActivity : AppCompatActivity() {
 
         currentUserEmail = Constants(this).auth.currentUser!!.email!!
         receiverEmail = intent.getStringExtra("ReceiverEmail").toString()
+
+        getAllMessages()
+        getReceiverData()
+
         sendBtn.setOnClickListener {
             if (enterMsg.text.isNotEmpty())
                 sendMessage(enterMsg.text.toString())
         }
-        getAllMessages()
 
     }
 
@@ -67,6 +70,7 @@ class ChattingActivity : AppCompatActivity() {
 
                     if (obj.sender == currentUserEmail && obj.receiver == receiverEmail ||
                         obj.sender == receiverEmail && obj.receiver == currentUserEmail
+                        || obj.receiver == receiverEmail
                     ) {
                         arra.add(obj)
                     }
@@ -85,7 +89,12 @@ class ChattingActivity : AppCompatActivity() {
 
     }
 
+    private fun getReceiverData() {
+        Constants(this).db.collection("users").document(receiverEmail).get().addOnSuccessListener {
+            receiverName.text = it.get("first_name").toString()
+        }
 
+    }
 
 
 }

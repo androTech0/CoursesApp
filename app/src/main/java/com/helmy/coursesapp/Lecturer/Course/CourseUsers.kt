@@ -1,9 +1,11 @@
 package com.helmy.coursesapp.Lecturer.Course
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.toObjects
+import com.helmy.coursesapp.ChattingActivity
 import com.helmy.coursesapp.Classes.CourseData
 import com.helmy.coursesapp.Classes.UsersChattedAdapter
 import com.helmy.coursesapp.Constants
@@ -21,7 +23,15 @@ class CourseUsers : AppCompatActivity() {
         setContentView(R.layout.activity_course_users)
         const = Constants(this)
 
-        getUsers(intent.getStringExtra("CourseId").toString())
+        val courseId = intent.getStringExtra("CourseId").toString()
+
+        getUsers(courseId)
+
+        Msg2Group.setOnClickListener {
+            val i = Intent(this, ChattingActivity::class.java)
+            i.putExtra("ReceiverEmail",courseId)
+            startActivity(i)
+        }
 
     }
 
