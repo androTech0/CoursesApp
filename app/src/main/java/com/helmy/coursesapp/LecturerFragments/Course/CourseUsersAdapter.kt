@@ -23,7 +23,7 @@ class CourseUsersAdapter(var cont: Context, var arr: ArrayList<CourseUsers.Uuser
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
         holder.itemView.U_Name.text = arr[position].name
         holder.itemView.setOnClickListener {
-            val i = Intent(cont,ChatWithStudent::class.java)
+            val i = Intent(cont, ChatWithStudent::class.java)
             i.putExtra("ReceiverEmail",arr[position].email)
             cont.startActivity(i)
         }

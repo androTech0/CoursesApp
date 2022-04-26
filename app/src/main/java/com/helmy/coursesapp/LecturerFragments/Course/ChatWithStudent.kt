@@ -35,6 +35,7 @@ class ChatWithStudent : AppCompatActivity() {
                 sendMessage(enterMsg.text.toString(), receiverEmail)
         }
 
+
         getAllMessages()
 
     }
@@ -50,7 +51,7 @@ class ChatWithStudent : AppCompatActivity() {
             "receiver" to receiver
         )
 
-        Firebase.database.reference.child("Chats").push().setValue(message)
+        Firebase.database.reference.child("m").push().setValue(message)
             .addOnSuccessListener {
                 Toast.makeText(this, "done", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
@@ -72,13 +73,13 @@ class ChatWithStudent : AppCompatActivity() {
                 arra.clear()
                 snapshot.children.forEach {
 
-//                    val obj = it.getValue(msg::class.java)
-                    Toast.makeText(this@ChatWithStudent, it.value.toString(), Toast.LENGTH_SHORT)
+                    val obj = it.getValue(msg::class.java)
+                    Toast.makeText(this@ChatWithStudent, "it.value.toString()", Toast.LENGTH_SHORT)
                         .show()
 //                    if (obj.sender == currentEmail && obj.reciever == receiverEmail ||
 //                        obj.sender == receiverEmail && obj.reciever == currentEmail
 //                    ) {
-//                    arra.add(obj!!)
+                    arra.add(obj!!)
 //                        Toast.makeText(this@ChatActivity, "Added", Toast.LENGTH_SHORT).show()
 //                    }
                 }
