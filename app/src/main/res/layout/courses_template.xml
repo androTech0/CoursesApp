@@ -3,44 +3,50 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="15dp"
+    android:layout_height="180dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="30dp"
     android:backgroundTint="#CCD3CC"
-    app:cardCornerRadius="15dp"
+    app:cardCornerRadius="75dp"
     app:cardElevation="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@drawable/back_course_card">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-
+            android:layout_marginTop="20dp"
             android:text="name"
-            android:textColor="@color/white"
+            android:textColor="#37066E"
             android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="@font/font2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image" />
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginEnd="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
 
         <TextView
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
             android:background="@drawable/ic_baseline_settings_24"
             android:backgroundTint="@color/white"
             android:visibility="invisible"
@@ -50,26 +56,32 @@
         <TextView
             android:id="@+id/num4videos"
             android:layout_width="90dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:drawableStart="@drawable/ic_baseline_videocam_24"
             android:gravity="top"
             android:text="0"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toStartOf="@id/image"
-            app:layout_constraintTop_toBottomOf="@id/name" />
+            android:textColor="#FF5722"
+            android:textSize="24sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="30dp"
+            />
 
         <TextView
             android:id="@+id/num4students"
             android:layout_width="80dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:drawableStart="@drawable/ic_baseline_people_24"
-            android:gravity="top"
+            android:gravity="center"
             android:text="0"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toStartOf="@id/num4videos"
-            app:layout_constraintTop_toBottomOf="@id/name" />
+            android:textColor="#FF5722"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="30dp"
+             />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
