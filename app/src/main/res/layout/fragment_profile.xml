@@ -1,304 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/back2"
     tools:context=".Student.Fragments.StudentProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/logOutBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/ic_baseline_exit_to_app_24"
             android:layout_margin="25dp"
+            android:background="@drawable/ic_baseline_exit_to_app_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
 
             />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/titlee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="50dp"
-            android:text="PROFILE"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/font1"
+            android:text="PROFILE"
             android:textColor="#FFAB2E"
-            android:textSize="24sp"
-            />
-
-        <ImageView
-            android:id="@+id/imglogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textSize="60dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/logo2"
-            android:layout_marginTop="120dp"
-            />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/imglogo"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="10dp"
-            >
+            app:layout_constraintTop_toBottomOf="@id/titlee">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/FirstNameLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/first_name"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/UserImage"
+                    android:layout_width="160dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_height="160dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
 
-                <EditText
-                    android:id="@+id/FirstNameEdit"
+                    />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameLabel"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="mmm"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/FirstNameLabel" />
-
-                <TextView
-                    android:id="@+id/MiddleNameLabel"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/middle_name"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/FirstNameEdit" />
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/name"
+                    android:textColorHint="@color/white"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="3dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/white"
+                    app:hintTextColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
 
-                <EditText
-                    android:id="@+id/MiddleNameEdit"
+                    app:layout_constraintTop_toBottomOf="@id/UserImage">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/NameEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailLabel"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="mmm"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/MiddleNameLabel" />
-
-                <TextView
-                    android:id="@+id/LastNameLabel"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/last_name"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/MiddleNameEdit" />
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="Email"
+                    android:textColorHint="@color/white"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="3dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/white"
+                    app:hintTextColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nameLabel"
 
-                <EditText
-                    android:id="@+id/LastNameEdit"
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/PhoneNumberLabel"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="mmm"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/LastNameLabel" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/phone_number"
+                    android:textColorHint="@color/white"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="3dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/white"
+                    app:hintTextColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emailLabel"
+
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/PhoneNumberEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <Button
-                    android:id="@+id/BirthdayNameLabel"
+                    android:id="@+id/birthDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/birthday"
-                    android:background="@drawable/rec1"
-                    android:textColor="#fff"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/LastNameEdit" />
-
-                <TextView
-                    android:id="@+id/BirthdayEdit"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:inputType="date"
-                    android:text="mmm"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/BirthdayNameLabel" />
-
-                <TextView
-                    android:id="@+id/LocationNameLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/location"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/BirthdayEdit" />
-
-                <EditText
-                    android:id="@+id/LocationNameEdit"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="mmm"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/LocationNameLabel" />
-
-                <TextView
-                    android:id="@+id/emailLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/email"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/LocationNameEdit" />
-
-                <EditText
-                    android:id="@+id/emailEdit"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:inputType="textEmailAddress"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/emailLabel" />
-
-                <TextView
-                    android:id="@+id/PhoneNumberLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/phone_number"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/emailEdit" />
-
-                <EditText
-                    android:id="@+id/PhoneNumberEdit"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:inputType="phone"
-                    android:text="0000000"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/PhoneNumberLabel" />
-
-                <TextView
-                    android:id="@+id/PasswordLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/password"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/PhoneNumberEdit" />
-
-                <EditText
-                    android:id="@+id/PasswordEdit"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/PasswordLabel" />
-
-                <TextView
-                    android:id="@+id/confirmLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/confirmpassword"
-                    android:textColor="#FFAB2E"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/PasswordEdit" />
-
-                <EditText
-                    android:id="@+id/confirmPasswordEdit"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_height="60dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_shape1"
-                    android:textColorHint="#88ffffff"
-                    app:layout_constraintTop_toBottomOf="@id/confirmLabel" />
+                    android:text="1/11/1111"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/PhoneNumberLabel"
+                    android:layout_marginTop="20dp"
+                    />
 
                 <Button
                     android:id="@+id/UpdateButton"
                     android:layout_width="200dp"
                     android:layout_height="50dp"
-                    android:textColor="#fff"
-                    android:background="@drawable/rec1"
-                    android:textSize="20sp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
+                    android:background="@drawable/rec1"
                     android:text="Update"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@id/birthDate"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/confirmPasswordEdit" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

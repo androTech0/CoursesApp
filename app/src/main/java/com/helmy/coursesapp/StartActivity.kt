@@ -11,9 +11,17 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        btn1.setOnClickListener {
+        val shared = getSharedPreferences("CoursesApp", MODE_PRIVATE)
+        val isLogged = shared.getBoolean("isLogged",false)
+        if (isLogged){
             startActivity(Intent(this,Login::class.java))
             finish()
+        }
+        btn1.setOnClickListener {
+            shared.edit().putBoolean("isLogged",true).apply()
+            startActivity(Intent(this,Login::class.java))
+            finish()
+
         }
     }
 }

@@ -62,17 +62,17 @@ class Login : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "Authentication Successful.", Toast.LENGTH_SHORT)
                         .show()
-                    const.db.collection("users").document(email).get()
+                    const.db.collection("Users").document(email).get()
                         .addOnSuccessListener { document ->
                             if (document != null) {
                                 val userData = document.toObject<UserData>()!!
 
-                                if (userData.kind_of_account == getString(R.string.student)) {
+                                if (userData.Kind == getString(R.string.student)) {
                                     startActivity(Intent(this, StudentMainActivity::class.java))
                                     shared.putString("kind", getString(R.string.student)).apply()
                                     finish()
 
-                                } else if (userData.kind_of_account == getString(R.string.lecturer)) {
+                                } else if (userData.Kind == getString(R.string.lecturer)) {
                                     startActivity(Intent(this, LecturerMainActivity::class.java))
                                     shared.putString("kind", getString(R.string.lecturer)).apply()
                                     finish()

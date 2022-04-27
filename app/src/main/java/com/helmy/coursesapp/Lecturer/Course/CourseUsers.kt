@@ -44,25 +44,17 @@ class CourseUsers : AppCompatActivity() {
                 val obj = it.toObjects<CourseData>()
                 obj[0].StudentsIDs.forEach { UEmail ->
 
-                    const.db.collection("users").whereEqualTo("email", UEmail).get()
+                    const.db.collection("Users").whereEqualTo("Email", UEmail).get()
                         .addOnSuccessListener { usr ->
                             val ob = usr.toObjects<UserData>()[0]
-                            val fullName = ob.first_name + ob.middle_name + ob.last_name
-                            allUsers.add(Uuser(ob.email, "obj.image", fullName))
+                            allUsers.add(Uuser(ob.Email, ob.Image, ob.Name))
 
                             courseUsersRec.apply {
                                 adapter = UsersChattedAdapter(this@CourseUsers, allUsers)
                                 layoutManager = LinearLayoutManager(this@CourseUsers)
                             }
                         }
-
                 }
-
             }
-
     }
-
-
-
-
 }

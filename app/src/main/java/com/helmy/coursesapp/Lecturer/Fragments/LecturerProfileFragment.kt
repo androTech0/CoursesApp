@@ -1,8 +1,10 @@
 package com.helmy.coursesapp.Lecturer.Fragments
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,34 +12,74 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import coil.load
 import com.google.firebase.firestore.ktx.toObject
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
-import com.helmy.coursesapp.SendEmailActivity
 import com.helmy.coursesapp.Classes.UserData
 import kotlinx.android.synthetic.main.fragment_profile2_lecturer.*
 import java.util.*
 
 class LecturerProfileFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
-
-
+    lateinit var const: Constants
+    private var newImage = ""
+    lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    const.progressDialog.show()
+                    // There are no request codes
+                    val intent: Intent? = result.data
+                    val uri = intent?.data  //The uri with the location of the file
+                    val file = const.getFile(requireContext(), uri!!)
+                    val new_uri = Uri.fromFile(file)
+
+                    val reference = const.storage.child("Images/${new_uri.lastPathSegment}")
+                    val uploadTask = reference.putFile(new_uri)
+
+                    uploadTask.addOnFailureListener { e ->
+                    }.addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            const.progressDialog.dismiss()
+                            newImage = it.toString()
+                            UserImage.load(newImage)
+                        }
+                    }
+                }
+            }
+
         return inflater.inflate(R.layout.fragment_profile2_lecturer, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
-        EmailButton.setOnClickListener {
-            startActivity(Intent(requireActivity(),SendEmailActivity::class.java))
+        const = Constants(requireContext())
+
+        getUserInfo()
+
+
+
+        UserImage.setOnClickListener {
+            val intent = Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+            resultLauncher.launch(Intent.createChooser(intent, "Select image"))
         }
 
-        BirthdayNameLabel.setOnClickListener {
+
+
+
+        birthDate.setOnClickListener {
             val datePikerDialog = DatePickerDialog(
                 requireContext(), this,
                 2010,
@@ -46,17 +88,12 @@ class LecturerProfileFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             )
             datePikerDialog.show()
         }
-        getUserInfo()
 
         UpdateButton.setOnClickListener {
             updateUserInfo(
-                FirstNameEdit.text.toString(),
-                MiddleNameEdit.text.toString(),
-                LastNameEdit.text.toString(),
-                BirthdayEdit.text.toString(),
-                LocationNameEdit.text.toString(),
-                PhoneNumberEdit.text.toString(),
-                PasswordEdit.text.toString()
+                NameEdit.text.toString(),
+                birthDate.text.toString(),
+                PhoneNumberEdit.text.toString()
             )
         }
 
@@ -64,57 +101,50 @@ class LecturerProfileFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             Constants(requireContext()).logOut()
         }
 
-
     }
 
-    private fun updateUserInfo(
-        first_name: String, middle_name: String,
-        last_name: String, Birthday: String, location: String,
-        Phone_number: String, password: String
-    ) {
-         val const = Constants(requireActivity())
+    private fun updateUserInfo(Name: String, Birthdate: String, Phone: String) {
         val email = const.auth.currentUser!!.email
-        const.db.collection("users").document(email.toString())
-            .update(
-                "first_name", first_name,
-                "middle_name", middle_name,
-                "last_name", last_name,
-                "Birthday", Birthday,
-                "location", location,
-                "email", email,
-                "Phone_number", Phone_number,
-                "password", password
-            ).addOnSuccessListener {
-                Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
-            }
+        if (newImage.isNotEmpty()) {
+            const.db.collection("Users").document(email.toString())
+                .update(
+                    "Name", Name,
+                    "Image", newImage,
+                    "Birthdate", Birthdate,
+                    "Phone", Phone,
+                ).addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            const.db.collection("Users").document(email.toString())
+                .update(
+                    "Name", Name,
+                    "Birthdate", Birthdate,
+                    "Phone", Phone,
+                ).addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
     private fun getUserInfo() {
-
-         val const = Constants(requireActivity())
-
-
         val email = const.auth.currentUser!!.email.toString()
-        const.db.collection("users").document(email).get().addOnSuccessListener { document ->
+        const.db.collection("Users").document(email).get().addOnSuccessListener { document ->
             if (document != null) {
                 val userData = document.toObject<UserData>()
-                FirstNameEdit.setText(userData!!.first_name)
-                MiddleNameEdit.setText(userData.middle_name)
-                LastNameEdit.setText(userData.last_name)
-                BirthdayEdit.text = userData.Birthday
-                LocationNameEdit.setText(userData.location)
-                emailEdit.setText(userData.email)
-                PhoneNumberEdit.setText(userData.Phone_number)
-                PasswordEdit.setText(userData.password)
-                confirmPasswordEdit.setText(userData.password)
+                Toast.makeText(requireContext(), email, Toast.LENGTH_SHORT).show()
+                NameEdit.setText(userData!!.Name)
+                emailEdit.setText(userData.Email)
+                PhoneNumberEdit.setText(userData.Phone)
+                birthDate.text = userData.Birthdate
+                UserImage.load(userData.Image)
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        BirthdayEdit.text = "${p2 + 1}/$p3/$p1"
+        birthDate.text = "${p2 + 1}/$p3/$p1"
     }
-
 
 }

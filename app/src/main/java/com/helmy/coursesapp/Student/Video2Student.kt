@@ -117,7 +117,7 @@ class Video2Student : AppCompatActivity() {
                                     (document.get("NumberOfStudents").toString().toLong() + 1)
                                 )
 
-                            const.db.collection("users").document(email.toString())
+                            const.db.collection("Users").document(email.toString())
                                 .get().addOnSuccessListener {
                                     val oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
                                     val newHash:HashMap<String,HashMap<String,*>> = hashMapOf(
@@ -126,7 +126,7 @@ class Video2Student : AppCompatActivity() {
                                     for(key in oldHash.keys) {
                                         newHash.put(key, oldHash[key]!!)
                                     }
-                                    const.db.collection("users").document(email.toString())
+                                    const.db.collection("Users").document(email.toString())
                                         .update(
                                             "Courses",
                                             newHash
@@ -168,7 +168,7 @@ class Video2Student : AppCompatActivity() {
                                 "NumberOfStudents",
                                 (document.get("NumberOfStudents").toString().toLong() - 1)
                             )
-                        const.db.collection("users").document(email.toString())
+                        const.db.collection("Users").document(email.toString())
                             .get().addOnSuccessListener {
                                 val oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
                                 val newHash:HashMap<String,HashMap<String,*>> = hashMapOf()
@@ -178,7 +178,7 @@ class Video2Student : AppCompatActivity() {
                                     }
 
                                 }
-                                const.db.collection("users").document(email.toString())
+                                const.db.collection("Users").document(email.toString())
                                     .update(
                                         "Courses",
                                         newHash
@@ -245,7 +245,7 @@ class Video2Student : AppCompatActivity() {
                         .whereEqualTo("VideoId", model.VideoId)
                         .get().addOnSuccessListener {
                             val vidNum = it.documents[0].get("VideoNumber").toString().toLong()
-                            const.db.collection("users").document(email.toString())
+                            const.db.collection("Users").document(email.toString())
                                 .get().addOnSuccessListener {
                                     var oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
                                     var newHash:HashMap<String,HashMap<String,*>> = hashMapOf()
@@ -261,7 +261,7 @@ class Video2Student : AppCompatActivity() {
                                                 newHash.put(key, oldHash[key]!!)
                                             }
                                         }
-                                        const.db.collection("users").document(email.toString())
+                                        const.db.collection("Users").document(email.toString())
                                             .update(
                                                 "Courses",
                                                 newHash
@@ -387,7 +387,6 @@ class Video2Student : AppCompatActivity() {
                     val dataRes = document.get("StudentsIDs").toString()
                         .substring(1, (document.get("StudentsIDs").toString().length - 1))
                     val ar = dataRes.split(",").map { it.trim() }
-//                    Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
                     for (e in ar) {
                         if (e == email) {
                             exist = true
@@ -401,5 +400,4 @@ class Video2Student : AppCompatActivity() {
                 }
             }
     }
-
 }

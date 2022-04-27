@@ -69,6 +69,10 @@ class AddCourse : AppCompatActivity() {
             }
         }
 
+        backBtn.setOnClickListener {
+            onBackPressed()
+        }
+
         selectImage.setOnClickListener {
             val intent = Intent()
                 .setType("*/*")
