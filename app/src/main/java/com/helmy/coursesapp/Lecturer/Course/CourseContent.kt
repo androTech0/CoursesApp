@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.GridLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -106,7 +108,7 @@ class CourseContent : AppCompatActivity() {
         }
         customRecycle.apply {
             layoutManager =
-                LinearLayoutManager(this@CourseContent, LinearLayoutManager.VERTICAL, false)
+                GridLayoutManager(context,2)
             adapter = myAdapter
         }
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back3"
     tools:context=".Lecturer.Videos.AddVideo">
 
     <EditText
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
+        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectVideo"
@@ -24,6 +26,7 @@
         android:layout_margin="50dp"
         android:inputType="textMultiLine"
         android:lines="3"
+        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/VideoName"
@@ -37,6 +40,7 @@
         android:layout_margin="50dp"
         android:text="1"
         android:textSize="25sp"
+        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/VideoDesc"
@@ -59,29 +63,35 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="80dp"
-        android:src="@drawable/ic_launcher_background"
+        android:background="@drawable/image_back1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:text="Done"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:background="#759E005F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:text="Upload File"
+        android:background="@drawable/rec1"
+        android:textColor="#fff"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/btnn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

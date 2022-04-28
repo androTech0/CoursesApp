@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back2"
     tools:context=".Lecturer.Videos.EditVideo">
 
     <!--    <TextView-->
@@ -42,12 +43,13 @@
     <TextView
         android:id="@+id/V_Url"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_margin="40dp"
         android:gravity="center"
         android:text="Url"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="18sp"
+        android:background="@drawable/edit_text_shape1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/V_Num"
@@ -61,7 +63,7 @@
         android:layout_margin="30dp"
         android:padding="20dp"
         android:text="3"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="27sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +76,8 @@
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/image_back1"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@id/V_File"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/newVideo" />
@@ -88,30 +91,33 @@
         app:layout_constraintBottom_toTopOf="@id/V_File"
         app:layout_constraintEnd_toStartOf="@id/newImage"
         app:layout_constraintStart_toStartOf="parent"
-
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/V_File"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:text="Upload new File"
+        android:background="@drawable/rec1"
+        android:textColor="#fff"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/V_Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/V_Save"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:text="@string/save"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="22sp"
-
         app:layout_constraintBottom_toBottomOf="parent"
-
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="#759E005F"
         />
 
 

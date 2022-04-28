@@ -24,7 +24,6 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_margin="30dp"
-        android:backgroundTint="@color/black"
         android:background="@drawable/ic_baseline_library_add_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

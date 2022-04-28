@@ -2,8 +2,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="wrap_content"
+    android:layout_height="220dp"
     android:layout_gravity="center"
+    android:background="@drawable/rec1"
     >
 
 
@@ -16,7 +17,9 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="0dp"
         android:ems="10"
-        android:text="newSub">
+        android:text="new sub"
+        android:textColor="#72308E"
+        >
 
     </EditText>
 
@@ -31,8 +34,9 @@
         android:layout_marginEnd="0dp"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:text="msg text" />
-
+        android:text="msg text"
+        android:textColor="#72308E"
+        />
 
     <TextView
         android:id="@+id/textView2"
@@ -40,7 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/editText2"
         android:layout_alignParentLeft="true"
-        android:text="Subject:" />
+        android:text="Subject:"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        />
 
     <TextView
         android:id="@+id/textView3"
@@ -49,9 +56,12 @@
         android:layout_alignBaseline="@+id/editText3"
         android:layout_alignBottom="@+id/editText3"
         android:layout_alignParentLeft="true"
-        android:text="Message:" />
+        android:text="Message:"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,9 +69,13 @@
         android:layout_below="@+id/editText3"
         android:layout_marginLeft="76dp"
         android:layout_marginTop="20dp"
-        android:text="Send" />
+        android:text="Send"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:background="#CE0088FF"
+        />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,6 +84,10 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
-        android:text="cancel" />
+        android:text="cancel"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:background="#CE0088FF"
+        />
 
 </RelativeLayout>
