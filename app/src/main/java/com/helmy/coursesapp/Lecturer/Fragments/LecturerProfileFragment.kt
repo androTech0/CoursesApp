@@ -19,6 +19,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.helmy.coursesapp.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.Classes.UserData
+import com.helmy.coursesapp.SendEmailActivity
 import kotlinx.android.synthetic.main.fragment_profile2_lecturer.*
 import java.util.*
 
@@ -77,7 +78,9 @@ class LecturerProfileFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
 
 
-
+        sendMail.setOnClickListener {
+            startActivity(Intent(requireContext(),SendEmailActivity::class.java))
+        }
 
         birthDate.setOnClickListener {
             val datePikerDialog = DatePickerDialog(

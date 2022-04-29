@@ -108,8 +108,8 @@ class SendEmailActivity : AppCompatActivity() {
 
     fun sendEmail(mailTo:String,mailSubj:String,mailMsg:String){
         Thread {
-            val username = "helmyboshnaq1111@gmail.com"
-            val password = "fulla bosh"
+            val username = "coursesapp0@gmail.com"
+            val password = "courses-app1@"
             val message = mailMsg
             val props = Properties()
             props.put("mail.smtp.auth", "true")
