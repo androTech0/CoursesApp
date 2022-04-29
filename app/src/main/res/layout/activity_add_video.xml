@@ -7,31 +7,68 @@
     android:background="@drawable/back3"
     tools:context=".Lecturer.Videos.AddVideo">
 
-    <EditText
-        android:id="@+id/VideoName"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/label"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:textColor="#fff"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:hint="@string/name"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="3dp"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectVideo"
 
-        />
+        app:layout_constraintTop_toBottomOf="@id/selectVideo">
 
-    <EditText
-        android:id="@+id/VideoDesc"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/VideoName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/label2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:textColor="#fff"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Video Description"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="3dp"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/VideoName"
 
-        />
+        app:layout_constraintTop_toBottomOf="@id/label">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/VideoDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:textColor="@color/white"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
         android:id="@+id/VideoNum"
@@ -39,11 +76,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:text="1"
-        android:textSize="25sp"
         android:textColor="#fff"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/VideoDesc"
+        app:layout_constraintTop_toBottomOf="@id/label2"
 
         />
 
@@ -53,6 +90,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="80dp"
         android:src="@drawable/ic_baseline_video_settings_24"
+        app:layout_constraintEnd_toStartOf="@id/selectImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
@@ -65,19 +103,18 @@
         android:layout_marginTop="80dp"
         android:background="@drawable/image_back1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        />
+        app:layout_constraintStart_toEndOf="@id/selectVideo"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
+        android:background="#759E005F"
         android:text="Done"
         android:textColor="@color/white"
         android:textSize="22sp"
-        android:background="#759E005F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -88,8 +125,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
-        android:text="Upload File"
         android:background="@drawable/rec1"
+        android:text="Upload File"
         android:textColor="#fff"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/btnn"

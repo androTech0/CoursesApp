@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.helmy.coursesapp.ChattingActivity
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.course_users_template.view.*
@@ -23,6 +24,10 @@ class UsersChattedAdapter(var cont: Context, var arr: ArrayList<Uuser>) :
 
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
         holder.itemView.U_Name.text = arr[position].name
+        if (arr[position].image.isNotEmpty()){
+            holder.itemView.U_Image.load(arr[position].image)
+        }
+
         holder.itemView.setOnClickListener {
             val i = Intent(cont, ChattingActivity::class.java)
             i.putExtra("ReceiverEmail", arr[position].email)

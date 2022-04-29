@@ -62,8 +62,8 @@ class LecturerChattingFragment : Fragment() {
                         const.db.collection("Courses").get().addOnSuccessListener { courses ->
                             courses.forEach { currentCourse ->
                                 if (currentUserEmail == currentCourse.getString("LecturerEmail")){
-                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), "currentCourse.get(CourseImage).toString()", currentCourse.get("CourseName").toString())))
-                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), "currentCourse.get(CourseImage).toString()", currentCourse.get("CourseName").toString()))
+                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), "", currentCourse.get("CourseName").toString())))
+                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), "", currentCourse.get("CourseName").toString()))
 
                                     chattingRecycleLecturer.apply {
                                         adapter = UsersChattedAdapter(requireContext(), arra)

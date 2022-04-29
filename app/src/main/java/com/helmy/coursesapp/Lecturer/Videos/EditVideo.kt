@@ -1,6 +1,9 @@
 package com.helmy.coursesapp.Lecturer.Videos
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +22,7 @@ class EditVideo : AppCompatActivity() {
     lateinit var const: Constants
 
     private var videoId = ""
-    private var VideoUrl = ""
+    private var newVideoUrl = ""
     private var VideoImage = ""
     private var VideoFile = ""
 
@@ -51,7 +54,7 @@ class EditVideo : AppCompatActivity() {
                     }.addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             const.progressDialog.dismiss()
-                            VideoUrl = it.toString()
+                            newVideoUrl = it.toString()
                             Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -147,7 +150,7 @@ class EditVideo : AppCompatActivity() {
             V_Num.text.toString().isEmpty() -> {
                 Toast.makeText(this, "number is Empty", Toast.LENGTH_SHORT).show()
             }
-            VideoUrl.isEmpty() -> {
+            newVideoUrl.isEmpty() -> {
                 Toast.makeText(this, "VideoUrl is Empty", Toast.LENGTH_SHORT).show()
             }
             VideoImage.isEmpty() -> {
@@ -161,7 +164,7 @@ class EditVideo : AppCompatActivity() {
                     "VideoName" to V_Name.text.toString(),
                     "VideoDesc" to V_desc.text.toString(),
                     "VideoNumber" to V_Num.text.toString(),
-                    "VideoUrl" to VideoUrl,
+                    "VideoUrl" to newVideoUrl,
                     "VideoFile" to VideoFile,
                     "VideoImage" to VideoImage,
                 )
@@ -184,13 +187,33 @@ class EditVideo : AppCompatActivity() {
             V_Name.setText(video.VideoName)
             V_desc.setText(video.VideoDesc)
             V_Num.setText(video.VideoNumber)
-            V_Url.text = video.VideoUrl
             newImage.load(video.VideoImage)
 
-            VideoUrl = video.VideoUrl
+            V_Url.setOnClickListener {
+                copyThis(video.VideoUrl)
+            }
+
+            newVideoUrl = video.VideoUrl
             VideoImage = video.VideoImage
             VideoFile = video.VideoFile
+
+
+
         }
 
     }
+
+
+    fun copyThis(txt:String) {
+
+        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("text", txt)
+        clipboardManager.setPrimaryClip(clipData)
+
+        Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
+
+    }
+
+
+
 }

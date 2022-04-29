@@ -132,7 +132,6 @@ class LecturerProfileFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         const.db.collection("Users").document(email).get().addOnSuccessListener { document ->
             if (document != null) {
                 val userData = document.toObject<UserData>()
-                Toast.makeText(requireContext(), email, Toast.LENGTH_SHORT).show()
                 NameEdit.setText(userData!!.Name)
                 emailEdit.setText(userData.Email)
                 PhoneNumberEdit.setText(userData.Phone)

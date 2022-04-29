@@ -39,7 +39,7 @@ class Login : AppCompatActivity() {
         }
 
         LoginButton.setOnClickListener {
-            if (emailEdit.text.isNotEmpty() && PasswordEdit.text.isNotEmpty()) {
+            if (emailEdit.text!!.isNotEmpty() && PasswordEdit.text!!.isNotEmpty()) {
                 if (emailEdit.text.toString().contains("@")) {
                     loginToUserAccount(emailEdit.text.toString(), PasswordEdit.text.toString())
                 } else {
