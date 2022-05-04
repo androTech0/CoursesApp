@@ -49,8 +49,8 @@
             android:id="@+id/emailEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:inputType="textEmailAddress"
+            android:textColor="@color/white"
 
             />
 
@@ -84,6 +84,7 @@
             android:id="@+id/PasswordEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="1234567"
             android:textColor="@color/white"
 
             />

@@ -92,6 +92,7 @@ class ViewVideos4Edit : AppCompatActivity() {
                                                         .toLong() - 1)
                                                 )
                                         }
+//                                        getAllDataOf(courseId) // for refresh
                                     }
                             }.setNegativeButton("cancel") { _d, _ ->
                                 _d.dismiss()
