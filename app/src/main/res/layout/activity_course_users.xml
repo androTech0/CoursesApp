@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back3"
     tools:context=".Lecturer.Course.CourseUsers">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -13,14 +14,18 @@
 
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Msg2Group"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="40dp"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:padding="10dp"
         android:text="Send Msg in group"
+        android:background="@drawable/rec1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

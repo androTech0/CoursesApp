@@ -2,6 +2,7 @@ package com.helmy.coursesapp.Student
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,9 @@ import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -332,10 +336,23 @@ class Video2Student : AppCompatActivity() {
 
 
 
-                    holder.itemView.quiz.setOnClickListener {
-//                    val i = Intent(this@Video2Student, ShowVideo::class.java)
-//                    i.putExtra("VideoUrl", model.VideoUrl)
-//                    startActivity(i)
+                    holder.itemView.desc.setOnClickListener {
+                        val dialog = Dialog(this@Video2Student)
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog.setCancelable(false)
+                        dialog.setContentView(R.layout.description_video_dialog)
+
+                        val viewText = dialog.findViewById<TextView>(R.id.desc_view)
+
+                        val closeButton = dialog.findViewById<Button>(R.id.close_btn)
+
+                        viewText.text = model.VideoDesc
+
+                        closeButton.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        dialog.show()
                     }
 
 
