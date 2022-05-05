@@ -91,18 +91,17 @@ class ChattingActivity : AppCompatActivity() {
     }
 
     private fun getReceiverData() {
-        Constants(this).db.collection("users").document(receiverEmail).get().addOnSuccessListener {
+        Constants(this).db.collection("Users").document(receiverEmail).get().addOnSuccessListener {
 
-            val userName = it.get("first_name")
+            val userName = it.get("Name")
             if (userName != null) {
-                receiverName.text = it.get("first_name").toString()
-                Toast.makeText(this, "m", Toast.LENGTH_SHORT).show()
+                receiverName.text = it.get("Name").toString()
             } else {
                 Constants(this).db.collection("Courses").whereEqualTo("CourseId", receiverEmail)
                     .get().addOnSuccessListener { i ->
-                    receiverName.text = i.documents[0].get("CourseName").toString()
+                        receiverName.text = i.documents[0].get("CourseName").toString()
                         receiverImage.load(i.documents[0].get("CourseImage").toString())
-                }
+                    }
             }
         }
 

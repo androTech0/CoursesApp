@@ -2,7 +2,6 @@ package com.helmy.coursesapp.Student
 
 import android.Manifest
 import android.app.Activity
-import android.app.Dialog
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
@@ -14,9 +13,6 @@ import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,11 +32,13 @@ import kotlinx.android.synthetic.main.activity_video2_student.CourseName
 import kotlinx.android.synthetic.main.activity_video2_student.customRecycle
 import kotlinx.android.synthetic.main.student_video_template.view.*
 
+@Suppress("UNCHECKED_CAST")
 class Video2Student : AppCompatActivity() {
 
     lateinit var const: Constants
     var courseId = ""
-    private var myAdapter: FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>? = null
+    private var myAdapter: FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>? =
+        null
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
     var VideoId = ""
 
@@ -123,11 +121,15 @@ class Video2Student : AppCompatActivity() {
 
                             const.db.collection("Users").document(email.toString())
                                 .get().addOnSuccessListener {
-                                    val oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
-                                    val newHash:HashMap<String,HashMap<String,*>> = hashMapOf(
+                                    val oldHash: HashMap<String, HashMap<String, *>> =
+                                        it.get("Courses") as HashMap<String, HashMap<String, *>>
+                                    val newHash: HashMap<String, HashMap<String, *>> = hashMapOf(
                                         courseId to hashMapOf(
-                                        "course_progress" to 0,"course_done" to false))
-                                    for(key in oldHash.keys) {
+                                            "course_progress" to 0,
+                                            "course_done" to false
+                                        )
+                                    )
+                                    for (key in oldHash.keys) {
                                         newHash.put(key, oldHash[key]!!)
                                     }
                                     const.db.collection("Users").document(email.toString())
@@ -174,10 +176,11 @@ class Video2Student : AppCompatActivity() {
                             )
                         const.db.collection("Users").document(email.toString())
                             .get().addOnSuccessListener {
-                                val oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
-                                val newHash:HashMap<String,HashMap<String,*>> = hashMapOf()
-                                for(key in oldHash.keys) {
-                                    if(key != courseId){
+                                val oldHash: HashMap<String, HashMap<String, *>> =
+                                    it.get("Courses") as HashMap<String, HashMap<String, *>>
+                                val newHash: HashMap<String, HashMap<String, *>> = hashMapOf()
+                                for (key in oldHash.keys) {
+                                    if (key != courseId) {
                                         newHash.put(key, oldHash[key]!!)
                                     }
 
@@ -193,6 +196,7 @@ class Video2Student : AppCompatActivity() {
                     }
                 }
         }
+
     }
 
     override fun onStart() {
@@ -217,113 +221,154 @@ class Video2Student : AppCompatActivity() {
             }
 
 
-        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId).orderBy("VideoNumber")
+        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
-        myAdapter = object : FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>(option) {
-            override fun onCreateViewHolder(
-                parent: ViewGroup,
-                viewType: Int
-            ): LecturerCoursesFragment.ViewH {
-                val i = LayoutInflater.from(this@Video2Student)
-                    .inflate(R.layout.student_video_template, parent, false)
-                return LecturerCoursesFragment.ViewH(i)
-            }
-
-            override fun onBindViewHolder(
-                holder: LecturerCoursesFragment.ViewH,
-                position: Int,
-                model: VideoData
-            ) {
-                holder.itemView.name.text = model.VideoName
-                VideoId = model.VideoId
-                if (model.VideoImage.isNotEmpty()) {
-                    holder.itemView.image.load(model.VideoImage)
+        myAdapter =
+            object : FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>(option) {
+                override fun onCreateViewHolder(
+                    parent: ViewGroup,
+                    viewType: Int
+                ): LecturerCoursesFragment.ViewH {
+                    val i = LayoutInflater.from(this@Video2Student)
+                        .inflate(R.layout.student_video_template, parent, false)
+                    return LecturerCoursesFragment.ViewH(i)
                 }
-                holder.itemView.setOnClickListener {
 
-                    val user = const.auth.currentUser
-                    val email = user!!.email
-                    const.db.collection("Videos")
-                        .whereEqualTo("VideoId", model.VideoId)
-                        .get().addOnSuccessListener {
-                            val vidNum = it.documents[0].get("VideoNumber").toString().toLong()
-                            const.db.collection("Users").document(email.toString())
-                                .get().addOnSuccessListener {
-                                    var oldHash:HashMap<String,HashMap<String,*>> = it.get("Courses") as HashMap<String, HashMap<String, *>>
-                                    var newHash:HashMap<String,HashMap<String,*>> = hashMapOf()
-                                    val nId = oldHash[courseId]
+                override fun onBindViewHolder(
+                    holder: LecturerCoursesFragment.ViewH,
+                    position: Int,
+                    model: VideoData
+                ) {
+                    holder.itemView.name.text = model.VideoName
+                    VideoId = model.VideoId
+                    if (model.VideoImage.isNotEmpty()) {
+                        holder.itemView.image.load(model.VideoImage)
+                    }
 
-                                    if(nId!!["course_progress"].toString().toLong() < model.VideoNumber.toLong()){
-                                        for(key in oldHash.keys) {
-                                            if(key == courseId){
-                                                newHash.put(key,hashMapOf(
-                                                    "course_progress" to vidNum,"course_done" to false))
-                                                continue
-                                            }else{
-                                                newHash.put(key, oldHash[key]!!)
+                    holder.itemView.setOnClickListener {
+                        val email = const.auth.currentUser!!.email
+
+                        const.db.collection("Users").document(email.toString())
+                            .get().addOnSuccessListener { itt ->
+                                val mmm: HashMap<String, HashMap<String, *>> =
+                                    itt.get("Courses") as HashMap<String, HashMap<String, *>>
+                                val m = mmm[courseId]
+                                if (m != null) {
+                                    val progress = m["course_progress"].toString().toInt()
+
+                                    if (model.VideoNumber.toInt() < progress ||
+                                        model.VideoNumber.toInt() == progress + 1
+                                    ) {
+                                        const.db.collection("Videos")
+                                            .whereEqualTo("VideoId", model.VideoId)
+                                            .get().addOnSuccessListener {
+                                                val vidNum =
+                                                    it.documents[0].get("VideoNumber")
+                                                        .toString()
+                                                        .toLong()
+                                                const.db.collection("Users")
+                                                    .document(email.toString())
+                                                    .get().addOnSuccessListener { it ->
+                                                        val oldHash: HashMap<String, HashMap<String, *>> =
+                                                            it.get("Courses") as HashMap<String, HashMap<String, *>>
+                                                        val newHash: HashMap<String, HashMap<String, *>> =
+                                                            hashMapOf()
+                                                        val nId = oldHash[courseId]
+
+                                                        if (nId!!["course_progress"].toString()
+                                                                .toLong() < model.VideoNumber.toLong()
+                                                        ) {
+                                                            for (key in oldHash.keys) {
+                                                                if (key == courseId) {
+                                                                    newHash.put(
+                                                                        key, hashMapOf(
+                                                                            "course_progress" to vidNum,
+                                                                            "course_done" to false
+                                                                        )
+                                                                    )
+                                                                    continue
+                                                                } else {
+                                                                    newHash.put(
+                                                                        key,
+                                                                        oldHash[key]!!
+                                                                    )
+                                                                }
+                                                            }
+                                                            const.db.collection("Users")
+                                                                .document(email.toString())
+                                                                .update(
+                                                                    "Courses",
+                                                                    newHash
+                                                                )
+                                                        }
+                                                    }
                                             }
-                                        }
-                                        const.db.collection("Users").document(email.toString())
-                                            .update(
-                                                "Courses",
-                                                newHash
-                                            )
-
+                                        val i =
+                                            Intent(this@Video2Student, ShowVideo::class.java)
+                                        i.putExtra("VideoUrl", model.VideoUrl)
+                                        startActivity(i)
+                                    } else {
+                                        Toast.makeText(
+                                            this@Video2Student,
+                                            "احضر الي قبله يا وجه الدبس",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
                                     }
+                                } else {
+                                    Toast.makeText(
+                                        this@Video2Student,
+                                        "Not registerd yet",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
                                 }
-                        }
-                    val i = Intent(this@Video2Student, ShowVideo::class.java)
-                    i.putExtra("VideoUrl", model.VideoUrl)
-                    startActivity(i)
-                }
-                holder.itemView.desc.setOnClickListener {
-                    val dialog = Dialog(this@Video2Student)
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                    dialog.setCancelable(false)
-                    dialog.setContentView(R.layout.description_video_dialog)
+                            }
 
-                    val desc = dialog.findViewById<TextView>(R.id.desc_view)
-                    val btn1 = dialog.findViewById<Button>(R.id.close_btn)
 
-                    desc.text = model.VideoDesc
-                    btn1.setOnClickListener {
-                        dialog.dismiss()
                     }
 
-                    dialog.show()
-                }
 
-                holder.itemView.uploadFile.setOnClickListener {
-                    val intent = Intent()
-                        .setType("*/*")
-                        .setAction(Intent.ACTION_GET_CONTENT)
-                    resultLauncher.launch(Intent.createChooser(intent, "Select File"))
-                }
 
-                holder.itemView.downloadFile.setOnClickListener {
-                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        requestPermissions(
-                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            1000
-                        )
-                    } else {
-                        val storageRef =
-                            FirebaseStorage.getInstance().reference.child(model.VideoFile)
-                        storageRef.downloadUrl.addOnSuccessListener {
-                            Toast.makeText(this@Video2Student, it.toString(), Toast.LENGTH_SHORT)
-                                .show()
-                            startDownloading(it.toString(), model.VideoFile)
-                        }
+                    holder.itemView.quiz.setOnClickListener {
+//                    val i = Intent(this@Video2Student, ShowVideo::class.java)
+//                    i.putExtra("VideoUrl", model.VideoUrl)
+//                    startActivity(i)
                     }
 
-                }
 
+
+                    holder.itemView.uploadFile.setOnClickListener {
+                        val intent = Intent()
+                            .setType("*/*")
+                            .setAction(Intent.ACTION_GET_CONTENT)
+                        resultLauncher.launch(Intent.createChooser(intent, "Select File"))
+                    }
+
+                    holder.itemView.downloadFile.setOnClickListener {
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                            requestPermissions(
+                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                1000
+                            )
+                        } else {
+                            val storageRef =
+                                FirebaseStorage.getInstance().reference.child(model.VideoFile)
+                            storageRef.downloadUrl.addOnSuccessListener {
+                                Toast.makeText(
+                                    this@Video2Student,
+                                    it.toString(),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                startDownloading(it.toString(), model.VideoFile)
+                            }
+                        }
+                    }
+                }
             }
-
-
-        }
         customRecycle.apply {
             layoutManager =
                 LinearLayoutManager(this@Video2Student, LinearLayoutManager.VERTICAL, false)
