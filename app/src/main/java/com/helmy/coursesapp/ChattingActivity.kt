@@ -96,6 +96,7 @@ class ChattingActivity : AppCompatActivity() {
             val userName = it.get("Name")
             if (userName != null) {
                 receiverName.text = it.get("Name").toString()
+                receiverImage.load(it.get("Image").toString())
             } else {
                 Constants(this).db.collection("Courses").whereEqualTo("CourseId", receiverEmail)
                     .get().addOnSuccessListener { i ->

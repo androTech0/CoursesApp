@@ -44,12 +44,9 @@ class StudentChattingFragment : Fragment() {
 
                         const.db.collection("users").document(obj.sender).get()
                             .addOnSuccessListener { i ->
-                                val fullName =
-                                    i.getString("first_name") + i.getString("middle_name") + i.getString(
-                                        "last_name"
-                                    )
-                                if (!arra.contains(Uuser(obj.sender, "", fullName)))
-                                    arra.add(Uuser(obj.sender, "", fullName))
+
+                                if (!arra.contains(Uuser(obj.sender,   i.get("Image").toString(), i.get("Name").toString())))
+                                    arra.add(Uuser(obj.sender,   i.get("Image").toString(), i.get("Name").toString()))
 
                                 UserChatRecycle.apply {
                                     adapter = UsersChattedAdapter(requireContext(), arra)
@@ -61,8 +58,8 @@ class StudentChattingFragment : Fragment() {
                             courses.forEach { currentCourse ->
                                 val students = currentCourse.get("StudentsIDs") as ArrayList<String>
                                 if (students.contains(currentUserEmail)) {
-                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), "currentCourse.get(CourseImage).toString()", currentCourse.get("CourseName").toString())))
-                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), "currentCourse.get(CourseImage).toString()", currentCourse.get("CourseName").toString()))
+                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), currentCourse.get("CourseImage").toString(), currentCourse.get("CourseName").toString())))
+                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), currentCourse.get("CourseImage").toString(), currentCourse.get("CourseName").toString()))
 
                                     UserChatRecycle.apply {
                                         adapter = UsersChattedAdapter(requireContext(), arra)

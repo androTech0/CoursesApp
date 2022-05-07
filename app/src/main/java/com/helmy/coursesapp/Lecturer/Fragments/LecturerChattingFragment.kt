@@ -44,14 +44,10 @@ class LecturerChattingFragment : Fragment() {
                     val obj = it.getValue(MsgClass::class.java)!!
                     if (obj.receiver == currentUserEmail) {
 
-                        const.db.collection("users").document(obj.sender).get()
+                        const.db.collection("Users").document(obj.sender).get()
                             .addOnSuccessListener { i ->
-                                val fullName =
-                                    i.getString("first_name") + i.getString("middle_name") + i.getString(
-                                        "last_name"
-                                    )
-                                if (!arra.contains(Uuser(obj.sender, "", fullName)))
-                                    arra.add(Uuser(obj.sender, "", fullName))
+                                if (!arra.contains(Uuser(obj.sender,  i.get("Image").toString(), i.get("Name").toString())))
+                                    arra.add(Uuser(obj.sender,  i.get("Image").toString(), i.get("Name").toString()))
 
                                 chattingRecycleLecturer.apply {
                                     adapter = UsersChattedAdapter(requireContext(), arra)
@@ -62,8 +58,8 @@ class LecturerChattingFragment : Fragment() {
                         const.db.collection("Courses").get().addOnSuccessListener { courses ->
                             courses.forEach { currentCourse ->
                                 if (currentUserEmail == currentCourse.getString("LecturerEmail")){
-                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), "", currentCourse.get("CourseName").toString())))
-                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), "", currentCourse.get("CourseName").toString()))
+                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), currentCourse.get("CourseImage").toString(), currentCourse.get("CourseName").toString())))
+                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), currentCourse.get("CourseImage").toString(), currentCourse.get("CourseName").toString()))
 
                                     chattingRecycleLecturer.apply {
                                         adapter = UsersChattedAdapter(requireContext(), arra)
