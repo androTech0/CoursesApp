@@ -4,20 +4,32 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.helmy.coursesapp.Classes.Constants
+import com.helmy.coursesapp.Notify.PushNotification
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.add_course.*
 import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import com.google.firebase.messaging.FirebaseMessaging
+import android.util.Log
+import com.helmy.coursesapp.Notify.NotificationData
+import com.helmy.coursesapp.Notify.RetrofitInstance
 
+
+const val TOPIC = "/topics/myTopic2"
 
 class AddCourse : AppCompatActivity() {
 
     lateinit var const: Constants
+    val TAG = "AddCourse"
 
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
     var imageUrl = ""
@@ -83,11 +95,6 @@ class AddCourse : AppCompatActivity() {
 
     }
 
-
-
-
-
-
     private fun newCourse(name: String, image: String) {
         val course = mapOf(
             "CourseId" to UUID.randomUUID().toString(),
@@ -100,11 +107,31 @@ class AddCourse : AppCompatActivity() {
         )
         const.db.collection("Courses").add(course).addOnSuccessListener {
             Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show()
+            //--------------
+            FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+            Handler().postDelayed({
+                PushNotification(
+                    NotificationData("Courses App", "${course.get("CourseName").toString()} course has added !!"), TOPIC
+                ).also {
+                    sendNotification(it)
+                }
+            },1500)
+            //--------------
             onBackPressed()
         }.addOnFailureListener {
             Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+
+
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+        } catch(e: Exception) {
+            Log.e(TAG, e.toString())
+        }
     }
 
 }
