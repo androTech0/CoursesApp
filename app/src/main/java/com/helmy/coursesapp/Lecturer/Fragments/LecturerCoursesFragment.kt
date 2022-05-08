@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Lecturer.Course.AddCourse
 import com.helmy.coursesapp.Lecturer.Course.CourseContent
 import com.helmy.coursesapp.Classes.CourseData

@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import coil.load
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_add_video.*
 import java.util.*
@@ -154,7 +154,7 @@ class AddVideo : AppCompatActivity() {
 
                 const.db.collection("Courses").whereEqualTo("CourseId", courseId).get().addOnSuccessListener {
                     val videoNumber =
-                        (it.documents[0].get("NumberOfVideos").toString().toLong() + 1).toString()
+                        it.documents[0].get("NumberOfVideos").toString().toLong() + 1
 
 
                     val video = mapOf(

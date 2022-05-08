@@ -13,7 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import coil.load
 import com.google.firebase.firestore.ktx.toObject
 import com.helmy.coursesapp.Classes.VideoData
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_edit_video.*
 
@@ -147,9 +147,6 @@ class EditVideo : AppCompatActivity() {
             V_desc.text.toString().isEmpty() -> {
                 Toast.makeText(this, "Description is Empty", Toast.LENGTH_SHORT).show()
             }
-            V_Num.text.toString().isEmpty() -> {
-                Toast.makeText(this, "number is Empty", Toast.LENGTH_SHORT).show()
-            }
             newVideoUrl.isEmpty() -> {
                 Toast.makeText(this, "VideoUrl is Empty", Toast.LENGTH_SHORT).show()
             }
@@ -163,7 +160,6 @@ class EditVideo : AppCompatActivity() {
                 val video = mapOf(
                     "VideoName" to V_Name.text.toString(),
                     "VideoDesc" to V_desc.text.toString(),
-                    "VideoNumber" to V_Num.text.toString(),
                     "VideoUrl" to newVideoUrl,
                     "VideoFile" to VideoFile,
                     "VideoImage" to VideoImage,
@@ -186,7 +182,6 @@ class EditVideo : AppCompatActivity() {
             val video = it.documents[0].toObject<VideoData>()!!
             V_Name.setText(video.VideoName)
             V_desc.setText(video.VideoDesc)
-            V_Num.setText(video.VideoNumber)
             newImage.load(video.VideoImage)
 
             V_Url.setOnClickListener {

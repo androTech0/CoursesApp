@@ -9,7 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.add_course.*
 import java.util.*
@@ -17,7 +17,7 @@ import java.util.*
 
 class AddCourse : AppCompatActivity() {
 
-    lateinit var const:Constants
+    lateinit var const: Constants
 
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
     var imageUrl = ""

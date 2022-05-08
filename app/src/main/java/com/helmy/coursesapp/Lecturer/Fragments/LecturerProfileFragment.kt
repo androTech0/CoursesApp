@@ -16,7 +16,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import coil.load
 import com.google.firebase.firestore.ktx.toObject
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.Classes.UserData
 import com.helmy.coursesapp.SendEmailActivity

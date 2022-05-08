@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Classes.MsgClass
 import com.helmy.coursesapp.Classes.UsersChattedAdapter
 import com.helmy.coursesapp.Classes.Uuser
@@ -42,7 +42,7 @@ class StudentChattingFragment : Fragment() {
                     val obj = it.getValue(MsgClass::class.java)!!
                     if (obj.receiver == currentUserEmail) {
 
-                        const.db.collection("users").document(obj.sender).get()
+                        const.db.collection("Users").document(obj.sender).get()
                             .addOnSuccessListener { i ->
 
                                 if (!arra.contains(Uuser(obj.sender,   i.get("Image").toString(), i.get("Name").toString())))

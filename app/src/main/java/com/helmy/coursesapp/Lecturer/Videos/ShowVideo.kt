@@ -88,12 +88,11 @@ class ShowVideo : AppCompatActivity() {
 
     //creating mediaSource
     private fun buildMediaSource(): MediaSource {
+
         // Create a data source factory.
         val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
 
         // Create a progressive media source pointing to a stream uri.
-
-
 
         val mediaSource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
             .createMediaSource(MediaItem.fromUri(videoURL))

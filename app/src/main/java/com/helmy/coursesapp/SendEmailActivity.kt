@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Classes.CourseData
 import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import kotlinx.android.synthetic.main.courses_template.view.*

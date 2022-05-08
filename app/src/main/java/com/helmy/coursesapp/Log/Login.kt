@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.firestore.ktx.toObject
 import com.helmy.coursesapp.*
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Classes.UserData
 import com.helmy.coursesapp.Lecturer.LecturerMainActivity
 import com.helmy.coursesapp.Student.StudentMainActivity

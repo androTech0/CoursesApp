@@ -25,7 +25,7 @@ import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.storage.FirebaseStorage
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import com.helmy.coursesapp.Lecturer.Videos.ShowVideo
 import com.helmy.coursesapp.Classes.VideoData
@@ -40,11 +40,13 @@ import kotlinx.android.synthetic.main.student_video_template.view.*
 class Video2Student : AppCompatActivity() {
 
     lateinit var const: Constants
+
     var courseId = ""
+    var VideoId = ""
+    var regstered = false
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>? =
         null
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
-    var VideoId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +56,10 @@ class Video2Student : AppCompatActivity() {
 
         const = Constants(this)
 
+        checkJoin()
         getAllDataOf()
 
-        checkJoin()
+
 
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -142,6 +145,7 @@ class Video2Student : AppCompatActivity() {
                                             newHash
                                         )
                                 }
+                            regstered = true
                             unjoin_btn.visibility = View.VISIBLE
                             join_btn.visibility = View.INVISIBLE
                         }
@@ -159,7 +163,6 @@ class Video2Student : AppCompatActivity() {
                         val dataRes = document.get("StudentsIDs").toString()
                             .substring(1, (document.get("StudentsIDs").toString().length - 1))
                         var ar = dataRes.split(",").map { it.trim() }
-                        Toast.makeText(this, ar.toString(), Toast.LENGTH_SHORT).show()
 
                         val next = arrayListOf<String>()
                         for (e in ar) {
@@ -195,22 +198,13 @@ class Video2Student : AppCompatActivity() {
                                         newHash
                                     )
                             }
+                        regstered = false
                         unjoin_btn.visibility = View.INVISIBLE
                         join_btn.visibility = View.VISIBLE
                     }
                 }
         }
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        myAdapter!!.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        myAdapter!!.stopListening()
     }
 
     private fun getAllDataOf() {
@@ -225,7 +219,8 @@ class Video2Student : AppCompatActivity() {
             }
 
 
-        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
+        val query =
+            const.db.collection("Videos").whereEqualTo("CourseId", courseId).orderBy("VideoNumber")
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()
@@ -245,38 +240,63 @@ class Video2Student : AppCompatActivity() {
                     position: Int,
                     model: VideoData
                 ) {
+
                     holder.itemView.name.text = model.VideoName
                     VideoId = model.VideoId
+
                     if (model.VideoImage.isNotEmpty()) {
                         holder.itemView.image.load(model.VideoImage)
                     }
 
+                    holder.itemView.desc.setOnClickListener {
+                        val dialog = Dialog(this@Video2Student)
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog.setCancelable(false)
+                        dialog.setContentView(R.layout.description_video_dialog)
+
+                        val viewText = dialog.findViewById<TextView>(R.id.desc_view)
+
+                        val closeButton = dialog.findViewById<Button>(R.id.close_btn)
+
+                        viewText.text = model.VideoDesc
+
+                        closeButton.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        dialog.show()
+                    }
+
+
                     holder.itemView.setOnClickListener {
-                        val email = const.auth.currentUser!!.email
 
-                        const.db.collection("Users").document(email.toString())
-                            .get().addOnSuccessListener { itt ->
-                                val mmm: HashMap<String, HashMap<String, *>> =
-                                    itt.get("Courses") as HashMap<String, HashMap<String, *>>
-                                val m = mmm[courseId]
-                                if (m != null) {
-                                    val progress = m["course_progress"].toString().toInt()
+                        if (regstered) {
 
-                                    if (model.VideoNumber.toInt() < progress ||
-                                        model.VideoNumber.toInt() == progress + 1
+                            val email = const.auth.currentUser!!.email
+
+                            const.db.collection("Users").document(email.toString())
+                                .get().addOnSuccessListener { itt ->
+                                    val mmm: HashMap<String, HashMap<String, *>> =
+                                        itt.get("Courses") as HashMap<String, HashMap<String, *>>
+                                    val m = mmm[courseId]
+//                                if (m != null) {
+                                    val progress = m!!["course_progress"].toString().toLong()
+
+                                    if (model.VideoNumber < progress ||
+                                        model.VideoNumber == progress + 1
                                     ) {
                                         const.db.collection("Videos")
                                             .whereEqualTo("VideoId", model.VideoId)
                                             .get().addOnSuccessListener {
                                                 val vidNum =
-                                                    it.documents[0].get("VideoNumber")
-                                                        .toString()
+                                                    it.documents[0].get("VideoNumber").toString()
                                                         .toLong()
+
                                                 const.db.collection("Users")
                                                     .document(email.toString())
-                                                    .get().addOnSuccessListener { it ->
+                                                    .get().addOnSuccessListener { ittt ->
                                                         val oldHash: HashMap<String, HashMap<String, *>> =
-                                                            it.get("Courses") as HashMap<String, HashMap<String, *>>
+                                                            ittt.get("Courses") as HashMap<String, HashMap<String, *>>
                                                         val newHash: HashMap<String, HashMap<String, *>> =
                                                             hashMapOf()
                                                         val nId = oldHash[courseId]
@@ -321,69 +341,73 @@ class Video2Student : AppCompatActivity() {
                                         )
                                             .show()
                                     }
-                                } else {
-                                    Toast.makeText(
-                                        this@Video2Student,
-                                        "Not registerd yet",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
+//                                } else {
+//                                    Toast.makeText(
+//                                        this@Video2Student,
+//                                        "Not registered yet",
+//                                        Toast.LENGTH_SHORT
+//                                    )
+//                                        .show()
+//                                }
                                 }
-                            }
 
-
-                    }
-
-
-
-                    holder.itemView.desc.setOnClickListener {
-                        val dialog = Dialog(this@Video2Student)
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                        dialog.setCancelable(false)
-                        dialog.setContentView(R.layout.description_video_dialog)
-
-                        val viewText = dialog.findViewById<TextView>(R.id.desc_view)
-
-                        val closeButton = dialog.findViewById<Button>(R.id.close_btn)
-
-                        viewText.text = model.VideoDesc
-
-                        closeButton.setOnClickListener {
-                            dialog.dismiss()
+                        } else {
+                            Toast.makeText(
+                                this@Video2Student,
+                                "not regestered yet",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
 
-                        dialog.show()
                     }
 
-
-
                     holder.itemView.uploadFile.setOnClickListener {
-                        val intent = Intent()
-                            .setType("*/*")
-                            .setAction(Intent.ACTION_GET_CONTENT)
-                        resultLauncher.launch(Intent.createChooser(intent, "Select File"))
+                        if (regstered) {
+                            val intent = Intent()
+                                .setType("*/*")
+                                .setAction(Intent.ACTION_GET_CONTENT)
+                            resultLauncher.launch(Intent.createChooser(intent, "Select File"))
+
+                        } else {
+                            Toast.makeText(
+                                this@Video2Student,
+                                "not regestered yet",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
                     }
 
                     holder.itemView.downloadFile.setOnClickListener {
-                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                            requestPermissions(
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                1000
-                            )
-                        } else {
-                            val storageRef =
-                                FirebaseStorage.getInstance().reference.child(model.VideoFile)
-                            storageRef.downloadUrl.addOnSuccessListener {
-                                Toast.makeText(
-                                    this@Video2Student,
-                                    it.toString(),
-                                    Toast.LENGTH_SHORT
+                        if (regstered) {
+                            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                                requestPermissions(
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    1000
                                 )
-                                    .show()
-                                startDownloading(it.toString(), model.VideoFile)
+                            } else {
+                                val storageRef =
+                                    FirebaseStorage.getInstance().reference.child(model.VideoFile)
+                                storageRef.downloadUrl.addOnSuccessListener {
+                                    Toast.makeText(
+                                        this@Video2Student,
+                                        it.toString(),
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                    startDownloading(it.toString(), model.VideoFile)
+                                }
                             }
+                        } else {
+                            Toast.makeText(
+                                this@Video2Student,
+                                "not regestered yet",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
+
+
                 }
             }
         customRecycle.apply {
@@ -393,6 +417,29 @@ class Video2Student : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun checkJoin() {
+        const.db.collection("Courses").whereEqualTo("CourseId", courseId)
+            .get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val user = const.auth.currentUser
+                    val email = user!!.email
+                    val dataRes = document.get("StudentsIDs").toString()
+                        .substring(1, (document.get("StudentsIDs").toString().length - 1))
+                    val ar = dataRes.split(",").map { it.trim() }
+                    for (e in ar) {
+                        if (e == email) {
+                            regstered = true
+                        }
+                    }
+                    if (!regstered) {
+                        join_btn.visibility = View.VISIBLE
+                    } else {
+                        unjoin_btn.visibility = View.VISIBLE
+                    }
+                }
+            }
     }
 
     private fun uploadFile(
@@ -452,27 +499,14 @@ class Video2Student : AppCompatActivity() {
         }
     }
 
-    private fun checkJoin() {
-        const.db.collection("Courses").whereEqualTo("CourseId", courseId)
-            .get().addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val user = const.auth.currentUser
-                    val email = user!!.email
-                    var exist = false
-                    val dataRes = document.get("StudentsIDs").toString()
-                        .substring(1, (document.get("StudentsIDs").toString().length - 1))
-                    val ar = dataRes.split(",").map { it.trim() }
-                    for (e in ar) {
-                        if (e == email) {
-                            exist = true
-                        }
-                    }
-                    if (!exist) {
-                        join_btn.visibility = View.VISIBLE
-                    } else {
-                        unjoin_btn.visibility = View.VISIBLE
-                    }
-                }
-            }
+    override fun onStart() {
+        super.onStart()
+        myAdapter!!.startListening()
     }
+
+    override fun onStop() {
+        super.onStop()
+        myAdapter!!.stopListening()
+    }
+
 }

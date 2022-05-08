@@ -1,4 +1,4 @@
-package com.helmy.coursesapp
+package com.helmy.coursesapp.Classes
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -14,6 +14,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.helmy.coursesapp.Log.Login
+import com.helmy.coursesapp.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

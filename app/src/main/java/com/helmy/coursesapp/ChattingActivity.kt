@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.helmy.coursesapp.Classes.ChatAdapter
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Classes.MsgClass
 import kotlinx.android.synthetic.main.activity_chat_with_student.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -36,7 +37,6 @@ class ChattingActivity : AppCompatActivity() {
             if (enterMsg.text.isNotEmpty())
                 sendMessage(enterMsg.text.toString())
         }
-
     }
 
     private fun sendMessage(msg: String) {

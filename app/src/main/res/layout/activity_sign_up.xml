@@ -101,6 +101,7 @@
                     android:id="@+id/E_Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
                     android:textColor="@color/white"
 
                     />
@@ -134,8 +135,8 @@
                     android:id="@+id/E_Email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
                     android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
 
                     />
 
@@ -168,6 +169,7 @@
                     android:id="@+id/E_Password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textPassword"
                     android:textColor="@color/white"
 
                     />
@@ -212,13 +214,13 @@
                 android:id="@+id/image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Upload Image"
-                android:backgroundTint="#571E55"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/phoneLabel"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="30dp"
+                android:backgroundTint="#571E55"
+                android:text="Upload Image"
+                android:textColor="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phoneLabel"
 
                 />
 
@@ -226,16 +228,15 @@
                 android:id="@+id/birth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1/1/1111"
-                android:backgroundTint="#B171AF"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/image"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="10dp"
+                android:backgroundTint="#B171AF"
+                android:text="1/1/1111"
+                android:textColor="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image"
 
                 />
-
 
 
             <Button

@@ -1,6 +1,5 @@
 package com.helmy.coursesapp.Lecturer.Fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,11 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.helmy.coursesapp.Constants
-import com.helmy.coursesapp.ChattingActivity
-import com.helmy.coursesapp.Classes.MsgClass
-import com.helmy.coursesapp.Classes.UsersChattedAdapter
-import com.helmy.coursesapp.Classes.Uuser
+import com.helmy.coursesapp.Classes.*
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.fragment_lecturer_chatting.*
 
@@ -42,24 +37,76 @@ class LecturerChattingFragment : Fragment() {
                 snapshot.children.forEach {
 
                     val obj = it.getValue(MsgClass::class.java)!!
-                    if (obj.receiver == currentUserEmail) {
+                    if (obj.receiver == currentUserEmail ) {
 
                         const.db.collection("Users").document(obj.sender).get()
                             .addOnSuccessListener { i ->
-                                if (!arra.contains(Uuser(obj.sender,  i.get("Image").toString(), i.get("Name").toString())))
-                                    arra.add(Uuser(obj.sender,  i.get("Image").toString(), i.get("Name").toString()))
+                                if (!arra.contains(
+                                        Uuser(
+                                            obj.sender,
+                                            i.get("Image").toString(),
+                                            i.get("Name").toString()
+                                        )
+                                    )
+                                )
+                                    arra.add(
+                                        Uuser(
+                                            obj.sender,
+                                            i.get("Image").toString(),
+                                            i.get("Name").toString()
+                                        )
+                                    )
 
                                 chattingRecycleLecturer.apply {
                                     adapter = UsersChattedAdapter(requireContext(), arra)
                                     layoutManager = LinearLayoutManager(requireContext())
                                 }
                             }
-                    } else {
+                    }else if (obj.sender == currentUserEmail){
+
+                        const.db.collection("Users").document(obj.receiver).get()
+                            .addOnSuccessListener { i ->
+                                if (!arra.contains(
+                                        Uuser(
+                                            obj.receiver,
+                                            i.get("Image").toString(),
+                                            i.get("Name").toString()
+                                        )
+                                    )
+                                )
+                                    arra.add(
+                                        Uuser(
+                                            obj.receiver,
+                                            i.get("Image").toString(),
+                                            i.get("Name").toString()
+                                        )
+                                    )
+
+                                chattingRecycleLecturer.apply {
+                                    adapter = UsersChattedAdapter(requireContext(), arra)
+                                    layoutManager = LinearLayoutManager(requireContext())
+                                }
+                            }
+
+                    }else {
                         const.db.collection("Courses").get().addOnSuccessListener { courses ->
                             courses.forEach { currentCourse ->
-                                if (currentUserEmail == currentCourse.getString("LecturerEmail")){
-                                    if (!arra.contains(Uuser(currentCourse.get("CourseId").toString(), currentCourse.get("CourseImage").toString(), currentCourse.get("CourseName").toString())))
-                                        arra.add(Uuser(currentCourse.get("CourseId").toString(), currentCourse.get("CourseImage").toString(), currentCourse.get("CourseName").toString()))
+                                if (currentUserEmail == currentCourse.getString("LecturerEmail")) {
+                                    if (!arra.contains(
+                                            Uuser(
+                                                currentCourse.get("CourseId").toString(),
+                                                currentCourse.get("CourseImage").toString(),
+                                                currentCourse.get("CourseName").toString()
+                                            )
+                                        )
+                                    )
+                                        arra.add(
+                                            Uuser(
+                                                currentCourse.get("CourseId").toString(),
+                                                currentCourse.get("CourseImage").toString(),
+                                                currentCourse.get("CourseName").toString()
+                                            )
+                                        )
 
                                     chattingRecycleLecturer.apply {
                                         adapter = UsersChattedAdapter(requireContext(), arra)

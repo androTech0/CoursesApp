@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.GridLayout
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Lecturer.Videos.AddVideo
 import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import com.helmy.coursesapp.Lecturer.Videos.ShowVideo
@@ -73,7 +71,7 @@ class CourseContent : AppCompatActivity() {
             }
 
 
-        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId)
+        val query = const.db.collection("Videos").whereEqualTo("CourseId", courseId).orderBy("VideoNumber")
         val option =
             FirestoreRecyclerOptions.Builder<VideoData>().setQuery(query, VideoData::class.java)
                 .build()

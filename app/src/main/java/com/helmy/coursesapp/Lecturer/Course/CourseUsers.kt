@@ -8,7 +8,7 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.helmy.coursesapp.ChattingActivity
 import com.helmy.coursesapp.Classes.CourseData
 import com.helmy.coursesapp.Classes.UsersChattedAdapter
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.Classes.UserData
 import com.helmy.coursesapp.Classes.Uuser

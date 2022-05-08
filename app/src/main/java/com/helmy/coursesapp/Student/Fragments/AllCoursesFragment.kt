@@ -16,7 +16,7 @@ import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.ktx.toObject
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Classes.CourseData
 import com.helmy.coursesapp.Lecturer.Fragments.LecturerCoursesFragment
 import com.helmy.coursesapp.R
@@ -127,7 +127,6 @@ class AllCoursesFragment : Fragment(), TextWatcher {
                 ar.forEach { co ->
                     val course = co.toObject<CourseData>()
                     array.add(course)
-
                 }
             }
         }.start()

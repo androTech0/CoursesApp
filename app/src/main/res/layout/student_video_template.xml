@@ -58,21 +58,6 @@
             app:layout_constraintTop_toBottomOf="@id/image">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/quiz"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text=" quiz"
-                android:background="@drawable/rec1"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/uploadFile"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
-                />
-
-            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/uploadFile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,7 +67,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/downloadFile"
-                app:layout_constraintStart_toEndOf="@id/quiz"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
 
                 />

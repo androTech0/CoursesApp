@@ -8,13 +8,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import coil.load
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.R
 import kotlinx.android.synthetic.main.activity_edit_course.*
 
 class EditCourse : AppCompatActivity() {
 
-    lateinit var const:Constants
+    lateinit var const: Constants
 
     var imageUrl = ""
     private var CourseId = ""

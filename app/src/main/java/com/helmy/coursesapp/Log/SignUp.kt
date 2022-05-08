@@ -11,7 +11,7 @@ import android.widget.DatePicker
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.helmy.coursesapp.Constants
+import com.helmy.coursesapp.Classes.Constants
 import com.helmy.coursesapp.Lecturer.LecturerMainActivity
 import com.helmy.coursesapp.R
 import com.helmy.coursesapp.Student.StudentMainActivity
@@ -21,7 +21,7 @@ import java.util.*
 class SignUp : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     private var userImage = ""
-    lateinit var const:Constants
+    lateinit var const: Constants
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
