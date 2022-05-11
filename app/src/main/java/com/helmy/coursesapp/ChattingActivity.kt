@@ -47,12 +47,13 @@ class ChattingActivity : AppCompatActivity() {
             "receiver" to receiverEmail
         )
 
-        Firebase.database.reference.child("Chats").push().setValue(message)
-            .addOnSuccessListener {
-                enterMsg.text.clear()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Error --> $it", Toast.LENGTH_LONG).show()
-            }
+            Firebase.database.reference.child("Chats").push().setValue(message)
+                .addOnSuccessListener {
+                    enterMsg.text.clear()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Error --> $it", Toast.LENGTH_LONG).show()
+                }
+
     }
 
     private fun getAllMessages() {

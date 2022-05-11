@@ -18,9 +18,9 @@ class AddVideo : AppCompatActivity() {
     lateinit var const: Constants
     private var courseId = ""
 
-    private var videoFile = "Files/sample.pdf"
-    private var videoUrl = "https://firebasestorage.googleapis.com/v0/b/courses-app-5c3b2.appspot.com/o/Videos%2FVID-20220429-WA0007.mp4?alt=media&token=f45c9e43-d495-4d1f-9977-c83a3e507a85"
-    private var videoImage = "https://firebasestorage.googleapis.com/v0/b/courses-app-5c3b2.appspot.com/o/Images%2FScreenshot_2022-05-04-14-41-19-869_com.android.vending.jpg?alt=media&token=14b78afa-9474-4547-83be-d0da507008a6"
+    private var videoFile = ""
+    private var videoUrl = ""
+    private var videoImage = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

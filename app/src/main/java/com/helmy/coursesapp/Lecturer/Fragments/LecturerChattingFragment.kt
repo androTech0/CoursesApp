@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,6 +31,8 @@ class LecturerChattingFragment : Fragment() {
 
         val arra = ArrayList<Uuser>()
         val currentUserEmail = const.auth.currentUser!!.email
+
+        try {
 
         db.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -83,9 +86,11 @@ class LecturerChattingFragment : Fragment() {
                                     )
 
                                 chattingRecycleLecturer.apply {
-                                    adapter = UsersChattedAdapter(requireContext(), arra)
+                                    adapter = UsersChattedAdapter(requireActivity(), arra)
                                     layoutManager = LinearLayoutManager(requireContext())
                                 }
+
+
                             }
 
                     }else {
@@ -125,6 +130,9 @@ class LecturerChattingFragment : Fragment() {
             }
         })
 
+    }catch (e :Exception){
+        Toast.makeText(requireContext(), "Exception = $e", Toast.LENGTH_SHORT).show()
+    }
 
     }
 
