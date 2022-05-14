@@ -29,87 +29,47 @@ class LecturerChattingFragment : Fragment() {
         val const = Constants(requireContext())
         val db = const.rtdb.child("Chats")
 
-        val arra = ArrayList<Uuser>()
-        val currentUserEmail = const.auth.currentUser!!.email
 
-        try {
+
+
+        val currentUserEmail = const.auth.currentUser!!.email.toString()
 
         db.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                arra.clear()
+
+                val arra = ArrayList<Uuser>()
+                val courses = ArrayList<String>()
+
                 snapshot.children.forEach {
 
                     val obj = it.getValue(MsgClass::class.java)!!
-                    if (obj.receiver == currentUserEmail ) {
+                    if (!obj.receiver.contains("@gmail.com"))
+                        courses.add(obj.receiver)
+                }
 
-                        const.db.collection("Users").document(obj.sender).get()
-                            .addOnSuccessListener { i ->
-                                if (!arra.contains(
-                                        Uuser(
-                                            obj.sender,
-                                            i.get("Image").toString(),
-                                            i.get("Name").toString()
-                                        )
-                                    )
-                                )
-                                    arra.add(
-                                        Uuser(
-                                            obj.sender,
-                                            i.get("Image").toString(),
-                                            i.get("Name").toString()
-                                        )
-                                    )
+                snapshot.children.forEach {
 
-                                chattingRecycleLecturer.apply {
-                                    adapter = UsersChattedAdapter(requireContext(), arra)
-                                    layoutManager = LinearLayoutManager(requireContext())
-                                }
-                            }
-                    }else if (obj.sender == currentUserEmail){
+                    val obj = it.getValue(MsgClass::class.java)!!
 
-                        const.db.collection("Users").document(obj.receiver).get()
-                            .addOnSuccessListener { i ->
-                                if (!arra.contains(
-                                        Uuser(
-                                            obj.receiver,
-                                            i.get("Image").toString(),
-                                            i.get("Name").toString()
-                                        )
-                                    )
-                                )
-                                    arra.add(
-                                        Uuser(
-                                            obj.receiver,
-                                            i.get("Image").toString(),
-                                            i.get("Name").toString()
-                                        )
-                                    )
+                    when {
 
-                                chattingRecycleLecturer.apply {
-                                    adapter = UsersChattedAdapter(requireActivity(), arra)
-                                    layoutManager = LinearLayoutManager(requireContext())
-                                }
+                        obj.receiver == currentUserEmail -> {
 
-
-                            }
-
-                    }else {
-                        const.db.collection("Courses").get().addOnSuccessListener { courses ->
-                            courses.forEach { currentCourse ->
-                                if (currentUserEmail == currentCourse.getString("LecturerEmail")) {
+                            const.db.collection("Users").document(obj.sender).get()
+                                .addOnSuccessListener { i ->
                                     if (!arra.contains(
                                             Uuser(
-                                                currentCourse.get("CourseId").toString(),
-                                                currentCourse.get("CourseImage").toString(),
-                                                currentCourse.get("CourseName").toString()
+                                                obj.sender,
+                                                i.get("Image").toString(),
+                                                i.get("Name").toString()
                                             )
                                         )
                                     )
                                         arra.add(
                                             Uuser(
-                                                currentCourse.get("CourseId").toString(),
-                                                currentCourse.get("CourseImage").toString(),
-                                                currentCourse.get("CourseName").toString()
+                                                obj.sender,
+                                                i.get("Image").toString(),
+                                                i.get("Name").toString()
                                             )
                                         )
 
@@ -118,9 +78,69 @@ class LecturerChattingFragment : Fragment() {
                                         layoutManager = LinearLayoutManager(requireContext())
                                     }
                                 }
-                            }
                         }
 
+                        courses.contains(obj.receiver) -> {
+                            const.db.collection("Courses").whereEqualTo("CourseId", obj.receiver)
+                                .get()
+                                .addOnSuccessListener { courses ->
+
+                                    if (!arra.contains(
+                                            Uuser(
+                                                courses.documents[0].get("CourseId").toString(),
+                                                courses.documents[0].get("CourseImage").toString(),
+                                                courses.documents[0].get("CourseName").toString()
+                                            )
+                                        )
+                                    ) {
+
+                                        arra.add(
+                                            Uuser(
+                                                courses.documents[0].get("CourseId").toString(),
+                                                courses.documents[0].get("CourseImage").toString(),
+                                                courses.documents[0].get("CourseName").toString()
+                                            )
+                                        )
+
+                                    }
+                                    chattingRecycleLecturer.apply {
+                                        adapter = UsersChattedAdapter(requireContext(), arra)
+                                        layoutManager = LinearLayoutManager(requireContext())
+
+                                    }
+                                }
+                        }
+
+                        obj.sender == currentUserEmail -> {
+
+                            const.db.collection("Users").document(obj.receiver).get()
+                                .addOnSuccessListener { i ->
+                                    if (!arra.contains(
+                                            Uuser(
+                                                obj.receiver,
+                                                i.get("Image").toString(),
+                                                i.get("Name").toString()
+                                            )
+                                        )
+                                    )
+                                        arra.add(
+                                            Uuser(
+                                                obj.receiver,
+                                                i.get("Image").toString(),
+                                                i.get("Name").toString()
+                                            )
+                                        )
+
+                                    chattingRecycleLecturer.apply {
+                                        adapter = UsersChattedAdapter(requireContext(), arra)
+                                        layoutManager = LinearLayoutManager(requireContext())
+                                    }
+                                }
+                        }
+
+                        else -> {
+                            Toast.makeText(requireContext(), "else", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
@@ -129,11 +149,6 @@ class LecturerChattingFragment : Fragment() {
 
             }
         })
-
-    }catch (e :Exception){
-        Toast.makeText(requireContext(), "Exception = $e", Toast.LENGTH_SHORT).show()
-    }
-
     }
 
 

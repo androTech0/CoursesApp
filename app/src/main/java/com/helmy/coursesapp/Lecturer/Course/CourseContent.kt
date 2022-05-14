@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -21,8 +22,8 @@ import kotlinx.android.synthetic.main.video_template.*
 import kotlinx.android.synthetic.main.video_template.view.*
 
 class CourseContent : AppCompatActivity() {
-    lateinit var const: Constants
 
+    lateinit var const: Constants
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +100,15 @@ class CourseContent : AppCompatActivity() {
                     val i = Intent(this@CourseContent, ShowVideo::class.java)
                     i.putExtra("VideoUrl", model.VideoUrl)
                     startActivity(i)
+                }
+
+                holder.itemView.setOnLongClickListener {
+                    Toast.makeText(this@CourseContent, model.VideoId.toString(), Toast.LENGTH_SHORT).show()
+                    val i = Intent(this@CourseContent, showTasks::class.java)
+                    i.putExtra("VideoId", model.VideoId)
+                    startActivity(i)
+
+                    false
                 }
 
 

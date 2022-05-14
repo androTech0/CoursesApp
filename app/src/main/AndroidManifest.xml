@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Lecturer.Course.showTasks"></activity>
         <activity
             android:name=".StartActivity"
             android:exported="true">
@@ -40,12 +41,10 @@
         <activity android:name=".Lecturer.LecturerMainActivity" />
         <activity android:name=".Log.Login" />
 
-
         <service
             android:name=".Notify.FirebaseService"
-            android:permission="com.google.android.c2dm.permission.SEND"
             android:exported="true"
-            >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />

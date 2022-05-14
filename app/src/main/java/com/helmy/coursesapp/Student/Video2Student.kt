@@ -43,6 +43,7 @@ class Video2Student : AppCompatActivity() {
 
     var courseId = ""
     var VideoId = ""
+    var lecturerEmail = ""
     var regstered = false
     private var myAdapter: FirestoreRecyclerAdapter<VideoData, LecturerCoursesFragment.ViewH>? =
         null
@@ -83,9 +84,8 @@ class Video2Student : AppCompatActivity() {
                                 it.toString(),
                                 const.auth.currentUser!!.email.toString(),
                                 VideoId,
-                                courseId
+                                lecturerEmail
                             )
-                            Toast.makeText(this, "UploadDone", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -211,8 +211,9 @@ class Video2Student : AppCompatActivity() {
 
         const.db.collection("Courses").whereEqualTo("CourseId", courseId).get()
             .addOnSuccessListener {
-                CourseName.text = it.documents[0].get("CourseName").toString()
 
+                CourseName.text = it.documents[0].get("CourseName").toString()
+                lecturerEmail = it.documents[0].get("LecturerEmail").toString()
                 if (it.documents[0].get("CourseImage").toString().isNotEmpty()) {
                     CourseImage.load(it.documents[0].get("CourseImage").toString())
                 }
@@ -242,7 +243,6 @@ class Video2Student : AppCompatActivity() {
                 ) {
 
                     holder.itemView.name.text = model.VideoName
-                    VideoId = model.VideoId
 
                     if (model.VideoImage.isNotEmpty()) {
                         holder.itemView.image.load(model.VideoImage)
@@ -267,7 +267,6 @@ class Video2Student : AppCompatActivity() {
                         dialog.show()
                     }
 
-
                     holder.itemView.setOnClickListener {
 
                         if (regstered) {
@@ -279,10 +278,9 @@ class Video2Student : AppCompatActivity() {
                                     val mmm: HashMap<String, HashMap<String, *>> =
                                         itt.get("Courses") as HashMap<String, HashMap<String, *>>
                                     val m = mmm[courseId]
-//                                if (m != null) {
                                     val progress = m!!["course_progress"].toString().toLong()
 
-                                    if (model.VideoNumber < progress ||
+                                    if (model.VideoNumber <= progress ||
                                         model.VideoNumber == progress + 1
                                     ) {
                                         const.db.collection("Videos")
@@ -363,6 +361,7 @@ class Video2Student : AppCompatActivity() {
 
                     holder.itemView.uploadFile.setOnClickListener {
                         if (regstered) {
+                            VideoId = model.VideoId
                             val intent = Intent()
                                 .setType("*/*")
                                 .setAction(Intent.ACTION_GET_CONTENT)
@@ -407,7 +406,6 @@ class Video2Student : AppCompatActivity() {
                         }
                     }
 
-
                 }
             }
         customRecycle.apply {
@@ -446,14 +444,14 @@ class Video2Student : AppCompatActivity() {
         fileUrl: String,
         studentEmail: String,
         videoId: String,
-        courseId: String
+        lecturerEmail: String
     ) {
 
         val file = mapOf(
             "FileUrl" to fileUrl,
             "StudentEmail" to studentEmail,
             "VideoId" to videoId,
-            "CourseId" to courseId,
+            "LecturerEmail" to lecturerEmail,
 
             )
         const.db.collection("Tasks").add(file).addOnSuccessListener {
@@ -480,7 +478,6 @@ class Video2Student : AppCompatActivity() {
         manager.enqueue(request)
 
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
