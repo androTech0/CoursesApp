@@ -9,13 +9,13 @@
     android:layout_marginTop="15dp"
     android:layout_marginRight="20dp"
     android:backgroundTint="#CCD3CC"
-    app:cardCornerRadius="15dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/back_course_card"
+        android:background="#CABDEF"
 
         >
 
@@ -24,12 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/font2"
             android:text="name"
             android:textColor="#37066E"
-            android:textSize="23sp"
-            app:layout_constraintStart_toEndOf="@id/image"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/image"
             app:layout_constraintTop_toTopOf="@id/image"
 
             />
@@ -42,7 +43,7 @@
             android:background="#E6E8E8"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -51,26 +52,26 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginTop="20dp"
-            app:layout_constraintHorizontal_bias=".93"
             android:background="@drawable/ic_baseline_settings_24"
             android:backgroundTint="@color/white"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".93"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/num4videos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_baseline_videocam_24"
+            android:drawableStart="@drawable/ic_baseline_videocam_24"
             android:text="0"
-            android:textStyle="bold"
             android:textColor="#FF5722"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/image"
-            app:layout_constraintEnd_toStartOf="@id/num4students"
-            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintLeft_toRightOf="@id/image"
+            app:layout_constraintRight_toLeftOf="@id/num4students"
 
             />
 
@@ -81,14 +82,13 @@
             android:drawableStart="@drawable/ic_baseline_people_24"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:textStyle="bold"
             android:text="0"
             android:textColor="#FF5722"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/num4videos"
+            android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@id/num4videos"
-            />
+            app:layout_constraintLeft_toRightOf="@id/num4videos"
+            app:layout_constraintRight_toRightOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

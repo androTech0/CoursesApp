@@ -15,16 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursesApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Lecturer.Course.showTasks"></activity>
-        <activity
-            android:name=".StartActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Lecturer.Course.showTasks" />
         <activity android:name=".ChattingActivity" />
         <activity android:name=".Lecturer.Course.CourseUsers" />
         <activity android:name=".SendEmailActivity" />
@@ -40,6 +31,16 @@
         <activity android:name=".Student.StudentMainActivity" />
         <activity android:name=".Lecturer.LecturerMainActivity" />
         <activity android:name=".Log.Login" />
+
+        <activity
+            android:name=".StartActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".Notify.FirebaseService"

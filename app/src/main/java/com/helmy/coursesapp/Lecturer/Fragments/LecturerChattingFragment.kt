@@ -93,7 +93,6 @@ class LecturerChattingFragment : Fragment() {
                                             )
                                         )
                                     ) {
-
                                         arra.add(
                                             Uuser(
                                                 courses.documents[0].get("CourseId").toString(),
@@ -103,10 +102,10 @@ class LecturerChattingFragment : Fragment() {
                                         )
 
                                     }
+
                                     chattingRecycleLecturer.apply {
                                         adapter = UsersChattedAdapter(requireContext(), arra)
                                         layoutManager = LinearLayoutManager(requireContext())
-
                                     }
                                 }
                         }

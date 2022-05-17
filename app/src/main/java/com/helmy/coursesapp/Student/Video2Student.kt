@@ -60,8 +60,6 @@ class Video2Student : AppCompatActivity() {
         checkJoin()
         getAllDataOf()
 
-
-
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -334,19 +332,11 @@ class Video2Student : AppCompatActivity() {
                                     } else {
                                         Toast.makeText(
                                             this@Video2Student,
-                                            "احضر الي قبله يا وجه الدبس",
+                                            "you didn't complete last video",
                                             Toast.LENGTH_SHORT
                                         )
                                             .show()
                                     }
-//                                } else {
-//                                    Toast.makeText(
-//                                        this@Video2Student,
-//                                        "Not registered yet",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                }
                                 }
 
                         } else {

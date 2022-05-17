@@ -21,10 +21,10 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/studentNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/back_bar1"
-        app:itemTextColor="@color/black"
+        android:layout_height="60dp"
+        android:background="#C4A6CE"
         app:itemIconTint="#490078"
+        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/studentFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
